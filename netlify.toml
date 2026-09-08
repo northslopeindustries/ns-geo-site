@@ -1,0 +1,18 @@
+# Netlify configuration for ns-geo.com
+#
+# There is no build step in the usual sense. Nothing is compiled, bundled,
+# or minified, there are no dependencies, and the repo root is published
+# exactly as it sits. The command below only runs a sanity check over the
+# files before they go live.
+#
+# Netlify deploys are atomic: if that check exits non-zero the deploy fails
+# and the previously published version stays live. So a bad paste cannot
+# take ns-geo.com down -- the change simply does not ship, and the reason
+# is printed in the deploy log.
+#
+# To remove the check and go back to publishing unconditionally, delete
+# this file and validate.py.
+
+[build]
+  publish = "/"
+  command = "python3 validate.py"

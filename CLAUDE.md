@@ -75,6 +75,22 @@ Describe the change and ask before doing any of these:
 - Adding pages, changing the page title, or anything affecting SEO.
 - Removing content, rather than editing it.
 
+## There is a check before anything goes live
+
+`validate.py` runs on every deploy (via `netlify.toml`). If it finds a
+problem, the deploy fails and the previous version of the site stays live —
+so a bad paste cannot break ns-geo.com, it just does not ship, and the
+reason appears in the Netlify deploy log.
+
+It checks that the paste was complete (nothing truncated, no "rest of the
+file unchanged" placeholder text, balanced `<div>` tags), that `styles.css`
+and `script.js` are still linked, that every `images/` reference resolves to
+a real file with exactly matching case, and that the form still has its
+Netlify attributes. It does not check anything stylistic.
+
+If a deploy fails, the usual cause is a file that was pasted back
+incompletely. Copy it fresh out of GitHub and redo the edit.
+
 ## Contact details currently on the page
 
 Phone (385) 437-6527 · sales@northslopeindustries.com ·
