@@ -7,12 +7,30 @@ a direct importer and regional distributor of commercial-grade weed barrier
 fabric, based in Springville, Utah. Main product is Pro Guard 20; the site
 also covers sod staples and filter fabric.
 
-**The audience is distributors and wholesale buyers** — nurseries, garden
-centers, rock yards, and landscape supply yards who resell to their own
-customers. It is **not** homeowners, DIY, or retail consumers. Copy talks
-about margins, minimum orders, fulfillment speed, and reselling. Never let
-it drift toward consumer or DIY framing, even when asked to make it
-"friendlier" or "more approachable."
+The site is growing into a brand site with several audiences:
+
+- **Wholesale buyers** — nurseries, garden centers, rock yards, and landscape
+  supply yards who resell to their own customers. This is where the revenue
+  is today, and the wholesale pricing form is how those leads arrive.
+- **Contractors, homeowners, and DIY users** who want to understand the
+  product, how to install it, and where to get it. Useful information for
+  them is wanted.
+- **Anyone learning about the brand** — who North Slope is and where they
+  operate.
+
+Write for whichever audience a section actually addresses, and keep sections
+distinct. The failure mode is not "consumer content exists" — it is copy that
+addresses everyone at once and so addresses nobody. Wholesale sections keep
+talking about margins, minimum orders, fulfillment speed, and reselling.
+
+As the page stands today it is entirely wholesale-facing, so consumer and
+brand material is new content rather than a rewrite.
+
+**Never send an end user to buy direct.** North Slope sells *to*
+distributors; they are the customers. Point homeowners and contractors toward
+finding a nearby distributor, never toward buying from North Slope. Rewriting
+an existing wholesale section in consumer language is a strategy decision —
+flag it rather than doing it.
 
 ## The person editing this is not a developer
 
