@@ -51,7 +51,12 @@
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(data).toString()
       })
-        .then(() => {
+        .then((response) => {
+          // fetch() resolves even for 4xx/5xx, so an unchecked .then() would
+          // tell the customer "Request Sent" while Netlify refused the
+          // submission and the lead was silently lost. Treat a bad status as
+          // a failure so the error path below runs instead.
+          if (!response.ok) throw new Error("Submission rejected: " + response.status);
           btn.textContent = "✓ Request Sent — We'll be in touch within 24 hours!";
           btn.style.background = '#16a34a';
           btn.disabled = true;

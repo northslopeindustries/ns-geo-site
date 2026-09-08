@@ -151,6 +151,14 @@ if "handleFormSubmit" not in js:
         "script.js no longer defines handleFormSubmit -- submitting the form "
         "would throw an error instead of sending."
     )
+if "response.ok" not in js:
+    fail(
+        "script.js no longer checks response.ok before reporting success. "
+        "fetch() resolves even when Netlify refuses the submission, so the "
+        "form would tell customers 'Request Sent' while leads were "
+        "silently lost."
+    )
+
 if "handleFormSubmit" not in html:
     fail(
         "index.html no longer calls handleFormSubmit -- the form would do a "
