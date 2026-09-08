@@ -160,6 +160,21 @@ Describe the change and ask before doing any of these:
   any part of that silently stops wholesale leads from arriving, with no
   visible error on the page. This form *is* the distributor application —
   there is no separate application link.
+
+  **Check the form in the repo source, never on the live site.** Netlify's
+  build-time form detection deliberately strips `data-netlify="true"` and
+  `netlify-honeypot` from the `<form>` tag and injects the hidden
+  `form-name` input in their place. So on ns-geo.com those attributes are
+  *supposed* to be missing, and the form tag comes back reserialized with
+  single quotes. That is the detection having worked — not a fault. If you
+  see them still present on the live page, detection did *not* run, which
+  is the real problem. On the live page the positive signal is
+  `<input type="hidden" name="form-name" value="wholesale-pricing" />`
+  being present and matching the form's `name`.
+
+  Do not "fix" a form that looks broken on the live site until you have
+  checked the source. Neither check proves a submission actually arrives —
+  only a real submission appearing under Netlify's Forms tab does.
 - **`handleFormSubmit`'s status check.** It checks `response.ok` before
   reporting success. Without that check `fetch` resolves even on a 404 or
   500, so the form tells the customer "Request Sent" while the lead is lost.

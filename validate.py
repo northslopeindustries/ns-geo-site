@@ -132,6 +132,14 @@ for f in sorted(on_disk - referenced):
 # The wholesale form is how distributor leads arrive. If it breaks, the page
 # still looks correct and still tells the customer "Request Sent", so nobody
 # notices until the leads have already stopped coming.
+#
+# These checks run against the SOURCE file at build time, which is the only
+# place they are meaningful. Netlify's form detection then strips
+# data-netlify="true" and netlify-honeypot from the <form> tag and injects the
+# hidden form-name input in their place, so the deployed page will not contain
+# them and its form tag comes back reserialized with single quotes. That is
+# expected -- it means detection ran. Do not "relax" these checks because the
+# attributes appear to be missing from ns-geo.com; check the repo instead.
 form_parts = [
     ('name="wholesale-pricing"', "the name Netlify files submissions under"),
     ('data-netlify="true"', "the attribute that makes Netlify handle the form"),
