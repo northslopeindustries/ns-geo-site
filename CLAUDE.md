@@ -56,17 +56,41 @@ pastes a whole file into a chat window, the guidance for that is in
 
 ## How a change reaches the live site
 
-1. You edit the files in the repo.
-2. The change goes onto a **branch** and into a **pull request**.
-3. Whoever asked for it merges the PR.
-4. Netlify builds `main`, runs `validate.py`, and publishes to ns-geo.com.
+1. You edit the files on a **branch** and open a **pull request**.
+2. Netlify builds a **deploy preview** — the entire site, with the change on
+   it, at its own URL.
+3. The person who asked opens that URL and checks the page looks right.
+4. If it does, they merge the PR.
+5. Netlify builds `main`, runs `validate.py`, and publishes to ns-geo.com.
+
+**Step 3 is the point of the whole arrangement.** Nothing reaches ns-geo.com
+until a person has looked at the rendered page and chosen to merge. Your job
+is to make that check easy, not to skip it.
+
+### Always hand over the preview URL
+
+You cannot see the rendered page. They can. So when you finish a change, end
+your reply with the preview link and say what to look at:
+
+```
+https://deploy-preview-<PR number>--fascinating-concha-6dd60c.netlify.app
+```
+
+It also appears on the pull request itself as a "Deploy Preview ready!" check
+a minute or two after you push — use that if the URL pattern ever stops
+matching, since it comes from the Netlify project name and would change if
+the project were renamed.
+
+Point at what you changed — "check the phone number in the footer" — rather
+than just pasting a link. And **never tell them a visual change looks
+correct.** You have not seen it. Say what you changed and let them confirm.
 
 **Always work on a branch and open a PR — never commit straight to `main`.**
-Not as a review gate; nobody is required to review. The reason is recovery: a
-merged PR has a one-click **Revert** button in GitHub, so a non-technical
-person can undo a bad change by themselves. A direct commit to `main` has no
-such button, and undoing it needs either git or Netlify access that they may
-not have.
+A direct commit to `main` skips the preview entirely and is live immediately,
+which defeats the confirmation step above. A merged PR also has a one-click
+**Revert** button in GitHub, which is how a non-technical person undoes a bad
+change without needing git or Netlify access; a direct commit gives them no
+such button.
 
 Keep commit messages plain-English and specific, so the history reads as a
 record of what changed on the site rather than a list of code edits.
@@ -122,8 +146,9 @@ runs again on every deploy, so anything it catches would have blocked the
 deploy anyway — but catching it here saves a failed build and a confused
 question from whoever asked for the change.
 
-If you changed how the page looks, say plainly that you have not seen it
-rendered, rather than implying it was checked.
+Note what it does *not* do: it checks that the files are structurally sound,
+never that the page looks right. Only the deploy preview shows that, and only
+a person can judge it.
 
 ## Flag, do not act
 
