@@ -457,7 +457,7 @@
     .footer-contact-item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.88rem; color: var(--muted-fg); margin-bottom: 0.7rem; }
     .footer-contact-item svg { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
     .footer-contact-item:last-of-type { margin-bottom: 1rem; }
-    .footer-serving { font-size: 0.8rem; color: var(--muted-fg); margin-bottom: 1.25rem; }
+    .footer-serving { font-size: 0.8rem; font-weight: 700; color: var(--muted-fg); margin-bottom: 1.25rem; }
     .footer-bottom {
       border-top: 1px solid var(--border); padding-top: 1.5rem;
       display: flex; justify-content: space-between; align-items: center;
