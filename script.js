@@ -63,7 +63,7 @@
           form.reset();
         })
         .catch(() => {
-          btn.textContent = "Something went wrong — please call (385) 555-0199";
+          btn.textContent = "Something went wrong — please call (385) 437-6527";
           btn.style.background = '#dc2626';
         });
       return false;
