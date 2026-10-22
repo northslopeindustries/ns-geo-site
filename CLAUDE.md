@@ -23,8 +23,11 @@ distinct. The failure mode is not "consumer content exists" — it is copy that
 addresses everyone at once and so addresses nobody. Wholesale sections keep
 talking about margins, minimum orders, fulfillment speed, and reselling.
 
-As the page stands today it is entirely wholesale-facing, so consumer and
-brand material is new content rather than a rewrite.
+The home page (`index.html`) is entirely wholesale-facing, so consumer and
+brand material is new content rather than a rewrite. The FAQ page
+(`faq.html`) is the first page written for a mixed audience: installation
+and product questions for contractors and homeowners, then ordering
+questions for distributors and contractors.
 
 **Never send a homeowner or DIY user to buy direct.** North Slope sells *to*
 distributors; they are the customers. Point homeowners and DIY users toward
@@ -102,7 +105,8 @@ record of what changed on the site rather than a list of code edits.
 
 | File | Contains | Touch it for |
 |---|---|---|
-| `index.html` | Page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
+| `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
+| `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `images/` | 9 image files | Swapping or adding photos |
@@ -113,6 +117,14 @@ record of what changed on the site rather than a list of code edits.
 `index.html` is divided by comment markers named after what they visibly
 are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
+`faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
+
+The site is moving to multiple pages. There is no shared template, so the
+navigation bar and footer are copied into every page. A change to either
+has to be made in every page file, or the pages drift apart. Each FAQ
+question is a `<details>` element with the question in `<summary>`; it
+opens and closes with no JavaScript, and `faq.html` does not load
+`script.js`.
 
 ## Rules
 
@@ -120,7 +132,8 @@ Use them to locate a section when someone says "the products section."
   markup, reformat, re-indent, or "modernize" anything. An unrequested
   improvement is a bug here, because nobody will notice it before it ships.
 - **Stay in the smallest set of files that does the job.** A copy change is
-  `index.html` only. A color change is `styles.css` only. If a request seems
+  the page file it appears on (`index.html` or `faq.html`) only. A color
+  change is `styles.css` only. If a request seems
   to need more files than expected, say so before spreading out.
 - **No build step, ever.** No npm, no `package.json`, no framework, no
   Tailwind, no bundler, no minification. Netlify publishes the repo root
@@ -182,10 +195,17 @@ Describe the change and ask before doing any of these:
   reporting success. Without that check `fetch` resolves even on a 404 or
   500, so the form tells the customer "Request Sent" while the lead is lost.
   Do not remove it.
-- **Navigation or site structure.** All nav links are same-page anchors
-  (`#products`, `#contact`, and so on). Renaming a section `id` breaks the
-  matching nav link.
-- Adding pages, changing the page title, or anything affecting SEO.
+- **Navigation or site structure.** On the home page, nav links are
+  same-page anchors (`#products`, `#contact`, and so on). On other pages
+  the same links point back to the home page (`/#products`, `/#contact`),
+  and the logo points to `/`. The FAQ page is linked as `/faq`. Renaming a
+  home page section `id` breaks the matching link on every page. The top
+  nav links are hidden on phones (there is no phone menu yet), so every
+  page is also linked from the footer's Company list.
+- Adding pages, changing a page title or description, or anything
+  affecting SEO. A new page needs the nav and footer copied from an
+  existing page, links added to both, and `validate.py` extended to check
+  it the way it checks `faq.html`.
 - Removing content, rather than editing it.
 - Anything that would put `CLAUDE.md`, `validate.py`, or `docs/` onto the
   public site. They sit under the published root and are kept out by
@@ -204,5 +224,7 @@ Read the log, fix the cause, and say in plain language what went wrong.
 Phone (385) 437-6527 · sales@northslopeindustries.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
-The phone number also appears in `script.js`, in the form's error message.
-If it changes, it has to change in both files.
+The phone number, email, and address also appear in the footer of
+`faq.html`, and the phone number appears in `script.js`, in the form's error
+message. If any of them changes, it has to change in every one of those
+files.
