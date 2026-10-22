@@ -609,7 +609,7 @@
     .product-details { grid-column: 1 / -1; min-width: 0; }
     .product-details summary {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      min-height: 48px; padding: 0.75rem 1.25rem;
+      width: fit-content; min-height: 48px; padding: 0.75rem 1.25rem;
       border: 1px solid var(--primary); border-radius: var(--radius);
       font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary);
       cursor: pointer; list-style: none; transition: background 0.15s;
