@@ -569,3 +569,16 @@
       .mobile-menu li ul a { font-size: 0.95rem; font-weight: 500; color: var(--muted-fg); }
       .mobile-menu-cta { width: 100%; justify-content: center; margin-top: 1.25rem; }
     }
+
+    /* ─── NARROW PHONES ─────────────────────────────────────── */
+    /* Long button labels stay on one line elsewhere; on narrow phones they
+       would push the page wider than the screen, so let them wrap. The form
+       button is full width, so it only wraps when its text (including the
+       longer "Request Sent" message) does not fit. */
+    .form-submit { white-space: normal; text-align: center; }
+    @media (max-width: 480px) {
+      .hero-btns .btn-primary, .cta-band .btn-primary {
+        white-space: normal; text-align: center; justify-content: center;
+      }
+      .hero h1 { font-size: 2rem; }
+    }
