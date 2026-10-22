@@ -115,7 +115,7 @@ record of what changed on the site rather than a list of code edits.
 |---|---|---|
 | `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
-| `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table, "Which one do I need?" |
+| `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
@@ -129,7 +129,7 @@ are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
-`WHICH ONE DO I NEED`, `CTA BAND`, `FOOTER`.
+`CTA BAND`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
@@ -143,8 +143,8 @@ they must not use the `fade-up` class (it stays invisible without
 The Pro Guard 20 box appears on both the home page and the Products page
 with the same content. A change to its wording, badges, or sizes has to be
 made in both. The Products page boxes have ids `pro-guard-20`,
-`nonwoven-filter-fabric`, and `sod-staples`, which the phone menu, the
-footer's Products list, and "Which one do I need?" link to. The nonwoven
+`nonwoven-filter-fabric`, and `sod-staples`, which the phone menu and the
+footer's Products list link to. The nonwoven
 product is always called "Nonwoven Filter Fabric".
 
 The phone menu shows at 768px wide and below, where the top nav links and
