@@ -143,15 +143,23 @@ they must not use the `fade-up` class (it stays invisible without
 The Pro Guard 20 box appears on both the home page and the Products page
 with the same content. A change to its wording, badges, or sizes has to be
 made in both. The Products page boxes have ids `pro-guard-20`,
-`nonwoven-filter-fabric`, and `sod-staples`, which the phone menu and the
-footer's Products list link to. The nonwoven
+`nonwoven-filter-fabric`, and `sod-staples`, which the footer's Products
+list links to. The nonwoven
 product is always called "Nonwoven Filter Fabric".
+
+Each Products page box ends with a "More details" button: a `<details>`
+element (class `product-details`) whose `<summary>` shows "More details"
+when closed and "Hide details" when open, with no JavaScript. Inside are
+install notes, the Nonwoven Filter Fabric "Choosing the right weight"
+table (it turns into one card per weight on phones, using each cell's
+`data-label`), and a link to the FAQ. The Pro Guard 20 box on the home page
+has no "More details" section; only the Products page does.
 
 The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
 three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
-Benefits, Why We're Different, Compare, Contact), Products (with its three
-product boxes), and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
+Benefits, Why We're Different, Compare, Contact), Products (one link to
+the Products page, with no product names under it), and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
 

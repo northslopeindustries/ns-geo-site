@@ -604,3 +604,68 @@
       .fabric-compare .compare-table-wrap { padding: 0.25rem 0.5rem; }
       .fabric-compare .compare-table th, .fabric-compare .compare-table td { padding: 0.75rem 0.5rem; font-size: 0.8rem; }
     }
+
+    /* ─── PRODUCT "MORE DETAILS" ────────────────────────────── */
+    .product-details { grid-column: 1 / -1; min-width: 0; }
+    .product-details summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: fit-content; min-height: 48px; padding: 0.75rem 1.25rem;
+      border: 1px solid var(--primary); border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary);
+      cursor: pointer; list-style: none; transition: background 0.15s;
+    }
+    .product-details summary::-webkit-details-marker { display: none; }
+    .product-details summary:hover { background: rgba(0,188,212,0.08); }
+    .product-details summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .product-details-less, .product-details[open] .product-details-more { display: none; }
+    .product-details[open] .product-details-less { display: inline; }
+    .product-details-icon { position: relative; width: 14px; height: 14px; flex-shrink: 0; }
+    .product-details-icon::before, .product-details-icon::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      background: currentColor; border-radius: 1px; transform: translate(-50%, -50%);
+    }
+    .product-details-icon::before { width: 14px; height: 2px; }
+    .product-details-icon::after { width: 2px; height: 14px; }
+    .product-details[open] .product-details-icon::after { display: none; }
+    .product-details-body { padding-top: 1.5rem; }
+    .product-details-heading { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem; }
+    .product-details-list { padding-left: 1.25rem; color: var(--muted-fg); font-size: 0.9rem; line-height: 1.7; }
+    .product-details-list li + li { margin-top: 0.4rem; }
+    .product-details-list li::marker { color: var(--primary); }
+    .product-details-list strong { color: var(--foreground); }
+    .product-details-faq {
+      display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.75rem;
+      font-size: 0.9rem; font-weight: 600; color: var(--primary); transition: color 0.15s;
+    }
+    .product-details-faq:hover { color: var(--primary-dark); }
+    .product-details-faq:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
+    .weight-table-wrap {
+      border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.25rem 1rem;
+      background: var(--navy-base); margin-bottom: 1.25rem;
+    }
+    .weight-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .weight-table th, .weight-table td { padding: 0.7rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .weight-table thead th {
+      font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--primary);
+      text-transform: uppercase; letter-spacing: 0.08em; border-bottom-width: 2px;
+    }
+    .weight-table tbody th { font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; white-space: nowrap; }
+    .weight-table td { color: var(--muted-fg); }
+    .weight-table tbody tr:last-child th, .weight-table tbody tr:last-child td { border-bottom: none; }
+    /* On phones each weight becomes its own small card. */
+    @media (max-width: 640px) {
+      .weight-table-wrap { border: none; background: none; padding: 0; }
+      .weight-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .weight-table, .weight-table tbody, .weight-table tr, .weight-table th, .weight-table td { display: block; }
+      .weight-table tbody tr {
+        background: var(--navy-base); border: 1px solid var(--border); border-radius: 0.75rem;
+        padding: 0.75rem 1rem; margin-bottom: 0.75rem;
+      }
+      .weight-table tbody th { padding: 0 0 0.4rem; border-bottom: 1px solid var(--border); margin-bottom: 0.4rem; font-size: 1rem; }
+      .weight-table td { display: flex; gap: 1rem; padding: 0.3rem 0; border-bottom: none; }
+      .weight-table td::before { content: attr(data-label); flex: 0 0 6.5rem; font-weight: 600; color: var(--foreground); }
+    }
+    @media (max-width: 400px) {
+      .weight-table td { flex-direction: column; gap: 0; }
+      .weight-table td::before { flex-basis: auto; }
+    }
