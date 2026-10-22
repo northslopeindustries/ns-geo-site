@@ -696,3 +696,13 @@
       .faq-contact .cta-card { padding: 2rem 1.25rem; }
       .faq-contact-value { font-size: 0.95rem; }
     }
+
+    /* ─── PRODUCT VIDEO ─────────────────────────────────────── */
+    .product-video-heading { margin-top: 1.5rem; }
+    .product-video {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; aspect-ratio: 16 / 9; margin-bottom: 0.5rem;
+      background: var(--navy-deep); border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden;
+    }
+    .product-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .product-video a { font-weight: 600; color: var(--primary); }

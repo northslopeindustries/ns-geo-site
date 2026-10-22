@@ -119,6 +119,7 @@ record of what changed on the site rather than a list of code edits.
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
+| `video.js` | Loads the Products page install video when its "More details" opens | Rarely — behavior only |
 | `images/` | 9 image files | Swapping or adding photos |
 | `validate.py` | The pre-deploy check | Only when the checks themselves need changing |
 | `netlify.toml` | Hosting config and the deploy check | Rarely |
@@ -136,7 +137,8 @@ navigation bar (including the phone menu inside it) and footer are copied
 into every page. A change to any of them has to be made in every page file,
 or the pages drift apart. Each FAQ question is a `<details>` element with
 the question in `<summary>`; it opens and closes with no JavaScript.
-`faq.html` and `products.html` load only `menu.js`, not `script.js`, so
+`faq.html` loads only `menu.js`, and `products.html` loads `menu.js` and
+`video.js`; neither loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
 `script.js`).
 
@@ -153,7 +155,11 @@ when closed and "Hide details" when open, with no JavaScript. Inside are
 install notes, the Nonwoven Filter Fabric "Choosing the right weight"
 table (it turns into one card per weight on phones, using each cell's
 `data-label`), and a link to the FAQ. The Pro Guard 20 box on the home page
-has no "More details" section; only the Products page does.
+has no "More details" section; only the Products page does. The Pro Guard
+20 section also holds the install video: a `.product-video` box with
+`data-video-id`, which `video.js` fills with a YouTube (no-cookie) player
+only when the section opens and empties again when it closes, so the video
+never loads with the page and stops when the section is closed.
 
 The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
