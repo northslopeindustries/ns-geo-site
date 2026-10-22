@@ -109,6 +109,7 @@ record of what changed on the site rather than a list of code edits.
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
+| `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
 | `images/` | 9 image files | Swapping or adding photos |
 | `validate.py` | The pre-deploy check | Only when the checks themselves need changing |
 | `netlify.toml` | Hosting config and the deploy check | Rarely |
@@ -120,11 +121,19 @@ Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
-navigation bar and footer are copied into every page. A change to either
-has to be made in every page file, or the pages drift apart. Each FAQ
-question is a `<details>` element with the question in `<summary>`; it
-opens and closes with no JavaScript, and `faq.html` does not load
-`script.js`.
+navigation bar (including the phone menu inside it) and footer are copied
+into every page. A change to any of them has to be made in every page file,
+or the pages drift apart. Each FAQ question is a `<details>` element with
+the question in `<summary>`; it opens and closes with no JavaScript.
+`faq.html` loads only `menu.js`, not `script.js`.
+
+The phone menu shows at 768px wide and below, where the top nav links and
+the nav's "Request Wholesale Pricing" button are hidden. It is the
+three-line `.menu-toggle` button plus the `#mobile-menu` list, which holds
+every page and the home page's main sections (the same ones as the desktop
+nav), with the wholesale pricing button at the bottom. `menu.js` opens and
+closes it and keeps `aria-expanded` and the button's label in step; keep
+those working for screen reader and keyboard users.
 
 ## Rules
 
@@ -199,13 +208,14 @@ Describe the change and ask before doing any of these:
   same-page anchors (`#products`, `#contact`, and so on). On other pages
   the same links point back to the home page (`/#products`, `/#contact`),
   and the logo points to `/`. The FAQ page is linked as `/faq`. Renaming a
-  home page section `id` breaks the matching link on every page. The top
-  nav links are hidden on phones (there is no phone menu yet), so every
-  page is also linked from the footer's Company list.
+  home page section `id` breaks the matching link on every page. Every
+  page and section in the desktop nav is also in the phone menu, and every
+  page is linked from the footer's Company list.
 - Adding pages, changing a page title or description, or anything
-  affecting SEO. A new page needs the nav and footer copied from an
-  existing page, links added to both, and `validate.py` extended to check
-  it the way it checks `faq.html`.
+  affecting SEO. A new page needs the nav (with the phone menu) and footer
+  copied from an existing page, links to it added to the desktop nav, the
+  phone menu, and the footer on every page, `menu.js` loaded, and
+  `validate.py` extended to check it the way it checks `faq.html`.
 - Removing content, rather than editing it.
 - Anything that would put `CLAUDE.md`, `validate.py`, or `docs/` onto the
   public site. They sit under the published root and are kept out by
