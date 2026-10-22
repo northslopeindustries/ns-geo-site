@@ -29,14 +29,22 @@ brand material is new content rather than a rewrite. The FAQ page
 and product questions for contractors and homeowners, then ordering
 questions for distributors and contractors.
 
-**Never send a homeowner or DIY user to buy direct.** North Slope sells *to*
-distributors; they are the customers. Point homeowners and DIY users toward
-finding a nearby distributor, never toward buying from North Slope.
-**Contractors are the exception:** as part of the multi-page restructuring,
-North Slope offers contractor pricing directly to landscape professionals, so
-pointing contractors to the Contractor Pricing page is correct. Rewriting
-an existing wholesale section in consumer language is a strategy decision —
-flag it rather than doing it.
+**Homeowners and DIY users never buy from North Slope.** North Slope sells
+*to* distributors; they are the customers. Always point homeowners and DIY
+users to the Find a Distributor page, never toward buying from North Slope.
+
+**Contractors are different.** Landscape contractors can apply for a direct
+account through the form on the For Contractors page, so pointing
+contractors there is correct. **Never put contractor prices anywhere on the
+site**, on the For Contractors page or anywhere else.
+
+Until a page exists, mention it by name as plain text, never as a link.
+(The FAQ answers still use the older names "Where to Buy" for Find a
+Distributor and "Contractor Pricing" for For Contractors.)
+
+Rewriting an existing wholesale section in consumer language is a strategy
+decision. Do it when asked, and say plainly in the reply which wholesale
+wording changed.
 
 ## Who you are working for
 
@@ -175,11 +183,15 @@ Note what it does *not* do: it checks that the files are structurally sound,
 never that the page looks right. Only the deploy preview shows that, and only
 a person can judge it.
 
-## Flag, do not act
+## Be extra careful
 
-Describe the change and ask before doing any of these:
+The person asking has full authority to make any edit to the site. When
+they ask for a change in one of these areas, make it — do not stop to ask
+permission. Then tell them plainly what to double-check on the deploy
+preview. These are the areas where a mistake can break something without
+anyone noticing.
 
-- **The contact form.** It is `name="wholesale-pricing"`, uses Netlify Forms
+- **The wholesale pricing form.** It is `name="wholesale-pricing"`, uses Netlify Forms
   (`data-netlify="true"`, the hidden `form-name` input, the `bot-field`
   honeypot), and posts to `/` via `handleFormSubmit` in `script.js`. Breaking
   any part of that silently stops wholesale leads from arriving, with no
@@ -200,25 +212,37 @@ Describe the change and ask before doing any of these:
   Do not "fix" a form that looks broken on the live site until you have
   checked the source. Neither check proves a submission actually arrives —
   only a real submission appearing under Netlify's Forms tab does.
+
+  After any change that touches the form, tell them to check on the preview
+  that the form still appears and its button still says "Request Wholesale
+  Pricing", and to send one test submission after the change goes live and
+  confirm it shows up under Netlify's Forms tab. Only that proves leads are
+  still arriving.
 - **`handleFormSubmit`'s status check.** It checks `response.ok` before
   reporting success. Without that check `fetch` resolves even on a 404 or
   500, so the form tells the customer "Request Sent" while the lead is lost.
-  Do not remove it.
-- **Navigation or site structure.** On the home page, nav links are
+  Never remove it as a side effect of another change. If a request would
+  remove it, say in the same reply what it protects against.
+- **Section ids and navigation.** On the home page, nav links are
   same-page anchors (`#products`, `#contact`, and so on). On other pages
   the same links point back to the home page (`/#products`, `/#contact`),
   and the logo points to `/`. The FAQ page is linked as `/faq`. Renaming a
   home page section `id` breaks the matching link on every page. Every
   page and section in the desktop nav is also in the phone menu, and every
-  page is linked from the footer's Company list.
-- Adding pages, changing a page title or description, or anything
-  affecting SEO. A new page needs the nav (with the phone menu) and footer
+  page is linked from the footer's Company list. After a change here, tell
+  them to tap every link in the desktop menu, the phone menu, and the
+  footer, on every page, in the preview.
+- **New pages, page titles and descriptions, and anything affecting
+  search.** A new page needs the nav (with the phone menu) and footer
   copied from an existing page, links to it added to the desktop nav, the
   phone menu, and the footer on every page, `menu.js` loaded, and
-  `validate.py` extended to check it the way it checks `faq.html`.
-- Removing content, rather than editing it.
-- Anything that would put `CLAUDE.md`, `validate.py`, or `docs/` onto the
-  public site. They sit under the published root and are kept out by
+  `validate.py` extended to check it the way it checks `faq.html`. Tell
+  them to check the new page in the desktop menu, the phone menu, and the
+  footer on every page, on a phone and on a computer.
+- **Removing content.** Remove exactly what was asked, then list what was
+  removed so they can confirm nothing else went.
+- **Internal files.** Never let `CLAUDE.md`, `validate.py`, or `docs/` onto
+  the public site. They sit under the published root and are kept out by
   redirects in `netlify.toml`.
 
 ## If a deploy fails
