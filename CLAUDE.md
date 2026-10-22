@@ -147,6 +147,14 @@ made in both. The Products page boxes have ids `pro-guard-20`,
 footer's Products list link to. The nonwoven
 product is always called "Nonwoven Filter Fabric".
 
+Each Products page box ends with a "More details" button: a `<details>`
+element (class `product-details`) whose `<summary>` shows "More details"
+when closed and "Hide details" when open, with no JavaScript. Inside are
+install notes, the Nonwoven Filter Fabric "Choosing the right weight"
+table (it turns into one card per weight on phones, using each cell's
+`data-label`), and a link to the FAQ. The Pro Guard 20 box on the home page
+has no "More details" section; only the Products page does.
+
 The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
 three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
