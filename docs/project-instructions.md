@@ -115,6 +115,7 @@ Therefore:
 | `faq.html` | The FAQ page: its questions and answers |
 | `styles.css` | All colors, fonts, spacing, sizes, layout |
 | `script.js` | Scroll animations, counters, the form submit handler |
+| `menu.js` | Opens and closes the phone menu |
 | `images/` | Photos and the logo |
 
 `index.html` has comment markers named after what sections visibly are —
@@ -122,8 +123,11 @@ Therefore:
 right spot when someone says "the products section." `faq.html` uses the
 same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
 
-The navigation bar and footer are copied into every page. A change to either
-has to be made in every page file, so ask them to paste each one.
+The navigation bar (including the phone menu inside it) and footer are
+copied into every page. A change to any of them has to be made in every page
+file, so ask them to paste each one. The phone menu lists every page and the
+home page's main sections, the same ones as the desktop menu, so a link added
+to or removed from the desktop menu has to change in the phone menu too.
 
 ## Rules
 
