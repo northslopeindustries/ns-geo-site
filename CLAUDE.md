@@ -127,7 +127,7 @@ record of what changed on the site rather than a list of code edits.
 `index.html` is divided by comment markers named after what they visibly
 are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
-`faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
+`faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
 `CTA BAND`, `FOOTER`.
 
@@ -284,6 +284,8 @@ Phone (385) 437-6527 · sales@northslopeindustries.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
-`faq.html` and `products.html`, and the phone number appears in `script.js`, in the form's error
+`faq.html` and `products.html`, the phone number and email also appear in
+the "Still have questions?" box at the bottom of `faq.html` (including its
+Call and Text buttons, which dial `+13854376527`), and the phone number appears in `script.js`, in the form's error
 message. If any of them changes, it has to change in every one of those
 files.

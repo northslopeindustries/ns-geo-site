@@ -499,7 +499,7 @@
     .faq-page { padding-top: calc(68px + 4rem); }
     .faq-page .section-header h1 {
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 900; color: #fff;
+      font-weight: 900; color: #fff; margin-bottom: 0.75rem;
     }
     .nav-links a[aria-current="page"] { color: var(--primary); }
     .faq-list { max-width: 860px; border-top: 1px solid var(--border); }
@@ -668,4 +668,28 @@
     @media (max-width: 400px) {
       .weight-table td { flex-direction: column; gap: 0; }
       .weight-table td::before { flex-basis: auto; }
+    }
+
+    /* ─── FAQ CONTACT ───────────────────────────────────────── */
+    .faq-contact .cta-card p { margin-bottom: 1.5rem; }
+    .faq-contact-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .faq-contact-row:last-child { margin-bottom: 0; flex-wrap: nowrap; }
+    .faq-contact-row:last-child svg { align-self: flex-start; margin-top: 0.3rem; }
+    .faq-contact-row svg { color: var(--primary); flex-shrink: 0; }
+    .faq-contact-value { font-size: 1.05rem; font-weight: 500; color: var(--foreground); }
+    .faq-contact-email { transition: color 0.15s; min-width: 0; }
+    .faq-contact-email:hover { color: var(--primary); }
+    .faq-contact-actions { display: inline-flex; gap: 0.5rem; }
+    .faq-contact-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; min-width: 64px; padding: 0 1rem;
+      border: 1px solid var(--primary); border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--primary);
+      transition: background 0.15s;
+    }
+    .faq-contact-btn:hover { background: rgba(0,188,212,0.08); }
+    .faq-contact-btn:focus-visible, .faq-contact-email:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
+    @media (max-width: 400px) {
+      .faq-contact .cta-card { padding: 2rem 1.25rem; }
+      .faq-contact-value { font-size: 0.95rem; }
     }
