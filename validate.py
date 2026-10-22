@@ -34,7 +34,7 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "styles.css", "script.js"]:
+for f in ["index.html", "faq.html", "styles.css", "script.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 
@@ -47,6 +47,7 @@ html = open("index.html", encoding="utf-8", errors="replace").read()
 css = open("styles.css", encoding="utf-8", errors="replace").read()
 js = open("script.js", encoding="utf-8", errors="replace").read()
 low = html.lower()
+faq = open("faq.html", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -88,6 +89,55 @@ if opens != closes:
     )
 
 
+# ----------------------------------------------------------------- faq page
+
+# faq.html is a separate, hand-edited page, so it gets the same structural
+# checks as index.html. It has no form and loads no script.js by design.
+faq_low = faq.lower()
+for tag in ["html", "head", "body"]:
+    if "<" + tag not in faq_low:
+        fail("faq.html has no <%s> tag -- the paste looks incomplete." % tag)
+    if "</" + tag + ">" not in faq_low:
+        fail("faq.html never closes </%s> -- the paste looks truncated." % tag)
+
+for phrase in [
+    "rest of the file",
+    "rest of file",
+    "remains unchanged",
+    "rest unchanged",
+    "[truncated]",
+    "rest of your",
+    "same as before",
+    "no changes here",
+    "unchanged from",
+]:
+    if phrase in faq_low:
+        fail(
+            "faq.html contains the text '%s'. That is placeholder text from "
+            "a chat reply, not real page content -- the file is incomplete."
+            % phrase
+        )
+
+faq_opens = len(re.findall(r"<div\b", faq, re.I))
+faq_closes = len(re.findall(r"</div\s*>", faq, re.I))
+if faq_opens != faq_closes:
+    fail(
+        "faq.html has %d opening <div> but %d closing </div>. The markup is "
+        "unbalanced and the page will render wrong." % (faq_opens, faq_closes)
+    )
+
+d_opens = len(re.findall(r"<details\b", faq, re.I))
+d_closes = len(re.findall(r"</details\s*>", faq, re.I))
+if d_opens != d_closes:
+    fail(
+        "faq.html has %d opening <details> but %d closing </details>. The "
+        "questions would not open and close correctly." % (d_opens, d_closes)
+    )
+
+if 'href="styles.css"' not in faq:
+    fail("faq.html no longer links styles.css -- the page would be unstyled.")
+
+
 # ------------------------------------------------------------ stylesheet / js
 
 if 'href="styles.css"' not in html:
@@ -107,7 +157,7 @@ if 'src="script.js"' not in html:
 on_disk = set(os.listdir("images")) if os.path.isdir("images") else set()
 referenced = set()
 
-for text, where in ((html, "index.html"), (css, "styles.css")):
+for text, where in ((html, "index.html"), (faq, "faq.html"), (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)

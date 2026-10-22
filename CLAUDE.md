@@ -26,9 +26,12 @@ talking about margins, minimum orders, fulfillment speed, and reselling.
 As the page stands today it is entirely wholesale-facing, so consumer and
 brand material is new content rather than a rewrite.
 
-**Never send an end user to buy direct.** North Slope sells *to*
-distributors; they are the customers. Point homeowners and contractors toward
-finding a nearby distributor, never toward buying from North Slope. Rewriting
+**Never send a homeowner or DIY user to buy direct.** North Slope sells *to*
+distributors; they are the customers. Point homeowners and DIY users toward
+finding a nearby distributor, never toward buying from North Slope.
+**Contractors are the exception:** as part of the multi-page restructuring,
+North Slope offers contractor pricing directly to landscape professionals, so
+pointing contractors to the Contractor Pricing page is correct. Rewriting
 an existing wholesale section in consumer language is a strategy decision —
 flag it rather than doing it.
 
