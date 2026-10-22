@@ -532,6 +532,44 @@
       .faq-answer { padding-right: 0; }
     }
 
+    /* ─── PHONE MENU ────────────────────────────────────────── */
+    .menu-toggle, .mobile-menu { display: none; }
+    @media (max-width: 768px) {
+      .nav-cta { display: none; }
+      .menu-toggle {
+        display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+        width: 48px; height: 48px;
+        background: transparent; border: 1px solid var(--border); border-radius: var(--radius);
+        cursor: pointer;
+      }
+      .menu-toggle-bar {
+        width: 22px; height: 2px; background: var(--foreground); border-radius: 1px;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(2) { opacity: 0; }
+      .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .menu-toggle:focus-visible, .mobile-menu a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .mobile-menu {
+        display: block; position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy-deep); border-bottom: 1px solid var(--border);
+        max-height: calc(100vh - 68px); overflow-y: auto;
+        padding: 0.5rem 2rem 1.5rem;
+      }
+      .mobile-menu[hidden] { display: none; }
+      .mobile-menu ul { list-style: none; }
+      .mobile-menu > ul > li { border-bottom: 1px solid var(--border); }
+      .mobile-menu a:not(.btn-primary) {
+        display: flex; align-items: center; min-height: 48px;
+        transition: color 0.15s;
+      }
+      .mobile-menu a:not(.btn-primary):hover, .mobile-menu a[aria-current="page"] { color: var(--primary); }
+      .mobile-menu-page { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: #fff; }
+      .mobile-menu li ul { padding: 0 0 0.5rem 1rem; }
+      .mobile-menu li ul a { font-size: 0.95rem; font-weight: 500; color: var(--muted-fg); }
+      .mobile-menu-cta { width: 100%; justify-content: center; margin-top: 1.25rem; }
+    }
+
     /* ─── NARROW PHONES ─────────────────────────────────────── */
     /* Long button labels stay on one line elsewhere; on narrow phones they
        would push the page wider than the screen, so let them wrap. The form

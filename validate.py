@@ -34,7 +34,7 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "faq.html", "styles.css", "script.js"]:
+for f in ["index.html", "faq.html", "styles.css", "script.js", "menu.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 
@@ -147,6 +147,24 @@ if 'src="script.js"' not in html:
         "index.html no longer loads script.js -- the animations and the form "
         "submit handler would not run."
     )
+
+
+# ---------------------------------------------------------------- phone menu
+
+# On phones the top nav links are hidden and the three-line menu button is the
+# only way to reach other pages and sections. The button needs both its menu
+# markup and menu.js on every page, or it shows up but does nothing.
+for text, where in ((html, "index.html"), (faq, "faq.html")):
+    if 'id="mobile-menu"' not in text:
+        fail(
+            "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
+            "visitors would have no way to reach other pages." % where
+        )
+    if 'src="menu.js"' not in text:
+        fail(
+            "%s no longer loads menu.js -- the phone menu button would do "
+            "nothing when tapped." % where
+        )
 
 
 # ------------------------------------------------------------------- images
