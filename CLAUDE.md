@@ -115,6 +115,7 @@ record of what changed on the site rather than a list of code edits.
 |---|---|---|
 | `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
+| `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
@@ -127,19 +128,30 @@ record of what changed on the site rather than a list of code edits.
 are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
+`products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
+`CTA BAND`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
 into every page. A change to any of them has to be made in every page file,
 or the pages drift apart. Each FAQ question is a `<details>` element with
 the question in `<summary>`; it opens and closes with no JavaScript.
-`faq.html` loads only `menu.js`, not `script.js`.
+`faq.html` and `products.html` load only `menu.js`, not `script.js`, so
+they must not use the `fade-up` class (it stays invisible without
+`script.js`).
+
+The Pro Guard 20 box appears on both the home page and the Products page
+with the same content. A change to its wording, badges, or sizes has to be
+made in both. The Products page boxes have ids `pro-guard-20`,
+`nonwoven-filter-fabric`, and `sod-staples`, which the phone menu and the
+footer's Products list link to. The nonwoven
+product is always called "Nonwoven Filter Fabric".
 
 The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
-three-line `.menu-toggle` button plus the `#mobile-menu` list, which holds
-every page and the home page's main sections (the same ones as the desktop
-nav), with the wholesale pricing button at the bottom. `menu.js` opens and
+three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
+Benefits, Why We're Different, Compare, Contact), Products (with its three
+product boxes), and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
 
@@ -149,7 +161,8 @@ those working for screen reader and keyboard users.
   markup, reformat, re-indent, or "modernize" anything. An unrequested
   improvement is a bug here, because nobody will notice it before it ships.
 - **Stay in the smallest set of files that does the job.** A copy change is
-  the page file it appears on (`index.html` or `faq.html`) only. A color
+  the page file it appears on (`index.html`, `faq.html`, or
+  `products.html`) only. A color
   change is `styles.css` only. If a request seems
   to need more files than expected, say so before spreading out.
 - **No build step, ever.** No npm, no `package.json`, no framework, no
@@ -226,10 +239,14 @@ anyone noticing.
 - **Section ids and navigation.** On the home page, nav links are
   same-page anchors (`#products`, `#contact`, and so on). On other pages
   the same links point back to the home page (`/#products`, `/#contact`),
-  and the logo points to `/`. The FAQ page is linked as `/faq`. Renaming a
-  home page section `id` breaks the matching link on every page. Every
-  page and section in the desktop nav is also in the phone menu, and every
-  page is linked from the footer's Company list. After a change here, tell
+  and the logo points to `/`. The FAQ page is linked as `/faq` and the
+  Products page as `/products`; the desktop "Products" link and the home
+  page's "View Products" button go there, not to the home page's own
+  `#products` section. Renaming a home page section `id`, or a Products
+  page box id, breaks the matching links on every page. Every page and
+  section in the desktop nav is also in the phone menu, and every page is
+  reachable from the footer (the FAQ from the Company list, the Products
+  page from the Products list). After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
@@ -258,7 +275,7 @@ Read the log, fix the cause, and say in plain language what went wrong.
 Phone (385) 437-6527 · sales@northslopeindustries.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
-The phone number, email, and address also appear in the footer of
-`faq.html`, and the phone number appears in `script.js`, in the form's error
+The phone number, email, and address also appear in the footers of
+`faq.html` and `products.html`, and the phone number appears in `script.js`, in the form's error
 message. If any of them changes, it has to change in every one of those
 files.

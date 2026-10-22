@@ -34,7 +34,7 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "faq.html", "styles.css", "script.js", "menu.js"]:
+for f in ["index.html", "faq.html", "products.html", "styles.css", "script.js", "menu.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 
@@ -48,6 +48,7 @@ css = open("styles.css", encoding="utf-8", errors="replace").read()
 js = open("script.js", encoding="utf-8", errors="replace").read()
 low = html.lower()
 faq = open("faq.html", encoding="utf-8", errors="replace").read()
+products = open("products.html", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -89,42 +90,48 @@ if opens != closes:
     )
 
 
-# ----------------------------------------------------------------- faq page
+# ---------------------------------------------------------------- other pages
 
-# faq.html is a separate, hand-edited page, so it gets the same structural
-# checks as index.html. It has no form and loads no script.js by design.
-faq_low = faq.lower()
-for tag in ["html", "head", "body"]:
-    if "<" + tag not in faq_low:
-        fail("faq.html has no <%s> tag -- the paste looks incomplete." % tag)
-    if "</" + tag + ">" not in faq_low:
-        fail("faq.html never closes </%s> -- the paste looks truncated." % tag)
+# faq.html and products.html are separate, hand-edited pages, so they get the
+# same structural checks as index.html. They have no form and load no
+# script.js by design.
+for page, where in ((faq, "faq.html"), (products, "products.html")):
+    page_low = page.lower()
+    for tag in ["html", "head", "body"]:
+        if "<" + tag not in page_low:
+            fail("%s has no <%s> tag -- the paste looks incomplete." % (where, tag))
+        if "</" + tag + ">" not in page_low:
+            fail("%s never closes </%s> -- the paste looks truncated." % (where, tag))
 
-for phrase in [
-    "rest of the file",
-    "rest of file",
-    "remains unchanged",
-    "rest unchanged",
-    "[truncated]",
-    "rest of your",
-    "same as before",
-    "no changes here",
-    "unchanged from",
-]:
-    if phrase in faq_low:
+    for phrase in [
+        "rest of the file",
+        "rest of file",
+        "remains unchanged",
+        "rest unchanged",
+        "[truncated]",
+        "rest of your",
+        "same as before",
+        "no changes here",
+        "unchanged from",
+    ]:
+        if phrase in page_low:
+            fail(
+                "%s contains the text '%s'. That is placeholder text from "
+                "a chat reply, not real page content -- the file is incomplete."
+                % (where, phrase)
+            )
+
+    page_opens = len(re.findall(r"<div\b", page, re.I))
+    page_closes = len(re.findall(r"</div\s*>", page, re.I))
+    if page_opens != page_closes:
         fail(
-            "faq.html contains the text '%s'. That is placeholder text from "
-            "a chat reply, not real page content -- the file is incomplete."
-            % phrase
+            "%s has %d opening <div> but %d closing </div>. The markup is "
+            "unbalanced and the page will render wrong."
+            % (where, page_opens, page_closes)
         )
 
-faq_opens = len(re.findall(r"<div\b", faq, re.I))
-faq_closes = len(re.findall(r"</div\s*>", faq, re.I))
-if faq_opens != faq_closes:
-    fail(
-        "faq.html has %d opening <div> but %d closing </div>. The markup is "
-        "unbalanced and the page will render wrong." % (faq_opens, faq_closes)
-    )
+    if 'href="styles.css"' not in page:
+        fail("%s no longer links styles.css -- the page would be unstyled." % where)
 
 d_opens = len(re.findall(r"<details\b", faq, re.I))
 d_closes = len(re.findall(r"</details\s*>", faq, re.I))
@@ -133,9 +140,6 @@ if d_opens != d_closes:
         "faq.html has %d opening <details> but %d closing </details>. The "
         "questions would not open and close correctly." % (d_opens, d_closes)
     )
-
-if 'href="styles.css"' not in faq:
-    fail("faq.html no longer links styles.css -- the page would be unstyled.")
 
 
 # ------------------------------------------------------------ stylesheet / js
@@ -154,7 +158,7 @@ if 'src="script.js"' not in html:
 # On phones the top nav links are hidden and the three-line menu button is the
 # only way to reach other pages and sections. The button needs both its menu
 # markup and menu.js on every page, or it shows up but does nothing.
-for text, where in ((html, "index.html"), (faq, "faq.html")):
+for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html")):
     if 'id="mobile-menu"' not in text:
         fail(
             "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
@@ -175,7 +179,7 @@ for text, where in ((html, "index.html"), (faq, "faq.html")):
 on_disk = set(os.listdir("images")) if os.path.isdir("images") else set()
 referenced = set()
 
-for text, where in ((html, "index.html"), (faq, "faq.html"), (css, "styles.css")):
+for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"), (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)
