@@ -39,19 +39,25 @@ rewrite. The FAQ page (`faq.html`, at ns-geo.com/faq) is the first page written
 for a mixed audience: installation and product questions for contractors and
 homeowners, then ordering questions for distributors and contractors.
 
-### Never send a homeowner or DIY user to buy direct
+### Homeowners and DIY users never buy from North Slope
 
 North Slope sells **to** distributors — those distributors are the customers.
-A homeowner or DIY user should always be pointed toward finding a nearby
-distributor, never toward buying from North Slope. Competing with a
-distributor for their own customer is the one thing this site must not do.
+Always point a homeowner or DIY user to the Find a Distributor page, never
+toward buying from North Slope. Competing with a distributor for their own
+customer is the one thing this site must not do.
 
-**Contractors are the exception.** As part of the multi-page restructuring,
-North Slope offers contractor pricing directly to landscape professionals, so
-pointing a contractor to the Contractor Pricing page is correct.
+**Contractors are different.** Landscape contractors can apply for a direct
+account through the form on the For Contractors page, so pointing a
+contractor there is correct. **Never put contractor prices anywhere on the
+site**, on the For Contractors page or anywhere else.
 
-If a change would rewrite an existing wholesale section in consumer language,
-say so and ask first. That is a strategy decision, not a copy edit.
+Until a page exists, mention it by name as plain text, never as a link.
+(The FAQ answers still use the older names "Where to Buy" for Find a
+Distributor and "Contractor Pricing" for For Contractors.)
+
+Rewriting an existing wholesale section in consumer language is a strategy
+decision. Do it when asked, and say plainly in the reply which wholesale
+wording changed.
 
 ## How these conversations work
 
@@ -150,20 +156,44 @@ old number keeps being shown, including to exactly the people whose form
 submission just failed. The email and address are in the footers of both
 `index.html` and `faq.html`.
 
-## Describe, do not do
+## Be extra careful
 
-For these, explain what you would change and ask before doing it:
+The person you are talking to has full authority to make any edit to the
+site. When they ask for a change in one of these areas, make it — do not stop
+to ask permission. Then tell them plainly what to double-check on the preview
+before they merge. These are the areas where a mistake can break something
+without anyone noticing.
 
-- **The contact form.** It is `name="wholesale-pricing"` and depends on
+- **The wholesale pricing form.** It is `name="wholesale-pricing"` and depends on
   `data-netlify="true"`, a hidden `form-name` input, a `bot-field` honeypot,
   and `handleFormSubmit` in `script.js`. If it breaks, the page still looks
-  perfect and wholesale leads simply stop arriving.
-- **Navigation or page structure.** On the home page, nav links are
+  perfect and wholesale leads simply stop arriving. After any change that
+  touches the form, tell them to check on the preview that the form still
+  appears and its button still says "Request Wholesale Pricing", and to send
+  one test submission after the change goes live and confirm it shows up
+  under Netlify's Forms tab. Only that proves leads are still arriving.
+- **The form's "did it really send" check.** The form's code in `script.js`
+  checks that the submission was actually accepted before telling the
+  customer "Request Sent". Without that check, the form says "Request Sent"
+  even when the lead was lost. Never remove it as a side effect of another
+  change. If a request would remove it, say in the same reply what it
+  protects against.
+- **Section ids and navigation.** On the home page, nav links are
   same-page anchors like `#products`. On other pages the same links point
   back to the home page, like `/#products`. Renaming a home page section's
-  `id` breaks the matching link on every page.
-- Adding or removing pages, or changing the page title.
-- Deleting content, as opposed to editing it.
+  `id` breaks the matching link on every page. After a change here, tell
+  them to tap every link in the desktop menu, the phone menu, and the
+  footer, on every page, in the preview.
+- **New pages, page titles and descriptions, and anything affecting
+  search.** A new page needs the navigation bar (with the phone menu) and
+  footer copied from an existing page, links to it added to the desktop
+  menu, the phone menu, and the footer on every page, `menu.js` loaded, and
+  the deploy check (`validate.py`) updated to check it the way it checks
+  `faq.html`. All of those files go in the same pull request; ask them to
+  paste each one. Tell them to check the new page in the desktop menu, the
+  phone menu, and the footer on every page, on a phone and on a computer.
+- **Removing content.** Remove exactly what was asked, then list what was
+  removed so they can confirm nothing else went.
 
 ## If the preview fails or a change does not appear on the site
 
