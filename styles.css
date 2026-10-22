@@ -526,6 +526,9 @@
     .faq-answer { padding: 0 3rem 1.5rem 0; }
     .faq-answer p { font-size: 0.95rem; color: var(--muted-fg); line-height: 1.7; }
     .faq-answer p + p { margin-top: 0.9rem; }
+    .faq-answer a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--primary); transition: color 0.15s; }
+    .faq-answer a:hover { color: var(--primary-dark); }
+    .faq-answer a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
     @media (max-width: 768px) {
       .faq-page { padding-top: calc(68px + 2.5rem); }
       .faq-item summary { font-size: 1rem; }
