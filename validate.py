@@ -34,7 +34,7 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "faq.html", "products.html", "styles.css", "script.js", "menu.js"]:
+for f in ["index.html", "faq.html", "products.html", "styles.css", "script.js", "menu.js", "video.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 
@@ -169,6 +169,17 @@ for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "product
             "%s no longer loads menu.js -- the phone menu button would do "
             "nothing when tapped." % where
         )
+
+
+# ------------------------------------------------------------- product video
+
+# The Pro Guard 20 install video is only added when its "More details"
+# section opens, by video.js. Without it the section shows an empty box.
+if 'class="product-video"' in products and 'src="video.js"' not in products:
+    fail(
+        "products.html has the install video box but no longer loads "
+        "video.js -- the video would never appear."
+    )
 
 
 # ------------------------------------------------------------------- images
