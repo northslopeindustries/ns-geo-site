@@ -298,6 +298,7 @@
         width: area.width,
         along: h.along,                             // rows run along the area's 'length' or 'width'
         rowLength: rowLength,                       // the side the rows run along
+        span: h.along === 'length' ? area.width : area.length,   // the side the rows cross
         cutLength: rowLength + 2 * RULES.END_FOLD,  // how long each row is cut
         rows: h.rows,                               // fabric width of each row, in laying order
       };
@@ -331,12 +332,89 @@
 
   function round(x) { return Math.round(x * 100) / 100; }
 
+  // ─── Laying it out, roll by roll ───────────────────────────────────────
+  // Replays a finished plan row by row, following the same rules, to work
+  // out the cut list (which piece of which roll goes where) and where along
+  // each row a new roll starts.
+  //   layouts: one per area, each { rowLength, rows: [fabric width of each row] }
+  //   pick(width, area, row, k): length of the k-th new roll opened in that row
+  // Returns
+  //   rolls: in the order they are opened, each { number, width, length,
+  //          pieces: [{ area, row, kind, length }], left, scrap }
+  //          kind is 'whole' (the whole row), 'first' (start of a row),
+  //          'middle', or 'rest' (end of a row); 'middle' and 'rest' include
+  //          the 6" join overlap.
+  //   rows:  per area, per row { width, cut, joinsAt: [feet from the start of
+  //          the row where a new roll starts], overhang (last row only) }
+  function layOut(layouts, pick) {
+    const rolls = [];
+    const current = {};                       // fabric width -> the roll in use
+    let joinFeet = 0;
+    const rows = layouts.map((lay, a) => {
+      const need = lay.rowLength + 2 * RULES.END_FOLD;
+      const span = lay.span !== undefined ? lay.span : null;
+      let reach = 0;
+      return lay.rows.map((w, r) => {
+        const row = { width: w, cut: need, joinsAt: [], overhang: 0 };
+        reach = r === 0 ? w : reach + w - RULES.SIDE_OVERLAP;
+        if (r === lay.rows.length - 1 && span !== null) row.overhang = Math.max(0, round(reach - span));
+        let remaining = need;
+        let end = 0;                          // how far along the row the fabric reaches so far
+        let k = 0;
+        const cur = current[w];
+        if (cur && cur.left > EPS) {
+          if (cur.left >= need - EPS) {
+            cur.pieces.push({ area: a, row: r, kind: 'whole', length: need });
+            cur.left = Math.max(0, cur.left - need);
+            return row;
+          }
+          if (cur.left >= RULES.MIN_USABLE_PIECE - EPS) {
+            cur.pieces.push({ area: a, row: r, kind: 'first', length: cur.left });
+            end = cur.left;
+            remaining -= cur.left;
+          } else {
+            cur.scrap += cur.left;
+          }
+          cur.left = 0;
+        }
+        while (remaining > EPS) {
+          const len = pick(w, a, r, k++);
+          const roll = { number: rolls.length + 1, width: w, length: len, pieces: [], left: 0, scrap: 0 };
+          rolls.push(roll);
+          current[w] = roll;
+          const started = remaining < need - EPS;
+          if (started) {
+            remaining += RULES.JOIN_OVERLAP;
+            row.joinsAt.push(round(end));
+            joinFeet += w;
+          }
+          if (len >= remaining - EPS) {
+            roll.pieces.push({ area: a, row: r, kind: started ? 'rest' : 'whole', length: round(remaining) });
+            roll.left = Math.max(0, len - remaining);
+            remaining = 0;
+          } else {
+            roll.pieces.push({ area: a, row: r, kind: started ? 'middle' : 'first', length: len });
+            end = (started ? end - RULES.JOIN_OVERLAP : 0) + len;
+            remaining -= len;
+          }
+        }
+        return row;
+      });
+    });
+    rolls.forEach(r => { r.left = round(r.left); r.scrap = round(r.scrap); });
+    return { rolls: rolls, rows: rows, joinFeet: joinFeet };
+  }
+
   // ─── What the page calls ───────────────────────────────────────────────
 
   // "Use my roll size": one roll size (an entry of ROLL_SIZES).
   // Picks fewest rolls, then fewest seams, then least left over.
   function useMyRoll(areas, roll) {
-    return plan(areas, [ROLL_SIZES.indexOf(roll)], 'rolls', false);
+    const answer = plan(areas, [ROLL_SIZES.indexOf(roll)], 'rolls', false);
+    const laid = layOut(answer.areas, () => roll.length);
+    answer.cutList = laid.rolls;
+    answer.areas.forEach((a, i) => { a.rowDetails = laid.rows[i]; });
+    return answer;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -423,19 +501,18 @@
         let remaining = need;
         let started = false;
         let scrap = st.scrap;
-        let end = 0;               // how far along the row the fabric so far reaches
         if (st.open > 0) {
           if (st.open >= need - EPS) {
-            out.push(Object.assign({}, st, { open: Math.max(0, st.open - need), hist: { prev: st.hist, row: rowIds[k], joinsAt: [] } }));
+            out.push(Object.assign({}, st, { open: Math.max(0, st.open - need), hist: { prev: st.hist, row: rowIds[k], bought: [] } }));
             return;
           }
           if (st.open >= RULES.MIN_USABLE_PIECE - EPS) {
-            remaining -= st.open; started = true; end = st.open;
+            remaining -= st.open; started = true;
           } else {
             scrap += st.open;
           }
         }
-        (function buy(rem, isStarted, rolls, rollCount, joins, joinsAt, endSoFar) {
+        (function buy(rem, isStarted, rolls, rollCount, joins, bought) {
           rollChoices.forEach((ri, i) => {
             const len = ROLL_SIZES[ri].length;
             const r = rem + (isStarted ? RULES.JOIN_OVERLAP : 0);
@@ -444,16 +521,15 @@
             if (!done && i > 0) return;
             const nr = rolls.slice(); nr[i] += 1;
             const nj = isStarted ? joins + 1 : joins;
-            const at = isStarted ? joinsAt.concat([endSoFar - RULES.JOIN_OVERLAP / 2]) : joinsAt;
-            const newEnd = (isStarted ? endSoFar - RULES.JOIN_OVERLAP : 0) + len;
+            const nb = bought.concat([len]);
             if (done) {
               out.push({ open: Math.max(0, len - r), scrap: scrap, rolls: nr, rollCount: rollCount + 1, joins: nj,
-                hist: { prev: st.hist, row: rowIds[k], joinsAt: at } });
+                hist: { prev: st.hist, row: rowIds[k], bought: nb } });
             } else {
-              buy(r - len, true, nr, rollCount + 1, nj, at, newEnd);
+              buy(r - len, true, nr, rollCount + 1, nj, nb);
             }
           });
-        })(remaining, started, st.rolls, st.rollCount, st.joins, [], end);
+        })(remaining, started, st.rolls, st.rollCount, st.joins, []);
       });
       // Of plans with the same piece left on the roll, keep only those not
       // beaten on rolls, joins, and scrap; then keep the most promising.
@@ -615,17 +691,14 @@
   // Turn one option into plain numbers for the page.
   function describeOption(o, areas) {
     const rollCounts = ROLL_SIZES.map(() => 0);
-    const joinsAt = {};            // "area:row" -> where along the row each join is
-    let joinFeet = 0;
+    const bought = {};             // "area:row" -> lengths of the new rolls that row opens
     o.parts.forEach(p => {
       p.rolls.forEach((n, i) => { rollCounts[p.rollChoices[i]] += n; });
-      for (let h = p.hist; h; h = h.prev) {
-        joinsAt[h.row.area + ':' + h.row.row] = h.joinsAt;
-        joinFeet += h.joinsAt.length * p.width;
-      }
+      for (let h = p.hist; h; h = h.prev) bought[h.row.area + ':' + h.row.row] = h.bought;
     });
+    const laid = layOut(o.layouts, (w, a, r, k) => bought[a + ':' + r][k]);
 
-    let stapleFeet = joinFeet;
+    let stapleFeet = laid.joinFeet;
     const areaPlans = o.layouts.map((lay, a) => {
       const area = areas[a];
       stapleFeet += 2 * (area.length + area.width) + (lay.rows.length - 1) * lay.rowLength;
@@ -637,7 +710,7 @@
         span: lay.span,
         cutLength: lay.rowLength + 2 * RULES.END_FOLD,
         rows: lay.rows,
-        joinsAt: lay.rows.map((w, r) => (joinsAt[a + ':' + r] || []).map(x => x - RULES.END_FOLD)),
+        rowDetails: laid.rows[a],
       };
     });
     const staples = Math.ceil(stapleFeet / RULES.STAPLE_SPACING - EPS);
@@ -654,6 +727,7 @@
 
     return {
       rolls: rolls,
+      cutList: laid.rolls,
       rollCount: o.rollCount,
       rowCount: o.rowCount,
       seams: o.seams,

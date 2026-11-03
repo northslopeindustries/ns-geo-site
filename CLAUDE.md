@@ -223,6 +223,20 @@ Recommend, Bulk rolls, the full list in order:
   three; the 3' option stays under the current rules because it leaves
   less fabric than the 6' option.
 
+Both modes show, for each area, a layout drawing in `roll-calculator.js`
+(the owner's mockup is the style guide): dark panel, solid teal area
+outline, each row a dotted outline in its width's color (white, then
+bright blue, then yellow), 6" overlaps shaded light blue, a numbered circle
+on every row in laying order with "Row 2 · 6' roll · cut 200.5'" when it
+fits, dashed "new roll at 49.5'" join lines, any overhang drawn faded
+outside the outline ("3.5' over: trim or overlap more"), and a color key.
+The length is always to scale; the height is stretched when rows would be
+too thin, with a "not to scale" note. The longer side is always called the
+length. A cut list follows (which roll each piece comes from), built by
+`layOut` in `roll-calculator-math.js`. Check: 200' × 30', Use my roll size
+6'×250' gives 6 rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5',
+row 6 3.5' over, 5 rolls with 45' left on roll 5.
+
 ## Rules
 
 - **Change only what was asked about.** Do not improve adjacent copy, tidy

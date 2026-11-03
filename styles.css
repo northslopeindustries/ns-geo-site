@@ -820,14 +820,50 @@
       font-size: 0.75rem; font-weight: 700; color: var(--primary); white-space: nowrap;
     }
     .calc-tag-pick { background: var(--primary); color: var(--navy-deep); }
-    .calc-diagram { margin: 0.75rem 0 0.25rem; }
-    .calc-diagram svg { display: block; width: 100%; height: auto; }
-    .calc-diagram figcaption { font-size: 0.8rem; color: var(--muted-fg); margin-top: 0.35rem; }
-    .calc-svg-edge { fill: none; stroke: var(--primary); stroke-width: 2; }
-    .calc-svg-join { stroke: #fff; stroke-width: 2; stroke-dasharray: 5 4; }
-    .calc-svg-dim { fill: var(--foreground); font-family: 'Roboto', sans-serif; font-size: 14px; }
-    .calc-svg-row { fill: #fff; font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; }
-    .calc-svg-note { fill: var(--muted-fg); font-family: 'Roboto', sans-serif; font-size: 12px; }
+    /* "How to lay it" drawing: dark panel, solid teal area outline, dotted
+       fabric outlines, numbered circles, color key underneath. */
+    .calc-diagram {
+      margin: 0.75rem 0 0.5rem; padding: 1rem;
+      background: var(--navy-deep); border: 1px solid var(--border); border-radius: 0.75rem;
+    }
+    .calc-diagram figcaption { margin-bottom: 0.75rem; }
+    .calc-diagram-title { display: block; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; color: #fff; }
+    .calc-diagram-sub { display: block; font-size: 0.85rem; color: var(--muted-fg); margin-top: 0.15rem; }
+    .calc-diagram svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .calc-diagram-note { font-size: 0.8rem; color: var(--muted-fg); margin-top: 0.5rem; }
+    .calc-svg-edge { fill: none; stroke: var(--primary); stroke-width: 2.5; }
+    .calc-svg-fabric { stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .calc-svg-over { fill: rgba(255,255,255,0.05); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 0.45; }
+    .calc-svg-overlap { fill: rgba(100,181,246,0.45); }
+    .calc-svg-join { stroke: #ff8a65; stroke-width: 2; stroke-dasharray: 6 4; }
+    .calc-svg-dimline { stroke: var(--muted-fg); stroke-width: 1; }
+    .calc-svg-dim { fill: var(--muted-fg); font-family: 'Roboto', sans-serif; font-size: 12px; }
+    .calc-svg-num { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; }
+    .calc-svg-label, .calc-svg-jointext, .calc-svg-overtext {
+      font-family: 'Roboto', sans-serif; paint-order: stroke; stroke: var(--navy-deep); stroke-width: 3px; stroke-linejoin: round;
+    }
+    .calc-svg-label { font-size: 12.5px; font-weight: 600; }
+    .calc-svg-jointext { font-size: 11.5px; font-weight: 600; fill: #ff8a65; }
+    .calc-svg-overtext { font-size: 11.5px; fill: var(--muted-fg); font-style: italic; }
+    .calc-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; list-style: none; margin-top: 0.85rem; font-size: 0.8rem; color: var(--foreground); }
+    .calc-key li { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .calc-key-edge, .calc-key-fabric, .calc-key-join { display: inline-block; width: 26px; height: 0; }
+    .calc-key-edge { border-top: 3px solid var(--primary); }
+    .calc-key-fabric { border-top: 2px dashed #fff; }
+    .calc-key-join { border-top: 2px dashed #ff8a65; }
+    .calc-key-overlap, .calc-key-over { display: inline-block; width: 22px; height: 12px; }
+    .calc-key-overlap { background: rgba(100,181,246,0.45); }
+    .calc-key-over { border: 1.5px dashed rgba(255,255,255,0.45); background: rgba(255,255,255,0.05); }
+    .calc-key-num {
+      display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; color: var(--navy-deep); font-family: 'Poppins', sans-serif; font-size: 0.65rem; font-weight: 700;
+    }
+    .calc-cutlist { list-style: none; font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; }
+    .calc-cutlist li + li { margin-top: 0.35rem; }
+    .calc-cutlist strong { color: var(--foreground); }
+    @media (max-width: 480px) {
+      .calc-diagram { padding: 0.75rem; margin-left: -1.1rem; }
+    }
     @media (max-width: 1024px) {
       .calc-cards { grid-template-columns: 1fr; max-width: 760px; }
     }
