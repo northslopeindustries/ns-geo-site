@@ -182,22 +182,46 @@ The Roll Calculator's rules (6" overlaps, 3" end folds, 3-foot scrap
 limit, staple spacing, bag and case sizes) and the 12 roll sizes are the
 labelled numbers at the top of `roll-calculator-math.js`; change them
 there and nowhere else. "Use my roll size" picks fewest rolls, then
-fewest seams, then least left over. Recommend mode lets an area use one
-main fabric width plus at most one row of another width, and it searches
-the most promising plans rather than every one, so on jobs with several
-areas it can occasionally miss the very best answer. The page allows up to
-10 areas and 500 feet per side to keep it fast on phones. The Products
-page's Pro Guard 20 box links to it; the home page's copy of that box does
-not. After any change to the math, re-check these, which must match
-exactly:
+fewest seams, then least left over, trying rows both ways.
+
+Recommend mode shows one list of roll options (settings in `RECOMMEND` in
+`roll-calculator-math.js`). Rows always run the long way of each area, so
+every row is the long side plus 6"; both ways are tried only when length
+and width are within 2 feet. Every row layout (any mix of widths) and every
+way of buying rolls is worked out; an option is dropped if another is as
+good or better on rolls, seams, and leftover square feet; the rest are
+sorted by leftover square feet + 100 per seam (ties: fewer rolls). The
+first 5 are shown, plus the best option for "Fewest seams", "Least left
+over", or "Fewest rolls" if it is not already among them, so the list can
+run past 5. Those three tags go to every option tied for best among ALL
+options found, so they are always true. "Our pick" is the first option;
+"All in one roll" is any one-roll option. Each option has a layout drawing
+per area. On very wide areas mixes are limited to two widths, and with
+several areas only each area's best layouts are combined, to stay fast on
+phones (the owner accepted this). The page allows up to 10 areas and 500
+feet per side. The Products page's Pro Guard 20 box links to the
+calculator; the home page's copy of that box does not. After any change to
+the math, re-check these:
 
 | Job | Mode | Rolls | Seams | Left over | Staples |
 |---|---|---|---|---|---|
 | 30' × 15' | Use my roll size, 4'×50' | 3 | 10 | 9.5 ft | 73 (1 bag) |
 | 30' × 15' | Use my roll size, 4'×100' | 2 | 5 | 47 ft | 72 (1 bag) |
 | 40' × 10' and 15' × 6' | Use my roll size, 4'×100' | 2 | 4 | 47 ft | 81 (1 bag) |
-| 100' × 10.5' | Recommend, Bulk, Fewest seams | one 12'×250' | 0 | 149.5 ft | 74 |
-| 100' × 10.5' | Recommend, Retail, Fewest seams | three 6'×100' | 3 | 98 ft | 111 |
+
+Recommend, Bulk rolls, the full list in order:
+
+- 100' × 11': one 6'×250' (2 rows, 1 seam, 294 sq ft left; Our pick,
+  Least left over, Fewest rolls, All in one roll); one 12'×250' (1 row,
+  0 seams, 1,794 sq ft; Fewest seams, Fewest rolls, All in one roll).
+- 100' × 10.5': one 6'×250' (1 seam, 294 sq ft); two 3'×250' (4 rows,
+  4 seams, 292.5 sq ft); one 12'×250' (0 seams, 1,794 sq ft). Every row
+  100.5' long.
+- 60' × 20': one 6'×250' (4 rows, 3 seams, 48 sq ft); one 8'×250'
+  (3 rows, 2 seams, 548 sq ft); two 3'×250' (8 rows, 8 seams, 46.5 sq ft);
+  one 12'×250' (2 rows, 1 seam, 1,548 sq ft). The owner's list had only
+  three; the 3' option stays under the current rules because it leaves
+  less fabric than the 6' option.
 
 ## Rules
 

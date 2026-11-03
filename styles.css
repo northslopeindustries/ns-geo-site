@@ -810,6 +810,24 @@
     .calc-layout li::marker { color: var(--primary); }
     .calc-layout strong { color: var(--foreground); }
     .calc-estimate { margin-top: 1.5rem; color: var(--foreground); font-weight: 500; }
+    .calc-option-list { grid-template-columns: minmax(0, 860px); }
+    .calc-option-pick { border-color: var(--primary); }
+    .calc-option-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin-bottom: 1rem; }
+    .calc-option-head h3 { margin-bottom: 0; }
+    .calc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; }
+    .calc-tag {
+      border: 1px solid var(--primary); border-radius: 999px; padding: 0.15rem 0.65rem;
+      font-size: 0.75rem; font-weight: 700; color: var(--primary); white-space: nowrap;
+    }
+    .calc-tag-pick { background: var(--primary); color: var(--navy-deep); }
+    .calc-diagram { margin: 0.75rem 0 0.25rem; }
+    .calc-diagram svg { display: block; width: 100%; height: auto; }
+    .calc-diagram figcaption { font-size: 0.8rem; color: var(--muted-fg); margin-top: 0.35rem; }
+    .calc-svg-edge { fill: none; stroke: var(--primary); stroke-width: 2; }
+    .calc-svg-join { stroke: #fff; stroke-width: 2; stroke-dasharray: 5 4; }
+    .calc-svg-dim { fill: var(--foreground); font-family: 'Roboto', sans-serif; font-size: 14px; }
+    .calc-svg-row { fill: #fff; font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; }
+    .calc-svg-note { fill: var(--muted-fg); font-family: 'Roboto', sans-serif; font-size: 12px; }
     @media (max-width: 1024px) {
       .calc-cards { grid-template-columns: 1fr; max-width: 760px; }
     }
