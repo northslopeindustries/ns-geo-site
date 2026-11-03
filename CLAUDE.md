@@ -232,12 +232,20 @@ bright blue, then yellow), 6" overlaps shaded light blue, a numbered circle
 on every row in laying order with "Row 2 · 6' roll · cut 200.5'" when it
 fits, dashed "new roll at 49.5'" join lines, any overhang drawn faded
 outside the outline ("3.5' over: trim or overlap more"), and a color key.
-The length is always to scale; the height is stretched when rows would be
-too thin, with a "not to scale" note. The longer side is always called the
-length. A cut list follows (which roll each piece comes from), built by
-`layOut` in `roll-calculator-math.js`. Check: 200' × 30', Use my roll size
-6'×250' gives 6 rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5',
-row 6 3.5' over, 5 rolls with 45' left on roll 5.
+The length is always to scale. A drawing's rows (plus any overhang) never
+take more than about 240px of height (170px on phones,
+`maxDrawingHeight`); a drawing that would be taller has its rows share
+that height evenly. If rows then have room, they keep full labels;
+otherwise the drawing is compact: only number circles (staggered so
+neighbours don't touch), bare dashed join lines, and a faded overhang
+strip. Drawings that are not to scale say "Not to scale." The longer side
+is always called the length. There is no cut list on the page (the owner
+removed it); `layOut` in `roll-calculator-math.js` still works out each
+roll's pieces, which give the joins and the roll sizes named in each
+area's summary line. Check: 200' × 30', Use my roll size 6'×250' gives 6
+rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5', row 6 3.5' over,
+5 rolls with 45' left (compact drawing); with 3'×250' it gives 12 rows
+(compact); Recommend, Bulk option 2 (12'+12'+8') has full labels.
 
 ## Rules
 

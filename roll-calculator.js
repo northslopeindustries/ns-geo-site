@@ -171,13 +171,29 @@
 
   function areaName(i, total) { return total > 1 ? 'Area ' + (i + 1) : 'Your area'; }
 
-  function areaLine(a, i, total) {
+  // The roll sizes an area's rows are cut from, e.g. "12' × 250' and 8' × 250' rolls".
+  function areaRollSizes(answer, i) {
+    const sizes = [];
+    let count = 0;
+    answer.cutList.forEach(roll => {
+      if (!roll.pieces.some(p => p.area === i)) return;
+      count += 1;
+      const label = num(roll.width) + "' × " + num(roll.length) + "'";
+      if (sizes.indexOf(label) < 0) sizes.push(label);
+    });
+    if (!sizes.length) return '';
+    const last = sizes.pop();
+    return (sizes.length ? sizes.join(', ') + ' and ' : '') + last + (count > 1 ? ' rolls' : ' roll');
+  }
+
+  function areaLine(a, i, total, rollSizes) {
     const sd = sides(a);
     const way = longWay(a)
       ? 'run rows the long way (' + num(a.rowLength) + "')"
       : 'run rows the short way (' + num(a.rowLength) + "')";
     return '<strong>' + areaName(i, total) + '</strong> (' + num(sd.long) + "' long × " + num(sd.short) + "' wide): " +
-      way + ', cutting each row ' + num(a.cutLength) + "' long. " + rowsLine(a.rows) + '.';
+      way + ', cutting each row ' + num(a.cutLength) + "' long. " + rowsLine(a.rows) +
+      (rollSizes ? ' (' + rollSizes + ')' : '') + '.';
   }
 
   function card(title, answer) {
@@ -247,75 +263,128 @@
     return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" class="' + cls + '"' + (extra || '') + '>' + escape(text) + '</text>';
   }
 
+  // Most height a drawing's rows (and any overhang) may take, in pixels.
+  // About the height of a 4-row drawing; smaller on phones.
+  function maxDrawingHeight() { return window.innerWidth <= 480 ? 170 : 240; }
+
   function diagram(a, i, total, colors) {
     const sd = sides(a);
     const long = longWay(a);
     const rows = a.rows;
     const details = a.rowDetails;
-    const many = rows.length > 30;                       // too many rows for text labels
+    const n = rows.length;
     const step = Calc.RULES.SIDE_OVERLAP;
     const W = SVG_W;
     const xs = W / a.rowLength;                          // the length is always to scale
-    // Height: to scale if every row then has room for its number and label;
-    // otherwise stretched just enough, with a "not to scale" note.
-    let ys = xs;
+    const ROOM = 26, ROOM_JOIN = 38;                     // row height needed for a label (two lines with a join)
+    const hasJoin = r => details[r].joinsAt.length > 0;
+    const maxH = maxDrawingHeight();
     let off = 0;
-    const offsets = rows.map((w, r) => { const o = off; off += w - step; return o; });
-    rows.forEach((w, r) => {
-      const hasJoin = details[r].joinsAt.length > 0;
-      const need = many ? 22 : (hasJoin ? 44 : 30);
-      const isLast = r === rows.length - 1;
-      const own = isLast ? Math.min(w, a.span - offsets[r]) - (r > 0 ? step : 0) : w - step - (r > 0 ? step : 0);
-      if (own > 0) ys = Math.max(ys, need / own);
-    });
-    const toScale = ys <= xs * 1.0001;
-    const left = 34, top = 30, right = 6;
-    const areaH = a.span * ys;
-    const lastRow = details[rows.length - 1];
-    const overPx = lastRow.overhang * ys;
-    const bottom = (overPx > 0 ? overPx + (overPx >= 18 ? 6 : 22) : 6);
-    const x0 = left, y0 = top;
+    const offsets = rows.map(w => { const o = off; off += w - step; return o; });
+    const over = details[n - 1].overhang;
 
-    let shapes = '', overlaps = '', joins = '', marks = '', over = '';
+    // Natural drawing: to scale, stretched top to bottom only as much as the
+    // labels need. Used when it fits under the maximum height.
+    let ys = xs;
+    rows.forEach((w, r) => {
+      const isLast = r === n - 1;
+      const own = isLast ? Math.min(w, a.span - offsets[r]) - (r > 0 ? step : 0) : w - step - (r > 0 ? step : 0);
+      if (own > 0) ys = Math.max(ys, (hasJoin(r) ? ROOM_JOIN : ROOM) / own);
+    });
+
+    // Pixel positions (from the top of the area) of each row and its parts.
+    const top = [], bot = [], ownTop = [], ownBot = [], lap = [];
+    let areaH, overBottom, compact, toScale;
+    if ((a.span + over) * ys <= maxH) {
+      rows.forEach((w, r) => {
+        top[r] = offsets[r] * ys;
+        bot[r] = (offsets[r] + w) * ys;
+        ownTop[r] = top[r] + (r > 0 ? step * ys : 0);
+        ownBot[r] = r < n - 1 ? offsets[r + 1] * ys : Math.min(bot[r], a.span * ys);
+        if (r > 0) lap[r] = [top[r], bot[r - 1]];
+      });
+      areaH = a.span * ys;
+      overBottom = over > 0 ? bot[n - 1] : areaH;
+      compact = false;
+      toScale = ys <= xs * 1.0001;
+    } else {
+      // Too tall: rows share the maximum height evenly. Overlaps are drawn as
+      // thin stripes and any overhang as a short strip.
+      const o = 4;
+      const overShare = over > 0 ? Math.min(over / Math.max(0.5, a.span - offsets[n - 1]), 0.6) : 0;
+      const h = maxH / (n + overShare);
+      rows.forEach((w, r) => {
+        top[r] = r * h;
+        bot[r] = r < n - 1 ? (r + 1) * h + o : n * h + overShare * h;
+        ownTop[r] = top[r] + (r > 0 ? o : 0);
+        ownBot[r] = (r + 1) * h;
+        if (r > 0) lap[r] = [r * h, r * h + o];
+      });
+      areaH = n * h;
+      overBottom = areaH + overShare * h;
+      const needed = rows.some((w, r) => hasJoin(r)) ? ROOM_JOIN : ROOM;
+      compact = h - o < needed;
+      toScale = false;
+    }
+
+    const left = 34, topM = 30, right = 6;
+    const overPx = overBottom - areaH;
+    const overTextBelow = !compact && overPx > 0 && overPx < 18 && overBottom <= maxH - 20;
+    const bottomM = overTextBelow ? 22 : 6;
+    const x0 = left, y0 = topM;
+
+    // Compact mode: number circles are staggered across a few columns so
+    // neighbouring rows' circles do not touch.
+    let cols = 1, cr = 10;
+    if (compact) {
+      const band = areaH / n;
+      cols = Math.min(Math.max(1, Math.ceil(22 / band)), Math.max(1, Math.floor((W - 8) / 24)));
+      cr = Math.max(3, Math.min(9, (cols * band - 2) / 2));
+    }
+
+    let shapes = '', overlaps = '', joins = '', marks = '', overDraw = '';
     rows.forEach((w, r) => {
       const c = colors.map[w];
-      const yTop = y0 + offsets[r] * ys;
-      const yBot = y0 + (offsets[r] + w) * ys;
-      const yIn = Math.min(yBot, y0 + areaH);            // the part inside the area
-      // Overlap with the row before: shaded light blue.
-      if (r > 0) {
-        const oTop = yTop, oBot = y0 + (offsets[r - 1] + rows[r - 1]) * ys;
-        overlaps += '<rect x="' + x0 + '" y="' + oTop.toFixed(1) + '" width="' + W + '" height="' +
-          Math.max(3, oBot - oTop).toFixed(1) + '" class="calc-svg-overlap" />';
+      const yT = y0 + top[r], yB = y0 + bot[r];
+      const yIn = Math.min(yB, y0 + areaH);
+      if (lap[r]) {
+        overlaps += '<rect x="' + x0 + '" y="' + (y0 + lap[r][0]).toFixed(1) + '" width="' + W + '" height="' +
+          Math.max(3, lap[r][1] - lap[r][0]).toFixed(1) + '" class="calc-svg-overlap" />';
       }
-      // The row's fabric: dotted outline in its width's color.
-      shapes += '<rect x="' + (x0 + 2) + '" y="' + (yTop + 1.5).toFixed(1) + '" width="' + (W - 4) + '" height="' +
-        Math.max(2, yIn - yTop - (yBot > yIn ? 0 : 3)).toFixed(1) + '" fill="none" stroke="' + c.line + '" class="calc-svg-fabric" />';
-      // A last row that runs past the area's edge: the extra part, faded.
-      if (yBot > y0 + areaH + 0.5) {
-        over += '<rect x="' + (x0 + 2) + '" y="' + (y0 + areaH).toFixed(1) + '" width="' + (W - 4) + '" height="' +
-          (yBot - y0 - areaH - 1.5).toFixed(1) + '" stroke="' + c.line + '" class="calc-svg-over" />';
-        const msg = num(details[r].overhang) + "' over: trim or overlap more";
-        const ty = overPx >= 18 ? y0 + areaH + overPx / 2 + 4 : yBot + 15;
-        over += svgText(x0 + W / 2, ty, msg, 'calc-svg-overtext', ' text-anchor="middle"');
+      shapes += '<rect x="' + (x0 + 2) + '" y="' + (yT + 1.5).toFixed(1) + '" width="' + (W - 4) + '" height="' +
+        Math.max(2, yIn - yT - (yB > yIn ? 0 : 3)).toFixed(1) + '" fill="none" stroke="' + c.line + '" class="calc-svg-fabric" />';
+      if (r === n - 1 && overPx > 0.5) {
+        overDraw += '<rect x="' + (x0 + 2) + '" y="' + (y0 + areaH).toFixed(1) + '" width="' + (W - 4) + '" height="' +
+          Math.max(2, overPx - 1.5).toFixed(1) + '" stroke="' + c.line + '" class="calc-svg-over" />';
+        if (!compact && (overPx >= 18 || overTextBelow)) {
+          const msg = num(over) + "' over: trim or overlap more";
+          const ty = overPx >= 18 ? y0 + areaH + overPx / 2 + 4 : y0 + overBottom + 15;
+          overDraw += svgText(x0 + W / 2, ty, msg, 'calc-svg-overtext', ' text-anchor="middle"');
+        }
       }
-      // Number and label, centred in the part of the row no other row covers.
-      const ownTop = yTop + (r > 0 ? step * ys : 0);
-      const ownBot = r < rows.length - 1 ? y0 + (offsets[r + 1]) * ys : yIn;
-      const hasJoin = details[r].joinsAt.length > 0;
-      const mid = (ownTop + ownBot) / 2;
-      const lineY = hasJoin && !many ? mid - 8 : mid;
+      const mid = y0 + (ownTop[r] + ownBot[r]) / 2;
+      // Joins: a dashed line where a new roll starts.
+      const jx = details[r].joinsAt.map(d => x0 + Math.max(0, Math.min(a.rowLength, d - Calc.RULES.END_FOLD)) * xs);
+      jx.forEach(x => {
+        joins += '<line x1="' + x.toFixed(1) + '" y1="' + (y0 + ownTop[r] + 1).toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' +
+          (y0 + ownBot[r] - 1).toFixed(1) + '" class="calc-svg-join" />';
+      });
+      if (compact) {
+        const cx = x0 + 14 + (r % cols) * 24;
+        marks += '<circle cx="' + cx + '" cy="' + mid.toFixed(1) + '" r="' + cr.toFixed(1) + '" fill="' + c.line + '" class="calc-svg-dot" />';
+        if (cr >= 6.5) {
+          marks += svgText(cx, mid + cr * 0.38, String(r + 1), 'calc-svg-num',
+            ' text-anchor="middle" fill="' + c.text + '" style="font-size:' + Math.min(11, cr * 1.15).toFixed(1) + 'px"');
+        }
+        return;
+      }
+      // Full mode: number, label, and "new roll at" distances.
+      const lineY = hasJoin(r) ? mid - 8 : mid;
       marks += '<circle cx="' + (x0 + 16) + '" cy="' + lineY.toFixed(1) + '" r="10" fill="' + c.line + '" />' +
         svgText(x0 + 16, lineY + 4, String(r + 1), 'calc-svg-num', ' text-anchor="middle" fill="' + c.text + '"');
       const label = 'Row ' + (r + 1) + ' · ' + num(w) + "' roll · cut " + num(details[r].cut) + "'";
-      if (!many && textWidth(label) < W - 40) {
-        marks += svgText(x0 + 32, lineY + 4.5, label, 'calc-svg-label', ' fill="' + c.line + '"');
-      }
-      // Joins: a dashed line where a new roll starts, with its distance.
-      const jx = details[r].joinsAt.map(d => x0 + Math.max(0, Math.min(a.rowLength, d - Calc.RULES.END_FOLD)) * xs);
+      if (textWidth(label) < W - 40) marks += svgText(x0 + 32, lineY + 4.5, label, 'calc-svg-label', ' fill="' + c.line + '"');
       jx.forEach((x, k) => {
-        joins += '<line x1="' + x.toFixed(1) + '" y1="' + (ownTop + 1).toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + (ownBot - 1).toFixed(1) + '" class="calc-svg-join" />';
-        if (many) return;
         const gapNext = k < jx.length - 1 ? jx[k + 1] - x : Infinity;
         const gapPrev = k > 0 ? x - jx[k - 1] : Infinity;
         const room = Math.min(gapNext, gapPrev);
@@ -329,14 +398,13 @@
 
     const xLabel = long ? num(sd.long) + "' long" : num(a.rowLength) + "' wide";
     const yLabel = long ? num(sd.short) + "' wide" : num(a.span) + "' long";
-    const totalH = top + areaH + bottom;
-    const sideSeams = rows.length - 1;
+    const totalH = topM + overBottom + bottomM;
+    const sideSeams = n - 1;
     const joinCount = details.reduce((t, d) => t + d.joinsAt.length, 0);
     const desc = num(sd.long) + "' long × " + num(sd.short) + "' wide · rows run the " + (long ? 'long' : 'short') +
       ' way (' + num(a.rowLength) + "') · " + plural(sideSeams, 'side seam') + ', ' + plural(joinCount, 'join');
     const svg = '<svg viewBox="0 0 ' + (left + W + right) + ' ' + totalH.toFixed(0) + '" role="img" aria-label="' +
       escape('Layout drawing for ' + areaName(i, total).toLowerCase() + ': ' + desc + '. ' + rowsLine(rows) + '.') + '">' +
-      // Dimension lines.
       '<line x1="' + x0 + '" y1="16" x2="' + (x0 + W) + '" y2="16" class="calc-svg-dimline" />' +
       '<line x1="' + x0 + '" y1="11" x2="' + x0 + '" y2="21" class="calc-svg-dimline" />' +
       '<line x1="' + (x0 + W) + '" y1="11" x2="' + (x0 + W) + '" y2="21" class="calc-svg-dimline" />' +
@@ -345,7 +413,7 @@
       '<line x1="9" y1="' + y0 + '" x2="19" y2="' + y0 + '" class="calc-svg-dimline" />' +
       '<line x1="9" y1="' + (y0 + areaH).toFixed(1) + '" x2="19" y2="' + (y0 + areaH).toFixed(1) + '" class="calc-svg-dimline" />' +
       svgText(9, y0 + areaH / 2, yLabel, 'calc-svg-dim', ' text-anchor="middle" transform="rotate(-90 9 ' + (y0 + areaH / 2).toFixed(1) + ')"') +
-      overlaps + over + shapes +
+      overlaps + overDraw + shapes +
       '<rect x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + areaH.toFixed(1) + '" class="calc-svg-edge" />' +
       joins + marks +
       '</svg>';
@@ -360,31 +428,12 @@
       '<li><span class="calc-key-num">1</span>Order to lay</li>' +
       '</ul>';
 
-    return '<figure class="calc-diagram">' +
+    return '<figure class="calc-diagram" data-mode="' + (compact ? 'compact' : 'full') + '">' +
       '<figcaption><span class="calc-diagram-title">Area ' + (i + 1) + ' layout</span>' +
       '<span class="calc-diagram-sub">' + escape(desc) + '</span></figcaption>' +
       svg + key +
-      (toScale ? '' : '<p class="calc-diagram-note">Not to scale: stretched top to bottom so every row has room for its label.</p>') +
+      (toScale ? '' : '<p class="calc-diagram-note">Not to scale.</p>') +
       '</figure>';
-  }
-
-  // "Roll 2 (6' × 250'): rest of Row 2 (151.5' incl. 6" overlap), Row 3 first 98.5'"
-  function cutList(answer) {
-    const multi = answer.areas.length > 1;
-    const rowName = p => (multi ? 'Area ' + (p.area + 1) + ' ' : '') + 'Row ' + (p.row + 1);
-    const lines = answer.cutList.map(roll => {
-      const parts = roll.pieces.map(p => {
-        if (p.kind === 'whole') return rowName(p) + ' (' + num(p.length) + "')";
-        if (p.kind === 'first') return rowName(p) + ' first ' + num(p.length) + "'";
-        if (p.kind === 'middle') return 'next ' + num(p.length) + "' of " + rowName(p) + ' (incl. 6" overlap)';
-        return 'rest of ' + rowName(p) + ' (' + num(p.length) + "' incl. 6\" overlap)";
-      });
-      if (roll.scrap > 0) parts.push(num(roll.scrap) + "' scrap (too short to use)");
-      if (roll.left > 0) parts.push(num(roll.left) + "' left over");
-      return '<li><strong>Roll ' + roll.number + '</strong> (' + num(roll.width) + "' × " + num(roll.length) + "'): " +
-        escape(parts.join(', ')) + '</li>';
-    });
-    return '<h4>Cut list</h4><ul class="calc-cutlist">' + lines.join('') + '</ul>';
   }
 
   // Each drawing starts hidden behind a "Show drawing" button. The details
@@ -397,15 +446,14 @@
       '<ul class="calc-layout">' +
       answer.areas.map((a, i) => {
         const id = drawings.push({ a: a, i: i, total: total, colors: colors }) - 1;
-        return '<li>' + areaLine(a, i, total) +
+        return '<li>' + areaLine(a, i, total, areaRollSizes(answer, i)) +
           '<details class="calc-drawing" data-drawing="' + id + '">' +
           '<summary><span class="calc-drawing-more">Show drawing</span><span class="calc-drawing-less">Hide drawing</span>' +
           '<span class="calc-drawing-icon" aria-hidden="true"></span></summary>' +
           diagram(a, i, total, colors) +
           '</details></li>';
       }).join('') +
-      '</ul>' +
-      cutList(answer);
+      '</ul>';
   }
 
   // When a drawing is opened, draw it again if it came out a different width
