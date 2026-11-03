@@ -387,14 +387,43 @@
     return '<h4>Cut list</h4><ul class="calc-cutlist">' + lines.join('') + '</ul>';
   }
 
+  // Each drawing starts hidden behind a "Show drawing" button. The details
+  // needed to draw it again (at its real on-screen width) are kept here.
+  const drawings = [];
   function howToLay(answer) {
     const colors = fabricColors(answer.areas);
+    const total = answer.areas.length;
     return '<h4>How to lay it</h4>' +
       '<ul class="calc-layout">' +
-      answer.areas.map((a, i) => '<li>' + areaLine(a, i, answer.areas.length) + diagram(a, i, answer.areas.length, colors) + '</li>').join('') +
+      answer.areas.map((a, i) => {
+        const id = drawings.push({ a: a, i: i, total: total, colors: colors }) - 1;
+        return '<li>' + areaLine(a, i, total) +
+          '<details class="calc-drawing" data-drawing="' + id + '">' +
+          '<summary><span class="calc-drawing-more">Show drawing</span><span class="calc-drawing-less">Hide drawing</span>' +
+          '<span class="calc-drawing-icon" aria-hidden="true"></span></summary>' +
+          diagram(a, i, total, colors) +
+          '</details></li>';
+      }).join('') +
       '</ul>' +
       cutList(answer);
   }
+
+  // When a drawing is opened, draw it again if it came out a different width
+  // than planned, so its text shows at its real size.
+  cards.addEventListener('toggle', (e) => {
+    const box = e.target;
+    if (!box.classList || !box.classList.contains('calc-drawing') || !box.open) return;
+    const svg = box.querySelector('svg');
+    const d = drawings[Number(box.getAttribute('data-drawing'))];
+    if (!svg || !d) return;
+    const shown = svg.getBoundingClientRect().width;
+    if (shown > 0 && Math.abs(shown - (SVG_W + 40)) > 3) {
+      SVG_W = Math.max(180, Math.round(shown - 40));
+    }
+    if (Math.abs(shown - Number(svg.getAttribute('viewBox').split(' ')[2])) > 3) {
+      box.querySelector('.calc-diagram').outerHTML = diagram(d.a, d.i, d.total, d.colors);
+    }
+  }, true);
 
   function optionCard(o, index) {
     const rows = [
@@ -454,20 +483,10 @@
           cards.className = 'calc-cards calc-option-list';
           render = () => { cards.innerHTML = options.map(optionCard).join(''); };
         }
+        drawings.length = 0;
         sizeDiagrams();
         render();
         results.hidden = false;
-        // Draw again if the drawings came out a different width than planned,
-        // so their text shows at its real size.
-        const svg = cards.querySelector('.calc-diagram svg');
-        if (svg) {
-          const shown = svg.getBoundingClientRect().width;
-          const planned = SVG_W + 40;
-          if (shown > 0 && Math.abs(shown - planned) > 3) {
-            SVG_W = Math.max(180, Math.round(shown - 40));
-            render();
-          }
-        }
         resultsTitle.focus({ preventScroll: true });
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (err) {

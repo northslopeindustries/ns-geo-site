@@ -223,7 +223,9 @@ Recommend, Bulk rolls, the full list in order:
   three; the 3' option stays under the current rules because it leaves
   less fabric than the 6' option.
 
-Both modes show, for each area, a layout drawing in `roll-calculator.js`
+Both modes show, for each area, a layout drawing in `roll-calculator.js`,
+hidden until the visitor presses its "Show drawing" button (a `<details>`
+element, class `calc-drawing`, on every job)
 (the owner's mockup is the style guide): dark panel, solid teal area
 outline, each row a dotted outline in its width's color (white, then
 bright blue, then yellow), 6" overlaps shaded light blue, a numbered circle

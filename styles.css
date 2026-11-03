@@ -822,6 +822,29 @@
     .calc-tag-pick { background: var(--primary); color: var(--navy-deep); }
     /* "How to lay it" drawing: dark panel, solid teal area outline, dotted
        fabric outlines, numbered circles, color key underneath. */
+    /* "Show drawing" button: each drawing starts hidden. Same look as the
+       Products page's "More details" button. */
+    .calc-drawing { margin: 0.6rem 0 0.25rem; }
+    .calc-drawing summary {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      min-height: 44px; padding: 0.5rem 1rem;
+      border: 1px solid var(--primary); border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--primary);
+      cursor: pointer; list-style: none; transition: background 0.15s;
+    }
+    .calc-drawing summary::-webkit-details-marker { display: none; }
+    .calc-drawing summary:hover { background: rgba(0,188,212,0.08); }
+    .calc-drawing summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .calc-drawing-less, .calc-drawing[open] .calc-drawing-more { display: none; }
+    .calc-drawing[open] .calc-drawing-less { display: inline; }
+    .calc-drawing-icon { position: relative; width: 12px; height: 12px; flex-shrink: 0; }
+    .calc-drawing-icon::before, .calc-drawing-icon::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      background: currentColor; border-radius: 1px; transform: translate(-50%, -50%);
+    }
+    .calc-drawing-icon::before { width: 12px; height: 2px; }
+    .calc-drawing-icon::after { width: 2px; height: 12px; }
+    .calc-drawing[open] .calc-drawing-icon::after { display: none; }
     .calc-diagram {
       margin: 0.75rem 0 0.5rem; padding: 1rem;
       background: var(--navy-deep); border: 1px solid var(--border); border-radius: 0.75rem;
