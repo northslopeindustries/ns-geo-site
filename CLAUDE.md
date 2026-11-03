@@ -116,6 +116,9 @@ record of what changed on the site rather than a list of code edits.
 | `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
+| `roll-calculator.html` | The Roll Calculator page at ns-geo.com/roll-calculator | Calculator wording and layout |
+| `roll-calculator-math.js` | All the Roll Calculator's math: roll sizes, overlaps, staple spacing, search | Changing a calculator rule or roll size |
+| `roll-calculator.js` | Runs the Roll Calculator page (areas, buttons, showing results); no math | Rarely — behavior only |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
@@ -130,7 +133,8 @@ are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
-`CTA BAND`, `FOOTER`.
+`CTA BAND`, `FOOTER`. `roll-calculator.html` uses `NAVIGATION`,
+`ROLL CALCULATOR`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
@@ -138,7 +142,8 @@ into every page. A change to any of them has to be made in every page file,
 or the pages drift apart. Each FAQ question is a `<details>` element with
 the question in `<summary>`; it opens and closes with no JavaScript.
 `faq.html` loads only `menu.js`, and `products.html` loads `menu.js` and
-`video.js`; neither loads `script.js`, so
+`video.js`, and `roll-calculator.html` loads `menu.js`,
+`roll-calculator-math.js`, then `roll-calculator.js`; none of them loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
 `script.js`).
 
@@ -165,9 +170,34 @@ The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
 three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
 Benefits, Why We're Different, Compare, Contact), Products (one link to
-the Products page, with no product names under it), and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
+the Products page, with no product names under it), Roll Calculator, and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
+
+Between 769px and 1150px wide the top menu is tight, so the "NAV ON
+TABLETS" styles in `styles.css` make its links and button smaller there.
+Adding another top menu link may need those widths re-checked.
+
+The Roll Calculator's rules (6" overlaps, 3" end folds, 3-foot scrap
+limit, staple spacing, bag and case sizes) and the 12 roll sizes are the
+labelled numbers at the top of `roll-calculator-math.js`; change them
+there and nowhere else. "Use my roll size" picks fewest rolls, then
+fewest seams, then least left over. Recommend mode lets an area use one
+main fabric width plus at most one row of another width, and it searches
+the most promising plans rather than every one, so on jobs with several
+areas it can occasionally miss the very best answer. The page allows up to
+10 areas and 500 feet per side to keep it fast on phones. The Products
+page's Pro Guard 20 box links to it; the home page's copy of that box does
+not. After any change to the math, re-check these, which must match
+exactly:
+
+| Job | Mode | Rolls | Seams | Left over | Staples |
+|---|---|---|---|---|---|
+| 30' × 15' | Use my roll size, 4'×50' | 3 | 10 | 9.5 ft | 73 (1 bag) |
+| 30' × 15' | Use my roll size, 4'×100' | 2 | 5 | 47 ft | 72 (1 bag) |
+| 40' × 10' and 15' × 6' | Use my roll size, 4'×100' | 2 | 4 | 47 ft | 81 (1 bag) |
+| 100' × 10.5' | Recommend, Bulk, Fewest seams | one 12'×250' | 0 | 149.5 ft | 74 |
+| 100' × 10.5' | Recommend, Retail, Fewest seams | three 6'×100' | 3 | 98 ft | 111 |
 
 ## Rules
 
@@ -260,7 +290,8 @@ anyone noticing.
   page box id, breaks the matching links on every page. Every page and
   section in the desktop nav is also in the phone menu, and every page is
   reachable from the footer (the FAQ from the Company list, the Products
-  page from the Products list). After a change here, tell
+  page and the Roll Calculator (`/roll-calculator`) from the Products
+  list). After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
@@ -290,7 +321,7 @@ Phone (385) 437-6527 · sales@northslopeindustries.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
-`faq.html` and `products.html`, the phone number and email also appear in
+`faq.html`, `products.html`, and `roll-calculator.html`, the phone number and email also appear in
 the "Still have questions?" box at the bottom of `faq.html` (including its
 Call and Text buttons, which dial `+13854376527`), and the phone number appears in `script.js`, in the form's error
 message. If any of them changes, it has to change in every one of those
