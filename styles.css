@@ -706,3 +706,220 @@
     }
     .product-video iframe { width: 100%; height: 100%; border: 0; display: block; }
     .product-video a { font-weight: 600; color: var(--primary); }
+
+    /* ─── ROLL CALCULATOR ───────────────────────────────────── */
+    .product-calc-link {
+      display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.75rem;
+      font-size: 0.9rem; font-weight: 600; color: var(--primary); transition: color 0.15s;
+    }
+    .product-calc-link:hover { color: var(--primary-dark); }
+    .product-calc-link:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
+    .calc-page { padding-top: calc(68px + 4rem); }
+    .calc-page .section-header { margin-bottom: 2.5rem; }
+    .calc-page .section-header h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900; color: #fff; margin-bottom: 0.75rem;
+    }
+    .calc-noscript { color: var(--foreground); margin-bottom: 1.5rem; }
+    .calc-form { max-width: 760px; }
+    .calc-step {
+      border: 1px solid var(--border); border-radius: 0.75rem; background: var(--card);
+      padding: 1.5rem; margin-bottom: 1.25rem; min-width: 0;
+    }
+    .calc-step[hidden] { display: none; }
+    .calc-step-title {
+      display: flex; align-items: center; gap: 0.65rem; padding: 0;
+      font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff;
+    }
+    .calc-step-num {
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--primary); color: var(--navy-deep); font-size: 0.85rem; font-weight: 800;
+    }
+    .calc-hint { color: var(--muted-fg); font-size: 0.9rem; margin-top: 0.75rem; }
+    .calc-areas { display: grid; gap: 0.75rem; margin-top: 1rem; }
+    .calc-area { background: var(--navy-base); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+    .calc-area-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; }
+    .calc-area-title { font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; }
+    .calc-remove {
+      min-height: 44px; padding: 0 0.9rem; background: transparent; cursor: pointer;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--muted-fg);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .calc-remove:hover { color: #fff; border-color: var(--muted-fg); }
+    .calc-remove[hidden] { display: none; }
+    .calc-area-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.5rem; }
+    .calc-field { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+    .calc-field-label { font-size: 0.85rem; font-weight: 500; color: var(--foreground); }
+    .calc-field input {
+      width: 100%; min-height: 48px; padding: 0.6rem 0.8rem;
+      background: var(--navy-deep); color: #fff; border: 1px solid rgba(0,188,212,0.35); border-radius: var(--radius);
+      font-family: 'Roboto', sans-serif; font-size: 1rem;
+    }
+    .calc-field input:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+    .calc-field input[aria-invalid="true"] { border-color: #ff8a80; }
+    .calc-field-error, .calc-form-error { color: #ff8a80; font-size: 0.85rem; }
+    .calc-field-error:not(:empty) { margin-top: 0.5rem; }
+    .calc-form-error:not(:empty) { margin-top: 0.75rem; }
+    .calc-add {
+      display: inline-flex; align-items: center; min-height: 48px; margin-top: 1rem; padding: 0 1.25rem;
+      background: transparent; border: 1px dashed var(--primary); border-radius: var(--radius); cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary);
+      transition: background 0.15s;
+    }
+    .calc-add:hover { background: rgba(0,188,212,0.08); }
+    .calc-add[hidden], .calc-add-limit[hidden] { display: none; }
+    .calc-remove:focus-visible, .calc-add:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    /* Choice buttons: real radio buttons, drawn as tappable boxes. */
+    .calc-toggle, .calc-options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .calc-toggle .calc-choice { flex: 1 1 200px; }
+    .calc-choice { position: relative; display: flex; }
+    .calc-choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .calc-choice span {
+      display: flex; align-items: center; justify-content: center; width: 100%;
+      min-height: 48px; padding: 0.6rem 1rem; text-align: center;
+      border: 1px solid rgba(0,188,212,0.35); border-radius: var(--radius); background: var(--navy-base);
+      font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--foreground);
+      cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .calc-choice span:hover { border-color: var(--primary); }
+    .calc-choice input:checked + span { background: var(--primary); border-color: var(--primary); color: var(--navy-deep); }
+    .calc-choice input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+    .calc-sizes { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .calc-size-group { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); margin-top: 1.25rem; }
+    .calc-size-group + .calc-sizes { margin-top: 0.6rem; }
+    .calc-submit { width: 100%; max-width: 760px; justify-content: center; font-size: 1.05rem; min-height: 52px; }
+    .calc-submit:disabled { opacity: 0.7; cursor: wait; transform: none; }
+    .calc-results { margin-top: 3rem; scroll-margin-top: calc(68px + 1.5rem); }
+    .calc-results[hidden] { display: none; }
+    .calc-results-title { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 900; color: #fff; margin-bottom: 1.25rem; }
+    .calc-results-title:focus { outline: none; }
+    .calc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; align-items: start; }
+    .calc-cards-single { grid-template-columns: minmax(0, 760px); }
+    .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; min-width: 0; }
+    .calc-card h3 { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; }
+    .calc-card h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin: 1.25rem 0 0.5rem; }
+    .calc-stats div { padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+    .calc-stats div:first-child { padding-top: 0; }
+    .calc-stats dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-fg); }
+    .calc-stats dd { color: #fff; font-size: 0.95rem; margin-top: 0.15rem; overflow-wrap: anywhere; }
+    .calc-card-note { display: block; color: var(--muted-fg); font-size: 0.85rem; margin-top: 0.2rem; }
+    .calc-layout { padding-left: 1.1rem; color: var(--muted-fg); font-size: 0.9rem; line-height: 1.6; }
+    .calc-layout li + li { margin-top: 0.5rem; }
+    .calc-layout li::marker { color: var(--primary); }
+    .calc-layout strong { color: var(--foreground); }
+    .calc-estimate { margin-top: 1.5rem; color: var(--foreground); font-weight: 500; }
+    .calc-option-list { grid-template-columns: minmax(0, 860px); }
+    .calc-option-pick { border-color: var(--primary); }
+    .calc-option-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin-bottom: 1rem; }
+    .calc-option-head h3 { margin-bottom: 0; }
+    .calc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; }
+    .calc-tag {
+      border: 1px solid var(--primary); border-radius: 999px; padding: 0.15rem 0.65rem;
+      font-size: 0.75rem; font-weight: 700; color: var(--primary); white-space: nowrap;
+    }
+    .calc-tag-pick { background: var(--primary); color: var(--navy-deep); }
+    /* "How to lay it" drawing: dark panel, solid teal area outline, dotted
+       fabric outlines, numbered circles, color key underneath. */
+    /* "Show drawing" button: each drawing starts hidden. Same look as the
+       Products page's "More details" button. */
+    .calc-drawing { margin: 0.6rem 0 0.25rem; }
+    .calc-drawing summary {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      min-height: 44px; padding: 0.5rem 1rem;
+      border: 1px solid var(--primary); border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--primary);
+      cursor: pointer; list-style: none; transition: background 0.15s;
+    }
+    .calc-drawing summary::-webkit-details-marker { display: none; }
+    .calc-drawing summary:hover { background: rgba(0,188,212,0.08); }
+    .calc-drawing summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .calc-drawing-less, .calc-drawing[open] .calc-drawing-more { display: none; }
+    .calc-drawing[open] .calc-drawing-less { display: inline; }
+    .calc-drawing-icon { position: relative; width: 12px; height: 12px; flex-shrink: 0; }
+    .calc-drawing-icon::before, .calc-drawing-icon::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      background: currentColor; border-radius: 1px; transform: translate(-50%, -50%);
+    }
+    .calc-drawing-icon::before { width: 12px; height: 2px; }
+    .calc-drawing-icon::after { width: 2px; height: 12px; }
+    .calc-drawing[open] .calc-drawing-icon::after { display: none; }
+    .calc-diagram {
+      margin: 0.75rem 0 0.5rem; padding: 1rem;
+      background: var(--navy-deep); border: 1px solid var(--border); border-radius: 0.75rem;
+    }
+    .calc-diagram figcaption { margin-bottom: 0.75rem; }
+    .calc-diagram-title { display: block; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; color: #fff; }
+    .calc-diagram-sub { display: block; font-size: 0.85rem; color: var(--muted-fg); margin-top: 0.15rem; }
+    .calc-diagram svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .calc-diagram-note { font-size: 0.8rem; color: var(--muted-fg); margin-top: 0.5rem; }
+    .calc-svg-edge { fill: none; stroke: var(--primary); stroke-width: 2.5; }
+    .calc-svg-fabric { stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .calc-svg-over { fill: rgba(255,255,255,0.05); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 0.45; }
+    .calc-svg-overlap { fill: rgba(100,181,246,0.45); }
+    .calc-svg-join { stroke: #ff8a65; stroke-width: 2; stroke-dasharray: 6 4; }
+    .calc-svg-dimline { stroke: var(--muted-fg); stroke-width: 1; }
+    .calc-svg-dim { fill: var(--muted-fg); font-family: 'Roboto', sans-serif; font-size: 12px; }
+    .calc-svg-num { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; }
+    .calc-svg-label, .calc-svg-jointext, .calc-svg-overtext {
+      font-family: 'Roboto', sans-serif; paint-order: stroke; stroke: var(--navy-deep); stroke-width: 3px; stroke-linejoin: round;
+    }
+    .calc-svg-label { font-size: 12.5px; font-weight: 600; }
+    .calc-svg-jointext { font-size: 11.5px; font-weight: 600; fill: #ff8a65; }
+    .calc-svg-overtext { font-size: 11.5px; fill: var(--muted-fg); font-style: italic; }
+    .calc-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; list-style: none; margin-top: 0.85rem; font-size: 0.8rem; color: var(--foreground); }
+    .calc-key li { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .calc-key-edge, .calc-key-fabric, .calc-key-join { display: inline-block; width: 26px; height: 0; }
+    .calc-key-edge { border-top: 3px solid var(--primary); }
+    .calc-key-fabric { border-top: 2px dashed #fff; }
+    .calc-key-join { border-top: 2px dashed #ff8a65; }
+    .calc-key-overlap, .calc-key-over { display: inline-block; width: 22px; height: 12px; }
+    .calc-key-overlap { background: rgba(100,181,246,0.45); }
+    .calc-key-over { border: 1.5px dashed rgba(255,255,255,0.45); background: rgba(255,255,255,0.05); }
+    .calc-key-num {
+      display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; color: var(--navy-deep); font-family: 'Poppins', sans-serif; font-size: 0.65rem; font-weight: 700;
+    }
+    @media (max-width: 480px) {
+      .calc-diagram { padding: 0.75rem; margin-left: -1.1rem; }
+    }
+    @media (max-width: 1024px) {
+      .calc-cards { grid-template-columns: 1fr; max-width: 760px; }
+    }
+    @media (max-width: 768px) {
+      .calc-page { padding-top: calc(68px + 2.5rem); }
+    }
+    @media (max-width: 480px) {
+      .calc-step { padding: 1.1rem; }
+      .calc-area { padding: 0.85rem; }
+      .calc-sizes { grid-template-columns: repeat(2, 1fr); }
+      .calc-options:not(.calc-sizes) .calc-choice { flex: 1 1 100%; }
+      .calc-card { padding: 1.15rem; }
+    }
+
+    /* ─── NAV ON TABLETS ────────────────────────────────────── */
+    /* Between phone and full desktop width the top menu is tight, so the
+       links and the button get a little smaller and closer together, and the
+       logo is kept from being squeezed out. */
+    @media (min-width: 769px) and (max-width: 1150px) {
+      .nav-logo { flex-shrink: 0; }
+      .nav-links { gap: 1.25rem; }
+      .nav-cta { margin-left: 0.75rem; padding: 0.75rem 1.1rem; font-size: 0.85rem; }
+    }
+    @media (min-width: 769px) and (max-width: 1000px) {
+      .nav-inner { padding: 0 1.25rem; }
+      .nav-logo img { height: 46px; }
+      .nav-links { gap: 0.85rem; }
+      .nav-links a { font-size: 0.8rem; }
+      .nav-cta { margin-left: 0.6rem; padding: 0.65rem 0.8rem; font-size: 0.8rem; }
+    }
+    @media (min-width: 769px) and (max-width: 860px) {
+      .nav-cta { white-space: normal; text-align: center; line-height: 1.2; max-width: 9.5rem; padding: 0.4rem 0.7rem; }
+    }
+    @media (min-width: 769px) and (max-width: 820px) {
+      .nav-inner { padding: 0 1rem; }
+      .nav-logo img { height: 42px; }
+      .nav-links { gap: 0.65rem; margin-left: 0.6rem; }
+      .nav-cta { max-width: 9.5rem; padding: 0.4rem 0.6rem; }
+    }

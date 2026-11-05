@@ -34,7 +34,8 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "faq.html", "products.html", "styles.css", "script.js", "menu.js", "video.js"]:
+for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "styles.css", "script.js",
+          "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 
@@ -49,6 +50,7 @@ js = open("script.js", encoding="utf-8", errors="replace").read()
 low = html.lower()
 faq = open("faq.html", encoding="utf-8", errors="replace").read()
 products = open("products.html", encoding="utf-8", errors="replace").read()
+calculator = open("roll-calculator.html", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -92,10 +94,10 @@ if opens != closes:
 
 # ---------------------------------------------------------------- other pages
 
-# faq.html and products.html are separate, hand-edited pages, so they get the
-# same structural checks as index.html. They have no form and load no
-# script.js by design.
-for page, where in ((faq, "faq.html"), (products, "products.html")):
+# faq.html, products.html and roll-calculator.html are separate, hand-edited
+# pages, so they get the same structural checks as index.html. They have no
+# form and load no script.js by design.
+for page, where in ((faq, "faq.html"), (products, "products.html"), (calculator, "roll-calculator.html")):
     page_low = page.lower()
     for tag in ["html", "head", "body"]:
         if "<" + tag not in page_low:
@@ -158,7 +160,8 @@ if 'src="script.js"' not in html:
 # On phones the top nav links are hidden and the three-line menu button is the
 # only way to reach other pages and sections. The button needs both its menu
 # markup and menu.js on every page, or it shows up but does nothing.
-for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html")):
+for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
+                    (calculator, "roll-calculator.html")):
     if 'id="mobile-menu"' not in text:
         fail(
             "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
@@ -182,6 +185,25 @@ if 'class="product-video"' in products and 'src="video.js"' not in products:
     )
 
 
+# ---------------------------------------------------------- roll calculator
+
+# The calculator page needs both of its scripts, math first. Without them the
+# boxes show but pressing Calculate does nothing.
+for needed in ('src="roll-calculator-math.js"', 'src="roll-calculator.js"'):
+    if needed not in calculator:
+        fail(
+            "roll-calculator.html no longer loads %s -- the calculator would "
+            "do nothing when Calculate is pressed." % needed.split('"')[1]
+        )
+if ('src="roll-calculator-math.js"' in calculator and 'src="roll-calculator.js"' in calculator
+        and calculator.index('src="roll-calculator-math.js"') > calculator.index('src="roll-calculator.js"')):
+    fail(
+        "roll-calculator.html loads roll-calculator.js before "
+        "roll-calculator-math.js -- the math has to load first or the "
+        "calculator will not work."
+    )
+
+
 # ------------------------------------------------------------------- images
 
 # Every images/ reference must resolve to a real file with exactly matching
@@ -190,7 +212,8 @@ if 'class="product-video"' in products and 'src="video.js"' not in products:
 on_disk = set(os.listdir("images")) if os.path.isdir("images") else set()
 referenced = set()
 
-for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"), (css, "styles.css")):
+for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
+                    (calculator, "roll-calculator.html"), (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)

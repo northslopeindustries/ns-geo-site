@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roll Calculator | North Slope Geo</title>
+  <meta name="description" content="Work out how many rolls of Pro Guard 20 weed barrier fabric and how many staples you need for your areas, with seams and leftover fabric." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── NAVIGATION ─────────────────────────────────────────── -->
+  <nav id="top">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <!-- Use local image if available, otherwise SVG fallback -->
+        <img src="images/north-slope-logo.png" alt="North Slope Industries"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="logo-svg" style="display:none">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="20,4 36,34 4,34" fill="none" stroke="#00bcd4" stroke-width="2.5"/>
+            <polygon points="20,10 30,30 10,30" fill="#00bcd4" opacity="0.25"/>
+          </svg>
+          <div class="logo-text">North<br/>Slope<br/><span style="font-size:0.6rem;letter-spacing:0.2em;opacity:0.7">INDUSTRIES</span></div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="/#benefits">Benefits</a>
+        <a href="/products">Products</a>
+        <a href="/roll-calculator" aria-current="page">Roll Calculator</a>
+        <a href="/#why-different">Why We're Different</a>
+        <a href="/#compare">Compare</a>
+        <a href="/faq">FAQ</a>
+        <a href="/#contact">Contact</a>
+      </div>
+      <a href="/#contact" class="btn-primary nav-cta">Request Wholesale Pricing</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span class="menu-toggle-bar"></span>
+        <span class="menu-toggle-bar"></span>
+        <span class="menu-toggle-bar"></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <ul>
+        <li>
+          <a href="/" class="mobile-menu-page">Home</a>
+          <ul>
+            <li><a href="/#benefits">Benefits</a></li>
+            <li><a href="/#why-different">Why We're Different</a></li>
+            <li><a href="/#compare">Compare</a></li>
+            <li><a href="/#contact">Contact</a></li>
+          </ul>
+        </li>
+        <li><a href="/products" class="mobile-menu-page">Products</a></li>
+        <li><a href="/roll-calculator" class="mobile-menu-page" aria-current="page">Roll Calculator</a></li>
+        <li><a href="/faq" class="mobile-menu-page">FAQ</a></li>
+      </ul>
+      <a href="/#contact" class="btn-primary mobile-menu-cta">Request Wholesale Pricing</a>
+    </div>
+  </nav>
+
+  <!-- ── ROLL CALCULATOR ──────────────────────────────────────── -->
+  <section class="calc-page">
+    <div class="container">
+      <div class="section-header">
+        <h1>Roll Calculator</h1>
+        <p>Work out how much Pro Guard 20 you need. Enter each area in feet, choose how to pick rolls, and press Calculate.</p>
+      </div>
+
+      <noscript><p class="calc-noscript">The Roll Calculator needs JavaScript turned on in your browser.</p></noscript>
+
+      <form class="calc-form" id="calc-form" novalidate>
+        <fieldset class="calc-step">
+          <legend class="calc-step-title"><span class="calc-step-num">1</span>Your areas</legend>
+          <p class="calc-hint">Rectangles only, measured in feet. Decimals like 10.5 are fine.</p>
+          <div class="calc-areas" id="calc-areas">
+            <div class="calc-area">
+              <div class="calc-area-head">
+                <span class="calc-area-title">Area 1</span>
+                <button type="button" class="calc-remove" hidden>Remove</button>
+              </div>
+              <div class="calc-area-fields">
+                <label class="calc-field">
+                  <span class="calc-field-label">Length (ft)</span>
+                  <input type="number" class="calc-length" inputmode="decimal" min="0" step="any" autocomplete="off" />
+                </label>
+                <label class="calc-field">
+                  <span class="calc-field-label">Width (ft)</span>
+                  <input type="number" class="calc-width" inputmode="decimal" min="0" step="any" autocomplete="off" />
+                </label>
+              </div>
+              <p class="calc-field-error" aria-live="polite"></p>
+            </div>
+          </div>
+          <button type="button" class="calc-add" id="calc-add">+ Add another area</button>
+          <p class="calc-hint calc-add-limit" id="calc-add-limit" hidden>That's the most areas the calculator can handle at once.</p>
+        </fieldset>
+
+        <fieldset class="calc-step">
+          <legend class="calc-step-title"><span class="calc-step-num">2</span>How should we pick rolls?</legend>
+          <div class="calc-toggle">
+            <label class="calc-choice">
+              <input type="radio" name="mode" value="recommend" checked />
+              <span>Recommend rolls for me</span>
+            </label>
+            <label class="calc-choice">
+              <input type="radio" name="mode" value="mine" />
+              <span>Use my roll size</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="calc-step" id="calc-type-step">
+          <legend class="calc-step-title"><span class="calc-step-num">3</span>Roll type</legend>
+          <div class="calc-options">
+            <label class="calc-choice">
+              <input type="radio" name="rollType" value="bulk" checked />
+              <span>Bulk rolls</span>
+            </label>
+            <label class="calc-choice">
+              <input type="radio" name="rollType" value="retail" />
+              <span>Retail rolls</span>
+            </label>
+            <label class="calc-choice">
+              <input type="radio" name="rollType" value="mix" />
+              <span>Mix of both</span>
+            </label>
+          </div>
+          <p class="calc-hint">Bulk rolls usually cost less per square foot.</p>
+        </fieldset>
+
+        <fieldset class="calc-step" id="calc-size-step" hidden>
+          <legend class="calc-step-title"><span class="calc-step-num">3</span>Your roll size</legend>
+          <p class="calc-size-group">Retail rolls</p>
+          <div class="calc-options calc-sizes">
+            <label class="calc-choice"><input type="radio" name="rollSize" value="3x50" /><span>3' × 50'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="3x100" /><span>3' × 100'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="4x50" /><span>4' × 50'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="4x100" /><span>4' × 100'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="5x100" /><span>5' × 100'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="6x100" /><span>6' × 100'</span></label>
+          </div>
+          <p class="calc-size-group">Bulk rolls</p>
+          <div class="calc-options calc-sizes">
+            <label class="calc-choice"><input type="radio" name="rollSize" value="3x250" /><span>3' × 250'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="4x250" /><span>4' × 250'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="5x250" /><span>5' × 250'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="6x250" /><span>6' × 250'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="8x250" /><span>8' × 250'</span></label>
+            <label class="calc-choice"><input type="radio" name="rollSize" value="12x250" /><span>12' × 250'</span></label>
+          </div>
+          <p class="calc-field-error" id="calc-size-error" aria-live="polite"></p>
+        </fieldset>
+
+        <button type="submit" class="btn-primary calc-submit" id="calc-submit">Calculate</button>
+        <p class="calc-form-error" id="calc-form-error" aria-live="polite"></p>
+      </form>
+
+      <div class="calc-results" id="calc-results" hidden>
+        <h2 class="calc-results-title" id="calc-results-title" tabindex="-1">Your results</h2>
+        <div class="calc-cards" id="calc-cards"></div>
+        <p class="calc-estimate">This is an estimate. We recommend buying a little extra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/north-slope-logo.png" alt="North Slope Industries" style="height:56px;width:auto;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+          <div class="logo-svg" style="display:none">
+            <svg viewBox="0 0 40 40" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,4 36,34 4,34" fill="none" stroke="#00bcd4" stroke-width="2.5"/>
+              <polygon points="20,10 30,30 10,30" fill="#00bcd4" opacity="0.25"/>
+            </svg>
+            <div class="logo-text" style="font-size:0.75rem;">NORTH SLOPE<br/><span style="font-size:0.55rem;opacity:0.7">INDUSTRIES</span></div>
+          </div>
+          <p>Direct importer and regional distributor of commercial-grade geotextiles for the Intermountain West.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Products</h5>
+          <ul>
+            <li><a href="/products#pro-guard-20">Pro Guard 20</a></li>
+            <li><a href="/products#nonwoven-filter-fabric">Nonwoven Filter Fabric</a></li>
+            <li><a href="/products#sod-staples">Sod Staples</a></li>
+            <li><a href="/roll-calculator">Roll Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="/#benefits">Benefits</a></li>
+            <li><a href="/#why-different">Why Different</a></li>
+            <li><a href="/#compare">Compare</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (385) 437-6527
+          </div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            sales@northslopeindustries.com
+          </div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            2052 W 700 S, Unit J<br/>Springville, UT 84663
+          </div>
+          <p class="footer-serving">Serving UT · CO · ID · NV · AZ · WY · MT</p>
+          <a href="/#contact" class="btn-primary" style="width:100%;justify-content:center;text-align:center;display:block;padding:0.75rem 1rem;">Request Wholesale Pricing</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 North Slope Geotextiles. All rights reserved.</p>
+        <p>Wholesale Distributor · Springville, Utah</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ───────────────────────────────────────────────── -->
+  <script src="menu.js"></script>
+  <script src="roll-calculator-math.js"></script>
+  <script src="roll-calculator.js"></script>
+</body>
+</html>

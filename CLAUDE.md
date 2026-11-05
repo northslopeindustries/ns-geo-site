@@ -116,6 +116,9 @@ record of what changed on the site rather than a list of code edits.
 | `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
+| `roll-calculator.html` | The Roll Calculator page at ns-geo.com/roll-calculator | Calculator wording and layout |
+| `roll-calculator-math.js` | All the Roll Calculator's math: roll sizes, overlaps, staple spacing, search | Changing a calculator rule or roll size |
+| `roll-calculator.js` | Runs the Roll Calculator page (areas, buttons, showing results); no math | Rarely — behavior only |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
@@ -130,7 +133,8 @@ are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
-`CTA BAND`, `FOOTER`.
+`CTA BAND`, `FOOTER`. `roll-calculator.html` uses `NAVIGATION`,
+`ROLL CALCULATOR`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
@@ -138,7 +142,8 @@ into every page. A change to any of them has to be made in every page file,
 or the pages drift apart. Each FAQ question is a `<details>` element with
 the question in `<summary>`; it opens and closes with no JavaScript.
 `faq.html` loads only `menu.js`, and `products.html` loads `menu.js` and
-`video.js`; neither loads `script.js`, so
+`video.js`, and `roll-calculator.html` loads `menu.js`,
+`roll-calculator-math.js`, then `roll-calculator.js`; none of them loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
 `script.js`).
 
@@ -165,9 +170,85 @@ The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
 three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
 Benefits, Why We're Different, Compare, Contact), Products (one link to
-the Products page, with no product names under it), and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
+the Products page, with no product names under it), Roll Calculator, and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
+
+Between 769px and 1150px wide the top menu is tight, so the "NAV ON
+TABLETS" styles in `styles.css` make its links and button smaller there.
+Adding another top menu link may need those widths re-checked.
+
+The Roll Calculator's rules (6" overlaps, 3" end folds, 3-foot scrap
+limit, staple spacing, bag and case sizes) and the 12 roll sizes are the
+labelled numbers at the top of `roll-calculator-math.js`; change them
+there and nowhere else. "Use my roll size" picks fewest rolls, then
+fewest seams, then least left over, trying rows both ways.
+
+Recommend mode shows one list of roll options (settings in `RECOMMEND` in
+`roll-calculator-math.js`). Rows always run the long way of each area, so
+every row is the long side plus 6"; both ways are tried only when length
+and width are within 2 feet. Every row layout (any mix of widths) and every
+way of buying rolls is worked out; an option is dropped if another is as
+good or better on rolls, seams, and leftover square feet; the rest are
+sorted by leftover square feet + 100 per seam (ties: fewer rolls). The
+first 5 are shown, plus the best option for "Fewest seams", "Least left
+over", or "Fewest rolls" if it is not already among them, so the list can
+run past 5. Those three tags go to every option tied for best among ALL
+options found, so they are always true. "Our pick" is the first option;
+"All in one roll" is any one-roll option. Each option has a layout drawing
+per area. On very wide areas mixes are limited to two widths, and with
+several areas only each area's best layouts are combined, to stay fast on
+phones (the owner accepted this). The page allows up to 10 areas and 500
+feet per side. The Products page's Pro Guard 20 box links to the
+calculator; the home page's copy of that box does not. After any change to
+the math, re-check these:
+
+| Job | Mode | Rolls | Seams | Left over | Staples |
+|---|---|---|---|---|---|
+| 30' × 15' | Use my roll size, 4'×50' | 3 | 10 | 9.5 ft | 73 (1 bag) |
+| 30' × 15' | Use my roll size, 4'×100' | 2 | 5 | 47 ft | 72 (1 bag) |
+| 40' × 10' and 15' × 6' | Use my roll size, 4'×100' | 2 | 4 | 47 ft | 81 (1 bag) |
+
+Recommend, Bulk rolls, the full list in order:
+
+- 100' × 11': one 6'×250' (2 rows, 1 seam, 294 sq ft left; Our pick,
+  Least left over, Fewest rolls, All in one roll); one 12'×250' (1 row,
+  0 seams, 1,794 sq ft; Fewest seams, Fewest rolls, All in one roll).
+- 100' × 10.5': one 6'×250' (1 seam, 294 sq ft); two 3'×250' (4 rows,
+  4 seams, 292.5 sq ft); one 12'×250' (0 seams, 1,794 sq ft). Every row
+  100.5' long.
+- 60' × 20': one 6'×250' (4 rows, 3 seams, 48 sq ft); one 8'×250'
+  (3 rows, 2 seams, 548 sq ft); two 3'×250' (8 rows, 8 seams, 46.5 sq ft);
+  one 12'×250' (2 rows, 1 seam, 1,548 sq ft). The owner's list had only
+  three; the 3' option stays under the current rules because it leaves
+  less fabric than the 6' option.
+
+Both modes show, for each area, a layout drawing in `roll-calculator.js`,
+hidden until the visitor presses its "Show drawing" button (a `<details>`
+element, class `calc-drawing`, on every job)
+(the owner's mockup is the style guide): dark panel, solid teal area
+outline, each row a dotted outline in its width's color (white, then
+bright blue, then yellow), 6" overlaps shaded light blue, a numbered circle
+on every row in laying order with "Row 2 · 6' roll · cut 200.5'" when it
+fits, dashed "new roll at 49.5'" join lines, any overhang drawn faded
+outside the outline ("3.5' over: trim or overlap more"), and a color key.
+The length is always to scale. A drawing's rows (plus any overhang) never
+take more than about 280px of height on a computer, enough for 6 rows to
+keep their labels (170px on phones,
+`maxDrawingHeight`); a drawing that would be taller has its rows share
+that height evenly. If rows then have room, they keep full labels;
+otherwise the drawing is compact: only number circles (staggered so
+neighbours don't touch) and bare dashed join lines. The overhang always
+keeps its "3' over: trim or overlap more" label, in both modes (the owner
+asked for it back in compact drawings). Drawings that are not to scale say "Not to scale." The longer side
+is always called the length. There is no cut list on the page (the owner
+removed it); `layOut` in `roll-calculator-math.js` still works out each
+roll's pieces, which give the joins and the roll sizes named in each
+area's summary line. Check: 200' × 30', Use my roll size 6'×250' gives 6
+rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5', row 6 3.5' over,
+5 rolls with 45' left (full labels on a computer, compact on a phone); with
+3'×250' it gives 12 rows
+(compact); Recommend, Bulk option 2 (12'+12'+8') has full labels.
 
 ## Rules
 
@@ -260,7 +341,8 @@ anyone noticing.
   page box id, breaks the matching links on every page. Every page and
   section in the desktop nav is also in the phone menu, and every page is
   reachable from the footer (the FAQ from the Company list, the Products
-  page from the Products list). After a change here, tell
+  page and the Roll Calculator (`/roll-calculator`) from the Products
+  list). After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
@@ -290,7 +372,7 @@ Phone (385) 437-6527 · sales@northslopeindustries.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
-`faq.html` and `products.html`, the phone number and email also appear in
+`faq.html`, `products.html`, and `roll-calculator.html`, the phone number and email also appear in
 the "Still have questions?" box at the bottom of `faq.html` (including its
 Call and Text buttons, which dial `+13854376527`), and the phone number appears in `script.js`, in the form's error
 message. If any of them changes, it has to change in every one of those
