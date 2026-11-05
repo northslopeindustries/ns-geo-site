@@ -264,8 +264,8 @@
   }
 
   // Most height a drawing's rows (and any overhang) may take, in pixels.
-  // About the height of a 4-row drawing; smaller on phones.
-  function maxDrawingHeight() { return window.innerWidth <= 480 ? 170 : 240; }
+  // On a computer, enough for 6 rows to keep their full labels; smaller on phones.
+  function maxDrawingHeight() { return window.innerWidth <= 480 ? 170 : 280; }
 
   function diagram(a, i, total, colors) {
     const sd = sides(a);
