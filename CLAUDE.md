@@ -238,8 +238,9 @@ keep their labels (170px on phones,
 `maxDrawingHeight`); a drawing that would be taller has its rows share
 that height evenly. If rows then have room, they keep full labels;
 otherwise the drawing is compact: only number circles (staggered so
-neighbours don't touch), bare dashed join lines, and a faded overhang
-strip. Drawings that are not to scale say "Not to scale." The longer side
+neighbours don't touch) and bare dashed join lines. The overhang always
+keeps its "3' over: trim or overlap more" label, in both modes (the owner
+asked for it back in compact drawings). Drawings that are not to scale say "Not to scale." The longer side
 is always called the length. There is no cut list on the page (the owner
 removed it); `layOut` in `roll-calculator-math.js` still works out each
 roll's pieces, which give the joins and the roll sizes named in each

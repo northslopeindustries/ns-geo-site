@@ -329,7 +329,9 @@
 
     const left = 34, topM = 30, right = 6;
     const overPx = overBottom - areaH;
-    const overTextBelow = !compact && overPx > 0 && overPx < 18 && overBottom <= maxH - 20;
+    // The overhang always gets its label, in full and compact drawings:
+    // inside the faded strip if there is room, otherwise just below it.
+    const overTextBelow = overPx > 0 && overPx < 18;
     const bottomM = overTextBelow ? 22 : 6;
     const x0 = left, y0 = topM;
 
@@ -342,7 +344,7 @@
       cr = Math.max(3, Math.min(9, (cols * band - 2) / 2));
     }
 
-    let shapes = '', overlaps = '', joins = '', marks = '', overDraw = '';
+    let shapes = '', overlaps = '', joins = '', dots = '', marks = '', overDraw = '';
     rows.forEach((w, r) => {
       const c = colors.map[w];
       const yT = y0 + top[r], yB = y0 + bot[r];
@@ -356,7 +358,7 @@
       if (r === n - 1 && overPx > 0.5) {
         overDraw += '<rect x="' + (x0 + 2) + '" y="' + (y0 + areaH).toFixed(1) + '" width="' + (W - 4) + '" height="' +
           Math.max(2, overPx - 1.5).toFixed(1) + '" stroke="' + c.line + '" class="calc-svg-over" />';
-        if (!compact && (overPx >= 18 || overTextBelow)) {
+        if (overPx >= 18 || overTextBelow) {
           const msg = num(over) + "' over: trim or overlap more";
           const ty = overPx >= 18 ? y0 + areaH + overPx / 2 + 4 : y0 + overBottom + 15;
           overDraw += svgText(x0 + W / 2, ty, msg, 'calc-svg-overtext', ' text-anchor="middle"');
@@ -371,7 +373,7 @@
       });
       if (compact) {
         const cx = x0 + 14 + (r % cols) * 24;
-        marks += '<circle cx="' + cx + '" cy="' + mid.toFixed(1) + '" r="' + cr.toFixed(1) + '" fill="' + c.line + '" class="calc-svg-dot" />';
+        dots += '<circle cx="' + cx + '" cy="' + mid.toFixed(1) + '" r="' + cr.toFixed(1) + '" fill="' + c.line + '" class="calc-svg-dot" />';
         if (cr >= 6.5) {
           marks += svgText(cx, mid + cr * 0.38, String(r + 1), 'calc-svg-num',
             ' text-anchor="middle" fill="' + c.text + '" style="font-size:' + Math.min(11, cr * 1.15).toFixed(1) + 'px"');
@@ -380,8 +382,8 @@
       }
       // Full mode: number, label, and "new roll at" distances.
       const lineY = hasJoin(r) ? mid - 8 : mid;
-      marks += '<circle cx="' + (x0 + 16) + '" cy="' + lineY.toFixed(1) + '" r="10" fill="' + c.line + '" />' +
-        svgText(x0 + 16, lineY + 4, String(r + 1), 'calc-svg-num', ' text-anchor="middle" fill="' + c.text + '"');
+      dots += '<circle cx="' + (x0 + 16) + '" cy="' + lineY.toFixed(1) + '" r="10" fill="' + c.line + '" />';
+      marks += svgText(x0 + 16, lineY + 4, String(r + 1), 'calc-svg-num', ' text-anchor="middle" fill="' + c.text + '"');
       const label = 'Row ' + (r + 1) + ' · ' + num(w) + "' roll · cut " + num(details[r].cut) + "'";
       if (textWidth(label) < W - 40) marks += svgText(x0 + 32, lineY + 4.5, label, 'calc-svg-label', ' fill="' + c.line + '"');
       jx.forEach((x, k) => {
@@ -415,7 +417,9 @@
       svgText(9, y0 + areaH / 2, yLabel, 'calc-svg-dim', ' text-anchor="middle" transform="rotate(-90 9 ' + (y0 + areaH / 2).toFixed(1) + ')"') +
       overlaps + overDraw + shapes +
       '<rect x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + areaH.toFixed(1) + '" class="calc-svg-edge" />' +
-      joins + marks +
+      // Circles, then join lines over them (so a join near the start of a
+      // row is never hidden), then numbers and labels on top.
+      dots + joins + marks +
       '</svg>';
 
     const key = '<ul class="calc-key">' +
