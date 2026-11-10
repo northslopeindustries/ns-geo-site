@@ -39,8 +39,8 @@ sales@northslopeindustries.com, so pointing contractors there is correct.
 **Never put contractor prices anywhere on the site.**
 
 Until a page exists, mention it by name as plain text, never as a link.
-(The FAQ answers still use the older names "Where to Buy" for Find a
-Distributor and "Contractor Pricing" for For Contractors.)
+(The FAQ answers still use the older name "Where to Buy" for Find a
+Distributor.)
 
 Rewriting an existing wholesale section in consumer language is a strategy
 decision. Do it when asked, and say plainly in the reply which wholesale
