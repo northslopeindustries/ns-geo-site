@@ -1013,6 +1013,7 @@
 
     /* Application: form on the left, questions panel on the right. */
     .dist-apply-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+    .distributor-apply { scroll-margin-top: 68px; }
     .distributor-apply .form-card { background: var(--navy-base); }
     .dist-side {
       background: var(--navy-base); border: 1px solid var(--border);
