@@ -924,3 +924,29 @@
       .nav-links { gap: 0.65rem; margin-left: 0.6rem; }
       .nav-cta { max-width: 9.5rem; padding: 0.4rem 0.6rem; }
     }
+
+    /* ─── BECOME A DISTRIBUTOR PAGE ─────────────────────────── */
+    .distributor-page { padding: calc(68px + 4rem) 0 4rem; }
+    .distributor-page .section-header { margin-bottom: 2rem; }
+    .distributor-page .section-header h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900; color: #fff; margin-bottom: 0.75rem;
+    }
+    .distributor-why, .distributor-support, .distributor-how,
+    .distributor-carry, .distributor-apply { padding: 4rem 0; }
+    .distributor-why, .distributor-how, .distributor-apply { background: var(--navy-deep); }
+    .distributor-why .section-header, .distributor-support .section-header,
+    .distributor-how .section-header, .distributor-carry .section-header,
+    .distributor-apply .section-header { margin-bottom: 2rem; }
+    .distributor-support .contact-checklist { margin-bottom: 0; }
+    .distributor-how .cta-steps { list-style: none; margin-bottom: 0; max-width: 640px; }
+    .distributor-apply { scroll-margin-top: 68px; }
+    .distributor-apply .form-card { max-width: 760px; }
+    @media (max-width: 768px) {
+      .distributor-page { padding: calc(68px + 2.5rem) 0 3rem; }
+      .distributor-why, .distributor-support, .distributor-how,
+      .distributor-carry, .distributor-apply { padding: 3rem 0; }
+    }
+    @media (max-width: 480px) {
+      .distributor-page .btn-primary { white-space: normal; text-align: center; justify-content: center; }
+    }
