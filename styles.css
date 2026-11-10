@@ -949,7 +949,7 @@
     /* Banner: words on the left, Pro Guard 20 photo on the right. */
     .dist-banner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
     .dist-banner-img { background: #fff; border-radius: 0.75rem; overflow: hidden; border: 1px solid var(--border); max-width: 440px; justify-self: end; width: 100%; }
-    .dist-banner-img img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+    .dist-banner-img img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 80%; }
 
     /* Cards (Why, Support): icon on the left, words on the right. */
     .dist-cards { display: grid; gap: 1.25rem; }
