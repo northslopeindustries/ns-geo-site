@@ -207,78 +207,114 @@
   </section>
 
   <!-- ── APPLICATION FORM ─────────────────────────────────────── -->
-  <section class="distributor-apply" id="apply">
+  <section class="contact-section" id="apply">
     <div class="container">
-      <div class="section-header">
-        <h2>Apply to Become a Distributor</h2>
-      </div>
-      <div class="dist-apply-grid">
-      <form class="form-card" name="wholesale-pricing" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return handleFormSubmit(event, this)">
-        <input type="hidden" name="form-name" value="wholesale-pricing" />
-        <p style="display:none;"><label>Don't fill this out: <input name="bot-field" /></label></p>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Business Name <span>*</span></label>
-            <input type="text" name="business_name" placeholder="Your business name" required />
-          </div>
-          <div class="form-group">
-            <label>Contact Name <span>*</span></label>
-            <input type="text" name="contact_name" placeholder="Your full name" required />
+      <div class="contact-grid">
+        <div class="contact-info fade-up">
+          <div class="section-label">Get Started</div>
+          <h2>Request Wholesale Pricing</h2>
+          <div class="contact-divider"></div>
+          <p>Fill out the form and we'll contact you within 24 hours with wholesale pricing, terms, and availability information.</p>
+          <ul class="contact-checklist">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Wholesale pricing sheet for all products
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Minimum order and volume tier details
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Shipping and delivery options for your area
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sample availability upon request
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Dedicated account representative
+            </li>
+          </ul>
+          <div class="direct-contact">
+            <p>Prefer to reach out directly?</p>
+            <div class="direct-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              (385) 437-6527
+            </div>
+            <div class="direct-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              sales@<wbr>northslopeindustries.com
+            </div>
+            <div class="direct-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              2052 W 700 S, Unit J<br/>Springville, UT 84663
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Email <span>*</span></label>
-            <input type="email" name="email" placeholder="your@email.com" required />
+
+        <form class="form-card fade-up fade-up-delay-1" name="wholesale-pricing" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return handleFormSubmit(event, this)">
+          <input type="hidden" name="form-name" value="wholesale-pricing" />
+          <p style="display:none;"><label>Don't fill this out: <input name="bot-field" /></label></p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Business Name <span>*</span></label>
+              <input type="text" name="business_name" placeholder="Your business name" required />
+            </div>
+            <div class="form-group">
+              <label>Contact Name <span>*</span></label>
+              <input type="text" name="contact_name" placeholder="Your full name" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email <span>*</span></label>
+              <input type="email" name="email" placeholder="your@email.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone <span>*</span></label>
+              <input type="tel" name="phone" placeholder="(555) 123-4567" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" name="city" placeholder="Salt Lake City" />
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" name="state" placeholder="UT" />
+            </div>
           </div>
           <div class="form-group">
-            <label>Phone <span>*</span></label>
-            <input type="tel" name="phone" placeholder="(555) 123-4567" required />
+            <label>Business Type <span>*</span></label>
+            <select name="business_type" required>
+              <option value="">Select your business type</option>
+              <option>Nursery</option>
+              <option>Garden Center</option>
+              <option>Rock Yard</option>
+              <option>Landscape Supply Yard</option>
+              <option>Other</option>
+            </select>
           </div>
-        </div>
-        <div class="form-row">
           <div class="form-group">
-            <label>City</label>
-            <input type="text" name="city" placeholder="Salt Lake City" />
+            <label>Estimated Monthly Volume</label>
+            <select name="monthly_volume">
+              <option value="">Select estimated volume</option>
+              <option>$2,000 – $5,000</option>
+              <option>$5,000 – $10,000</option>
+              <option>$10,000 – $25,000</option>
+              <option>$25,000+</option>
+            </select>
           </div>
           <div class="form-group">
-            <label>State</label>
-            <input type="text" name="state" placeholder="UT" />
+            <label>Additional Message</label>
+            <textarea name="message" placeholder="Any questions or additional information..."></textarea>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Business Type <span>*</span></label>
-          <select name="business_type" required>
-            <option value="">Select your business type</option>
-            <option>Nursery</option>
-            <option>Garden Center</option>
-            <option>Rock Yard</option>
-            <option>Landscape Supply Yard</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Estimated Monthly Volume</label>
-          <select name="monthly_volume">
-            <option value="">Select estimated volume</option>
-            <option>$2,000 – $5,000</option>
-            <option>$5,000 – $10,000</option>
-            <option>$10,000 – $25,000</option>
-            <option>$25,000+</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Additional Message</label>
-          <textarea name="message" placeholder="Any questions or additional information..."></textarea>
-        </div>
-        <button type="submit" class="btn-primary form-submit">Request Wholesale Pricing</button>
-        <p class="form-note">We'll contact you within 24 hours with wholesale pricing and availability information.</p>
-      </form>
-        <aside class="dist-side">
-          <h3>Questions?</h3>
-          <p>Call or text <a href="tel:+13854376527">(385) 437-6527</a></p>
-          <p>We’ll reply within 1 business day.</p>
-        </aside>
+          <button type="submit" class="btn-primary form-submit">Request Wholesale Pricing</button>
+          <p class="form-note">We'll contact you within 24 hours with wholesale pricing and availability information.</p>
+        </form>
       </div>
     </div>
   </section>

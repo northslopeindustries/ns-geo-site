@@ -930,9 +930,9 @@
        one reads as its own band. Cards on a mid-navy band use the dark base
        navy so they still stand out from it. */
     .distributor-page, .distributor-support, .distributor-carry { background: var(--navy-deep); }
-    .distributor-why, .distributor-how, .distributor-apply { background: var(--navy-mid); }
+    .distributor-why, .distributor-how { background: var(--navy-mid); }
     .distributor-why, .distributor-support, .distributor-how,
-    .distributor-carry, .distributor-apply { padding: 4rem 0; }
+    .distributor-carry { padding: 4rem 0; }
     .distributor-page { padding: calc(68px + 3.5rem) 0 4rem; }
     .distributor-page .section-header h1 {
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
@@ -940,11 +940,9 @@
     }
     .distributor-page .section-header,
     .distributor-why .section-header, .distributor-support .section-header,
-    .distributor-how .section-header, .distributor-carry .section-header,
-    .distributor-apply .section-header { margin-bottom: 2rem; }
+    .distributor-how .section-header, .distributor-carry .section-header { margin-bottom: 2rem; }
     .distributor-why .section-header h2, .distributor-support .section-header h2,
-    .distributor-how .section-header h2, .distributor-carry .section-header h2,
-    .distributor-apply .section-header h2 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
+    .distributor-how .section-header h2, .distributor-carry .section-header h2 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
 
     /* Banner: words on the left, Pro Guard 20 photo on the right. */
     .dist-banner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
@@ -1011,19 +1009,9 @@
     .dist-product:hover h3 { color: var(--primary); }
     .dist-all-products { margin-top: 1.75rem; }
 
-    /* Application: form on the left, questions panel on the right. */
-    .dist-apply-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
-    .distributor-apply { scroll-margin-top: 68px; }
-    .distributor-apply .form-card { background: var(--navy-base); }
-    .dist-side {
-      background: var(--navy-base); border: 1px solid var(--border);
-      border-radius: 0.75rem; padding: 1.5rem;
-    }
-    .dist-side h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
-    .dist-side p { color: var(--muted-fg); font-size: 0.95rem; }
-    .dist-side p + p { margin-top: 0.5rem; }
-    .dist-side a { color: var(--primary); font-weight: 600; white-space: nowrap; }
-    .dist-side a:hover { color: var(--primary-dark); }
+    /* Application form (copied from the home page): the banner button
+       jumps here, so stop it just below the fixed menu bar. */
+    #apply { scroll-margin-top: 68px; }
 
     @media (max-width: 1024px) {
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
@@ -1031,10 +1019,10 @@
     @media (max-width: 768px) {
       .distributor-page { padding: calc(68px + 2.5rem) 0 3rem; }
       .distributor-why, .distributor-support, .distributor-how,
-      .distributor-carry, .distributor-apply { padding: 3rem 0; }
+      .distributor-carry { padding: 3rem 0; }
       .dist-banner { grid-template-columns: 1fr; gap: 2rem; }
       .dist-banner-img { justify-self: start; max-width: 360px; }
-      .dist-cards-4, .dist-cards-3, .dist-apply-grid { grid-template-columns: 1fr; }
+      .dist-cards-4, .dist-cards-3 { grid-template-columns: 1fr; }
       .dist-steps { grid-template-columns: 1fr; gap: 1.5rem; }
       .dist-step:not(:last-child)::after {
         top: 100%; left: calc(1.4rem + 17px); width: 2px; height: calc(1.5rem + 2px);
