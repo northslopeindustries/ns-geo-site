@@ -1012,6 +1012,16 @@
     /* Application form (copied from the home page): the banner button
        jumps here, so stop it just below the fixed menu bar. */
     #apply { scroll-margin-top: 68px; }
+    /* "Prefer to reach out directly?" box on this page only: Call and Text
+       buttons (the FAQ page's) beside the phone number, which drop to their
+       own line under the number when there is no room, and a clickable email. */
+    .direct-phone-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+    .direct-phone { white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }
+    .direct-item-phone { align-items: flex-start; }
+    .direct-item-phone > svg { margin-top: 14px; }
+    .direct-email { transition: color 0.15s; min-width: 0; }
+    .direct-email:hover { color: var(--primary); }
+    .direct-email:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
 
     @media (max-width: 1024px) {
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
