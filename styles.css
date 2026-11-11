@@ -929,9 +929,9 @@
     /* Sections alternate between the darkest navy and the mid navy so each
        one reads as its own band. Cards on a mid-navy band use the dark base
        navy so they still stand out from it. */
-    .distributor-page, .distributor-support, .distributor-carry { background: var(--navy-deep); }
-    .distributor-why, .distributor-how { background: var(--navy-mid); }
-    .distributor-why, .distributor-support, .distributor-how,
+    .distributor-page, .distributor-support { background: var(--navy-deep); }
+    .distributor-why, .distributor-carry { background: var(--navy-mid); }
+    .distributor-why, .distributor-support,
     .distributor-carry { padding: 4rem 0; }
     .distributor-page { padding: calc(68px + 2rem) 0 3.5rem; }
     .distributor-page .section-header h1 {
@@ -940,9 +940,9 @@
     }
     .distributor-page .section-header,
     .distributor-why .section-header, .distributor-support .section-header,
-    .distributor-how .section-header, .distributor-carry .section-header { margin-bottom: 2rem; }
+    .distributor-carry .section-header { margin-bottom: 2rem; }
     .distributor-why .section-header h2, .distributor-support .section-header h2,
-    .distributor-how .section-header h2, .distributor-carry .section-header h2 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
+    .distributor-carry .section-header h2 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
 
     /* Banner: words on the left, Pro Guard 20 photo on the right. */
     .distributor-page { position: relative; overflow: hidden; }
@@ -995,7 +995,7 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 0.75rem; padding: 1.1rem 1.25rem;
     }
-    .distributor-why .dist-card { background: var(--navy-base); }
+    .distributor-why .dist-card, .distributor-carry .dist-product { background: var(--navy-base); }
     .dist-icon {
       width: 40px; height: 40px; flex-shrink: 0;
       background: rgba(0,188,212,0.12); border-radius: var(--radius);
@@ -1012,22 +1012,6 @@
       font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
       padding: 0.15rem 0.55rem;
     }
-
-    /* How It Works: three cards in a row, joined by a teal line. */
-    .dist-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-    .dist-step {
-      position: relative;
-      background: var(--navy-base); border: 1px solid var(--border);
-      border-radius: 0.75rem; padding: 1.25rem 1.4rem;
-    }
-    .dist-step:not(:last-child)::after {
-      content: ''; position: absolute;
-      top: calc(1.25rem + 17px); left: 100%; width: calc(2.5rem + 2px); height: 2px;
-      background: var(--primary);
-    }
-    .dist-step .step-num { margin-bottom: 0.75rem; }
-    .dist-step h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; line-height: 1.3; }
-    .dist-step p { font-size: 0.88rem; color: var(--muted-fg); line-height: 1.5; }
 
     /* What You Can Carry: one card per product, each a link. */
     .dist-product {
@@ -1064,36 +1048,18 @@
        page's fade-up effect from script.js; the cards' fade-up-delay classes
        make them appear one after another. Each plays once. */
     .dist-product-wrap > .dist-product { height: 100%; }
-    /* How It Works: the steps appear in order and each connecting line draws
-       itself across before the next step appears. */
-    .dist-steps .dist-step:nth-child(2) { transition-delay: 0.45s; }
-    .dist-steps .dist-step:nth-child(3) { transition-delay: 0.9s; }
-    .dist-step:not(:last-child)::after {
-      transform: scaleX(0); transform-origin: left center;
-      transition: transform 0.35s ease-out;
-    }
-    .dist-step.visible:nth-child(1)::after { transform: scaleX(1); transition-delay: 0.25s; }
-    .dist-step.visible:nth-child(2)::after { transform: scaleX(1); transition-delay: 0.7s; }
 
     @media (max-width: 1024px) {
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
       .distributor-page { padding: calc(68px + 1.75rem) 0 3rem; }
-      .distributor-why, .distributor-support, .distributor-how,
+      .distributor-why, .distributor-support,
       .distributor-carry { padding: 3rem 0; }
       .dist-banner { grid-template-columns: 1fr; gap: 2.5rem; }
       .dist-banner-photo { max-width: 440px; }
       .dist-banner-mountains { height: 35%; }
       .dist-cards-4, .dist-cards-3 { grid-template-columns: 1fr; }
-      .dist-steps { grid-template-columns: 1fr; gap: 1.5rem; }
-      .dist-step:not(:last-child)::after {
-        top: 100%; left: calc(1.4rem + 17px); width: 2px; height: calc(1.5rem + 2px);
-      }
-      /* Stacked steps each appear as they scroll in; the line draws downward. */
-      .dist-steps .dist-step:nth-child(n) { transition-delay: 0s; }
-      .dist-step:not(:last-child)::after { transform: scaleY(0); transform-origin: center top; }
-      .dist-step.visible:not(:last-child)::after { transform: scaleY(1); transition-delay: 0.3s; }
     }
     @media (max-width: 480px) {
       .distributor-page .btn-primary { white-space: normal; text-align: center; justify-content: center; }
@@ -1108,5 +1074,4 @@
     @media (prefers-reduced-motion: reduce) {
       html:has(body.page-distributor) { scroll-behavior: auto; }
       .page-distributor .fade-up { opacity: 1; transform: none; transition: none; }
-      .page-distributor .dist-step::after { transform: none !important; transition: none !important; }
     }
