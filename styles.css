@@ -1023,6 +1023,22 @@
     .direct-email:hover { color: var(--primary); }
     .direct-email:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
 
+
+    /* Scroll animations (this page only). Sections and cards use the home
+       page's fade-up effect from script.js; the cards' fade-up-delay classes
+       make them appear one after another. Each plays once. */
+    .dist-product-wrap > .dist-product { height: 100%; }
+    /* How It Works: the steps appear in order and each connecting line draws
+       itself across before the next step appears. */
+    .dist-steps .dist-step:nth-child(2) { transition-delay: 0.45s; }
+    .dist-steps .dist-step:nth-child(3) { transition-delay: 0.9s; }
+    .dist-step:not(:last-child)::after {
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 0.35s ease-out;
+    }
+    .dist-step.visible:nth-child(1)::after { transform: scaleX(1); transition-delay: 0.25s; }
+    .dist-step.visible:nth-child(2)::after { transform: scaleX(1); transition-delay: 0.7s; }
+
     @media (max-width: 1024px) {
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
     }
@@ -1037,7 +1053,17 @@
       .dist-step:not(:last-child)::after {
         top: 100%; left: calc(1.4rem + 17px); width: 2px; height: calc(1.5rem + 2px);
       }
+      /* Stacked steps each appear as they scroll in; the line draws downward. */
+      .dist-steps .dist-step:nth-child(n) { transition-delay: 0s; }
+      .dist-step:not(:last-child)::after { transform: scaleY(0); transform-origin: center top; }
+      .dist-step.visible:not(:last-child)::after { transform: scaleY(1); transition-delay: 0.3s; }
     }
     @media (max-width: 480px) {
       .distributor-page .btn-primary { white-space: normal; text-align: center; justify-content: center; }
+    }
+    /* Devices set to reduce motion: everything shows at once, nothing moves. */
+    @media (prefers-reduced-motion: reduce) {
+      html:has(body.page-distributor) { scroll-behavior: auto; }
+      .page-distributor .fade-up { opacity: 1; transform: none; transition: none; }
+      .page-distributor .dist-step::after { transform: none !important; transition: none !important; }
     }
