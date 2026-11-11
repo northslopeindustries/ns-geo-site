@@ -34,7 +34,8 @@ def warn(msg):
 
 # ---------------------------------------------------------------- files
 
-for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "styles.css", "script.js",
+for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "become-a-distributor.html",
+          "styles.css", "script.js",
           "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
@@ -51,6 +52,7 @@ low = html.lower()
 faq = open("faq.html", encoding="utf-8", errors="replace").read()
 products = open("products.html", encoding="utf-8", errors="replace").read()
 calculator = open("roll-calculator.html", encoding="utf-8", errors="replace").read()
+distributor = open("become-a-distributor.html", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -94,10 +96,12 @@ if opens != closes:
 
 # ---------------------------------------------------------------- other pages
 
-# faq.html, products.html and roll-calculator.html are separate, hand-edited
-# pages, so they get the same structural checks as index.html. They have no
-# form and load no script.js by design.
-for page, where in ((faq, "faq.html"), (products, "products.html"), (calculator, "roll-calculator.html")):
+# faq.html, products.html, roll-calculator.html and become-a-distributor.html
+# are separate, hand-edited pages, so they get the same structural checks as
+# index.html. The first three have no form and load no script.js by design;
+# become-a-distributor.html carries a copy of the wholesale form, checked below.
+for page, where in ((faq, "faq.html"), (products, "products.html"), (calculator, "roll-calculator.html"),
+                    (distributor, "become-a-distributor.html")):
     page_low = page.lower()
     for tag in ["html", "head", "body"]:
         if "<" + tag not in page_low:
@@ -161,7 +165,7 @@ if 'src="script.js"' not in html:
 # only way to reach other pages and sections. The button needs both its menu
 # markup and menu.js on every page, or it shows up but does nothing.
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
-                    (calculator, "roll-calculator.html")):
+                    (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html")):
     if 'id="mobile-menu"' not in text:
         fail(
             "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
@@ -213,7 +217,8 @@ on_disk = set(os.listdir("images")) if os.path.isdir("images") else set()
 referenced = set()
 
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
-                    (calculator, "roll-calculator.html"), (css, "styles.css")):
+                    (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html"),
+                    (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)
@@ -252,13 +257,16 @@ form_parts = [
     ('name="form-name"', "the hidden input Netlify needs to route submissions"),
     ('name="bot-field"', "the spam honeypot"),
 ]
-for needle, why in form_parts:
-    if needle not in html:
-        fail(
-            "The wholesale pricing form is missing %s -- %s. Leads would "
-            "silently stop arriving while the page still reported success."
-            % (needle, why)
-        )
+# The Become a Distributor page carries a copy of the same form, under the
+# same name, so it gets exactly the same checks.
+for text, where in ((html, "index.html"), (distributor, "become-a-distributor.html")):
+    for needle, why in form_parts:
+        if needle not in text:
+            fail(
+                "The wholesale pricing form on %s is missing %s -- %s. Leads "
+                "would silently stop arriving while the page still reported "
+                "success." % (where, needle, why)
+            )
 
 if "handleFormSubmit" not in js:
     fail(
@@ -277,6 +285,16 @@ if "handleFormSubmit" not in html:
     fail(
         "index.html no longer calls handleFormSubmit -- the form would do a "
         "full page reload instead of submitting cleanly."
+    )
+if "handleFormSubmit" not in distributor:
+    fail(
+        "become-a-distributor.html no longer calls handleFormSubmit -- the "
+        "form would do a full page reload instead of submitting cleanly."
+    )
+if 'src="script.js"' not in distributor:
+    fail(
+        "become-a-distributor.html no longer loads script.js -- the form "
+        "submit handler would not exist and the form would not send."
     )
 
 
