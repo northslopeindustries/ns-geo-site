@@ -933,7 +933,7 @@
     .distributor-why, .distributor-how { background: var(--navy-mid); }
     .distributor-why, .distributor-support, .distributor-how,
     .distributor-carry { padding: 4rem 0; }
-    .distributor-page { padding: calc(68px + 3.5rem) 0 4rem; }
+    .distributor-page { padding: calc(68px + 2rem) 0 3.5rem; }
     .distributor-page .section-header h1 {
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
       font-weight: 900; color: #fff; margin-bottom: 0.75rem;
@@ -975,7 +975,7 @@
       filter: blur(16px); pointer-events: none;
     }
     .dist-banner-img { position: relative; z-index: 1; border-radius: 0.75rem; overflow: hidden; border: 1px solid rgba(0,188,212,0.35); }
-    .dist-banner-img img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 80%; }
+    .dist-banner-img img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; object-position: center 82%; }
     .dist-banner-badge {
       position: absolute; z-index: 2; left: 1rem; bottom: 1rem;
       display: inline-flex; align-items: center; gap: 0.4rem;
@@ -1079,7 +1079,7 @@
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      .distributor-page { padding: calc(68px + 2.5rem) 0 3rem; }
+      .distributor-page { padding: calc(68px + 1.75rem) 0 3rem; }
       .distributor-why, .distributor-support, .distributor-how,
       .distributor-carry { padding: 3rem 0; }
       .dist-banner { grid-template-columns: 1fr; gap: 2.5rem; }
