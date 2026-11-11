@@ -945,9 +945,45 @@
     .distributor-how .section-header h2, .distributor-carry .section-header h2 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
 
     /* Banner: words on the left, Pro Guard 20 photo on the right. */
-    .dist-banner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
-    .dist-banner-img { background: #fff; border-radius: 0.75rem; overflow: hidden; border: 1px solid var(--border); max-width: 440px; justify-self: end; width: 100%; }
+    .distributor-page { position: relative; overflow: hidden; }
+    .distributor-page > .container { position: relative; z-index: 1; }
+    /* Faint mountain-line pattern along the bottom of the banner. */
+    .dist-banner-mountains {
+      position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 55%;
+      pointer-events: none;
+    }
+    .dist-banner-mountains path { fill: none; stroke: var(--primary); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+    .dist-banner-mountains path:nth-child(1) { opacity: 0.14; }
+    .dist-banner-mountains path:nth-child(2) { opacity: 0.09; }
+    .dist-banner-mountains path:nth-child(3) { opacity: 0.06; }
+    .dist-banner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; }
+    .distributor-page .section-label { margin-bottom: 1rem; }
+    .distributor-page .section-header h1 { font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.1; text-wrap: balance; }
+    .dist-nowrap { white-space: nowrap; }
+    .dist-banner-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .dist-banner-facts {
+      list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem;
+      margin-top: 1.75rem; padding-top: 1.1rem; border-top: 1px solid var(--border);
+    }
+    .dist-banner-facts li { display: flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; color: var(--muted-fg); }
+    .dist-banner-facts svg { color: var(--primary); flex-shrink: 0; }
+    /* Photo: beside the text, with a soft teal glow behind and a corner badge. */
+    .dist-banner-photo { position: relative; max-width: 500px; width: 100%; justify-self: start; }
+    .dist-banner-photo::before {
+      content: ''; position: absolute; inset: -14%; z-index: 0;
+      background: radial-gradient(closest-side, rgba(0,188,212,0.42), rgba(0,188,212,0) 100%);
+      filter: blur(16px); pointer-events: none;
+    }
+    .dist-banner-img { position: relative; z-index: 1; border-radius: 0.75rem; overflow: hidden; border: 1px solid rgba(0,188,212,0.35); }
     .dist-banner-img img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 80%; }
+    .dist-banner-badge {
+      position: absolute; z-index: 2; left: 1rem; bottom: 1rem;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(10,30,46,0.9); color: var(--foreground);
+      border: 1px solid rgba(0,188,212,0.5); border-radius: 999px;
+      padding: 0.35rem 0.8rem; font-size: 0.78rem; font-weight: 600;
+    }
+    .dist-banner-badge svg { color: var(--primary); flex-shrink: 0; }
 
     /* Cards (Why, Support): icon on the left, words on the right. */
     .dist-cards { display: grid; gap: 1.25rem; }
@@ -1046,8 +1082,9 @@
       .distributor-page { padding: calc(68px + 2.5rem) 0 3rem; }
       .distributor-why, .distributor-support, .distributor-how,
       .distributor-carry { padding: 3rem 0; }
-      .dist-banner { grid-template-columns: 1fr; gap: 2rem; }
-      .dist-banner-img { justify-self: start; max-width: 360px; }
+      .dist-banner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .dist-banner-photo { max-width: 440px; }
+      .dist-banner-mountains { height: 35%; }
       .dist-cards-4, .dist-cards-3 { grid-template-columns: 1fr; }
       .dist-steps { grid-template-columns: 1fr; gap: 1.5rem; }
       .dist-step:not(:last-child)::after {
@@ -1060,6 +1097,12 @@
     }
     @media (max-width: 480px) {
       .distributor-page .btn-primary { white-space: normal; text-align: center; justify-content: center; }
+      .dist-banner-btns { flex-direction: column; }
+    }
+    @media (max-width: 380px) {
+      .distributor-page .section-header h1 { font-size: 1.7rem; }
+      .distributor-page .section-label { font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.25rem 0.75rem; }
+      .dist-banner-btns .btn-primary, .dist-banner-btns .btn-outline { justify-content: center; text-align: center; white-space: normal; }
     }
     /* Devices set to reduce motion: everything shows at once, nothing moves. */
     @media (prefers-reduced-motion: reduce) {
