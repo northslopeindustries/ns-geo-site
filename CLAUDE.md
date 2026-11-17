@@ -117,13 +117,15 @@ record of what changed on the site rather than a list of code edits.
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
 | `roll-calculator.html` | The Roll Calculator page at ns-geo.com/roll-calculator | Calculator wording and layout |
+| `become-a-distributor.html` | The Become a Distributor page at ns-geo.com/become-a-distributor, with a copy of the wholesale pricing form | Distributor page wording, cards, and layout |
 | `roll-calculator-math.js` | All the Roll Calculator's math: roll sizes, overlaps, staple spacing, search | Changing a calculator rule or roll size |
 | `roll-calculator.js` | Runs the Roll Calculator page (areas, buttons, showing results); no math | Rarely — behavior only |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
 | `video.js` | Loads the Products page install video when its "More details" opens | Rarely — behavior only |
-| `images/` | 9 image files | Swapping or adding photos |
+| `distributor.js` | Counts "40%+" and "$2,000" up on the Become a Distributor page | Rarely — behavior only |
+| `images/` | 10 image files | Swapping or adding photos |
 | `validate.py` | The pre-deploy check | Only when the checks themselves need changing |
 | `netlify.toml` | Hosting config and the deploy check | Rarely |
 | `docs/` | Internal notes, not published | Documentation changes |
@@ -134,7 +136,9 @@ Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
 `CTA BAND`, `FOOTER`. `roll-calculator.html` uses `NAVIGATION`,
-`ROLL CALCULATOR`, `FOOTER`.
+`ROLL CALCULATOR`, `FOOTER`. `become-a-distributor.html` uses `NAVIGATION`,
+`BANNER`, `WHY CARRY NORTH SLOPE`, `SUPPORT FOR YOUR STORE`,
+`WHAT YOU CAN CARRY`, `APPLICATION FORM`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
@@ -145,7 +149,10 @@ the question in `<summary>`; it opens and closes with no JavaScript.
 `video.js`, and `roll-calculator.html` loads `menu.js`,
 `roll-calculator-math.js`, then `roll-calculator.js`; none of them loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
-`script.js`).
+`script.js`). `become-a-distributor.html` is different: it loads
+`script.js` (for the form and the `fade-up` scroll animations), `menu.js`,
+then `distributor.js`, so `fade-up` works there. Its animations and
+counters are skipped for visitors whose device is set to reduce motion.
 
 The Pro Guard 20 box appears on both the home page and the Products page
 with the same content. A change to its wording, badges, or sizes has to be
@@ -169,8 +176,13 @@ never loads with the page and stops when the section is closed.
 The phone menu shows at 768px wide and below, where the top nav links and
 the nav's "Request Wholesale Pricing" button are hidden. It is the
 three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
-Benefits, Why We're Different, Compare, Contact), Products (one link to
-the Products page, with no product names under it), Roll Calculator, and FAQ, with the wholesale pricing button at the bottom. `menu.js` opens and
+Benefits and Contact), Products (one link to the Products page, with no
+product names under it), Roll Calculator, FAQ, and Become a Distributor,
+with the wholesale pricing button at the bottom. The desktop menu is
+Benefits, Products, Roll Calculator, FAQ, Become a Distributor, Contact.
+"Why We're Different" and "Compare" were taken out of both menus and the
+footer at the owner's request; those home page sections are only reached
+by scrolling. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
 
@@ -181,8 +193,20 @@ Adding another top menu link may need those widths re-checked.
 The Roll Calculator's rules (6" overlaps, 3" end folds, 3-foot scrap
 limit, staple spacing, bag and case sizes) and the 12 roll sizes are the
 labelled numbers at the top of `roll-calculator-math.js`; change them
-there and nowhere else. "Use my roll size" picks fewest rolls, then
-fewest seams, then least left over, trying rows both ways.
+there and nowhere else.
+
+"Use my roll sizes" lets the visitor select any number of the 12 size
+buttons (checkboxes styled as buttons; selected ones stay teal). With none
+selected it asks for at least one. With ONE size it works as it always has
+(`useMyRoll`): one result card, fewest rolls, then fewest seams, then least
+left over, trying rows both ways. With TWO OR MORE it runs the Recommend
+search below (`recommendFrom`) but buys only the selected sizes, and shows
+the same ranked option list and tags. Each row is one width; different
+rows may use different selected widths; rolls of the same width join end
+to end. In those options, when more than one roll size is used, each row's
+drawing label names its rolls ("Row 4 · 4'×100' + 4'×50' rolls") and join
+labels name the new roll when there is room; Recommend's own drawings are
+unchanged.
 
 Recommend mode shows one list of roll options (settings in `RECOMMEND` in
 `roll-calculator-math.js`). Rows always run the long way of each area, so
@@ -205,9 +229,14 @@ the math, re-check these:
 
 | Job | Mode | Rolls | Seams | Left over | Staples |
 |---|---|---|---|---|---|
-| 30' × 15' | Use my roll size, 4'×50' | 3 | 10 | 9.5 ft | 73 (1 bag) |
-| 30' × 15' | Use my roll size, 4'×100' | 2 | 5 | 47 ft | 72 (1 bag) |
-| 40' × 10' and 15' × 6' | Use my roll size, 4'×100' | 2 | 4 | 47 ft | 81 (1 bag) |
+| 30' × 15' | Use my roll sizes, only 4'×50' | 3 | 10 | 9.5 ft | 73 (1 bag) |
+| 30' × 15' | Use my roll sizes, only 4'×100' | 2 | 5 | 47 ft | 72 (1 bag) |
+| 40' × 10' and 15' × 6' | Use my roll sizes, only 4'×100' | 2 | 4 | 47 ft | 81 (1 bag) |
+
+Use my roll sizes with 4'×50' and 4'×100' on 30' × 15' gives three options:
+two 4'×100' (5 seams, 188 sq ft; Our pick, Fewest seams, Fewest rolls);
+two 4'×50' + one 4'×100' (6 seams, 186 sq ft); four 4'×50' (7 seams,
+184 sq ft; Least left over).
 
 Recommend, Bulk rolls, the full list in order:
 
@@ -244,7 +273,7 @@ asked for it back in compact drawings). Drawings that are not to scale say "Not 
 is always called the length. There is no cut list on the page (the owner
 removed it); `layOut` in `roll-calculator-math.js` still works out each
 roll's pieces, which give the joins and the roll sizes named in each
-area's summary line. Check: 200' × 30', Use my roll size 6'×250' gives 6
+area's summary line. Check: 200' × 30', Use my roll sizes with only 6'×250' gives 6
 rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5', row 6 3.5' over,
 5 rolls with 45' left (full labels on a computer, compact on a phone); with
 3'×250' it gives 12 rows
@@ -256,8 +285,8 @@ rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5', row 6 3.5' over,
   markup, reformat, re-indent, or "modernize" anything. An unrequested
   improvement is a bug here, because nobody will notice it before it ships.
 - **Stay in the smallest set of files that does the job.** A copy change is
-  the page file it appears on (`index.html`, `faq.html`, or
-  `products.html`) only. A color
+  the page file it appears on (`index.html`, `faq.html`, `products.html`,
+  `roll-calculator.html`, or `become-a-distributor.html`) only. A color
   change is `styles.css` only. If a request seems
   to need more files than expected, say so before spreading out.
 - **No build step, ever.** No npm, no `package.json`, no framework, no
@@ -306,6 +335,15 @@ anyone noticing.
   visible error on the page. This form *is* the distributor application —
   there is no separate application link.
 
+  The form is on TWO pages: the home page's "Request Wholesale Pricing"
+  section (`id="contact"`) and an exact copy of that whole section at the
+  bottom of `become-a-distributor.html` (`id="apply"`, which the banner's
+  "Request Wholesale Pricing" button jumps to). Both forms must keep the
+  same name, fields, and Netlify setup, so a change to the form's fields
+  has to be made in both. `validate.py` checks both. The copy differs from
+  the home page only in its "Prefer to reach out directly?" box, which has
+  Call and Text buttons by the phone number and a clickable email.
+
   **Check the form in the repo source, never on the live site.** Netlify's
   build-time form detection deliberately strips `data-netlify="true"` and
   `netlify-honeypot` from the `<form>` tag and injects the hidden
@@ -340,9 +378,12 @@ anyone noticing.
   `#products` section. Renaming a home page section `id`, or a Products
   page box id, breaks the matching links on every page. Every page and
   section in the desktop nav is also in the phone menu, and every page is
-  reachable from the footer (the FAQ from the Company list, the Products
-  page and the Roll Calculator (`/roll-calculator`) from the Products
-  list). After a change here, tell
+  reachable from the footer (the FAQ and Become a Distributor
+  (`/become-a-distributor`) from the Company list, the Products page and
+  the Roll Calculator (`/roll-calculator`) from the Products list). The
+  FAQ's minimum order and wholesale pricing answers, and the Products
+  page's "Want to carry our products?" button, also link to Become a
+  Distributor. After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
@@ -372,8 +413,13 @@ Phone (385) 437-6527 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
-`faq.html`, `products.html`, and `roll-calculator.html`, the phone number and email also appear in
-the "Still have questions?" box at the bottom of `faq.html` (including its
-Call and Text buttons, which dial `+13854376527`), and the phone number appears in `script.js`, in the form's error
-message. If any of them changes, it has to change in every one of those
+`faq.html`, `products.html`, `roll-calculator.html`, and
+`become-a-distributor.html` (the footer email is a clickable `mailto:`
+link on every page), and in the "Prefer to reach out directly?" box beside
+the form on the home page and on `become-a-distributor.html` (on the
+latter with Call and Text buttons and a clickable email). The phone number
+and email also appear in the "Still have questions?" box at the bottom of
+`faq.html` (including its Call and Text buttons, which dial
+`+13854376527`), the email in the FAQ's contractor answer, and the phone
+number in `script.js`, in the form's error message. If any of them changes, it has to change in every one of those
 files.
