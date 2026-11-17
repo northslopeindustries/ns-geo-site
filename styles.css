@@ -1142,3 +1142,21 @@
     @media (prefers-reduced-motion: reduce) {
       .page-contact .fade-up { opacity: 1; transform: none; transition: none; }
     }
+
+    /* ─── MOUNTAIN LINES ON FAQ, ROLL CALCULATOR, PRODUCTS ──── */
+    /* The same faint mountain lines as the Become a Distributor and Contact
+       Us banners (same drawing, same dist-banner-mountains look). These pages
+       have no separate banner, so the drawing hangs from the heading block:
+       it spans the full screen width and sits just under the heading text,
+       about as tall as on the Contact Us page, behind the words. */
+    .banner-mountains-host { position: relative; }
+    .banner-mountains-host > :not(.dist-banner-mountains) { position: relative; z-index: 1; }
+    .dist-banner-mountains.banner-mountains-inline {
+      left: 50%; right: auto; width: 100vw; transform: translateX(-50%);
+      bottom: -2.5rem; height: calc(55% + 95px); z-index: 0;
+    }
+    /* Keep the full-width drawing from making the page scroll sideways. */
+    .faq-page, .calc-page, .products-page { overflow-x: clip; }
+    @media (max-width: 768px) {
+      .dist-banner-mountains.banner-mountains-inline { bottom: -2rem; height: calc(35% + 49px); }
+    }
