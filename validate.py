@@ -35,7 +35,7 @@ def warn(msg):
 # ---------------------------------------------------------------- files
 
 for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "become-a-distributor.html",
-          "contact.html",
+          "contact.html", "where-to-buy.html", "where-to-buy.js",
           "styles.css", "script.js",
           "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js"]:
     if not os.path.isfile(f):
@@ -55,6 +55,8 @@ products = open("products.html", encoding="utf-8", errors="replace").read()
 calculator = open("roll-calculator.html", encoding="utf-8", errors="replace").read()
 distributor = open("become-a-distributor.html", encoding="utf-8", errors="replace").read()
 contact = open("contact.html", encoding="utf-8", errors="replace").read()
+where_page = open("where-to-buy.html", encoding="utf-8", errors="replace").read()
+where_js = open("where-to-buy.js", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -104,7 +106,8 @@ if opens != closes:
 # script.js by design; become-a-distributor.html carries a copy of the
 # wholesale form and contact.html the general contact form, both checked below.
 for page, where in ((faq, "faq.html"), (products, "products.html"), (calculator, "roll-calculator.html"),
-                    (distributor, "become-a-distributor.html"), (contact, "contact.html")):
+                    (distributor, "become-a-distributor.html"), (contact, "contact.html"),
+                    (where_page, "where-to-buy.html")):
     page_low = page.lower()
     for tag in ["html", "head", "body"]:
         if "<" + tag not in page_low:
@@ -169,7 +172,7 @@ if 'src="script.js"' not in html:
 # markup and menu.js on every page, or it shows up but does nothing.
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
                     (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html"),
-                    (contact, "contact.html")):
+                    (contact, "contact.html"), (where_page, "where-to-buy.html")):
     if 'id="mobile-menu"' not in text:
         fail(
             "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
@@ -222,7 +225,7 @@ referenced = set()
 
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
                     (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html"),
-                    (contact, "contact.html"), (css, "styles.css")):
+                    (contact, "contact.html"), (where_page, "where-to-buy.html"), (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)
@@ -335,6 +338,37 @@ if 'src="script.js"' not in contact:
         "contact.html no longer loads script.js -- the form submit handler "
         "would not exist and the form would not send."
     )
+
+
+# ------------------------------------------------------------ where to buy
+
+# The Where to Buy page draws its store cards from the STORES list at the
+# top of where-to-buy.js. That file has to load before script.js, which
+# sets up the cards' scroll animations; loaded after, the cards would stay
+# invisible.
+if "var STORES = [" not in where_js:
+    fail(
+        "where-to-buy.js no longer has its store list (var STORES = [) -- "
+        "the Where to Buy page would show no stores."
+    )
+for needed in ('src="where-to-buy.js"', 'src="script.js"'):
+    if needed not in where_page:
+        fail(
+            "where-to-buy.html no longer loads %s -- the store list would not "
+            "show." % needed.split('"')[1]
+        )
+if ('src="where-to-buy.js"' in where_page and 'src="script.js"' in where_page
+        and where_page.index('src="where-to-buy.js"') > where_page.index('src="script.js"')):
+    fail(
+        "where-to-buy.html loads script.js before where-to-buy.js -- the "
+        "store cards would stay invisible. where-to-buy.js has to load first."
+    )
+for needed in ('id="where-filters"', 'id="where-stores"'):
+    if needed not in where_page:
+        fail(
+            "where-to-buy.html is missing %s -- the store list has nowhere to "
+            "appear." % needed
+        )
 
 
 # ------------------------------------------------------- no base64 regression
