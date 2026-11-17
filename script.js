@@ -57,7 +57,10 @@
           // submission and the lead was silently lost. Treat a bad status as
           // a failure so the error path below runs instead.
           if (!response.ok) throw new Error("Submission rejected: " + response.status);
-          btn.textContent = "✓ Request Sent — We'll be in touch within 24 hours!";
+          // A form can set its own success message with data-success-text
+          // (the Contact Us page does); the wholesale forms do not, so they
+          // keep this original message.
+          btn.textContent = form.dataset.successText || "✓ Request Sent — We'll be in touch within 24 hours!";
           btn.style.background = '#16a34a';
           btn.disabled = true;
           form.reset();

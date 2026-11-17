@@ -1084,3 +1084,45 @@
       html:has(body.page-distributor) { scroll-behavior: auto; }
       .page-distributor .fade-up { opacity: 1; transform: none; transition: none; }
     }
+
+    /* ─── CONTACT US PAGE ───────────────────────────────────── */
+    /* Banner, scroll animations and form look are borrowed from the Become a
+       Distributor page (distributor-page, fade-up, form-card); the rules
+       here only cover what is new on this page. */
+    .contact-page-banner .section-header { margin-bottom: 0; max-width: 680px; }
+    .contact-page-main { padding: 4rem 0; }
+    /* Left column: phone, email, address and hours, each with an icon. */
+    .contact-details {
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .contact-detail { display: flex; align-items: flex-start; gap: 0.9rem; }
+    .contact-detail-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(0,188,212,0.12); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center; color: var(--primary);
+    }
+    .contact-detail-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+    .contact-detail-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--primary);
+    }
+    .contact-detail-value { font-size: 1rem; color: var(--foreground); line-height: 1.5; }
+    .contact-detail .direct-phone { min-height: 44px; }
+    /* Wholesale band at the bottom of the page. */
+    .page-contact .cta-band { padding: 4rem 0; }
+    .page-contact .cta-card p { margin-bottom: 1.5rem; }
+    @media (max-width: 768px) {
+      .contact-page-main { padding: 3rem 0; }
+      .page-contact .cta-band { padding: 3rem 0; }
+    }
+    @media (max-width: 480px) {
+      .contact-details { padding: 1.5rem 1.1rem; }
+      .contact-page-main .form-card { padding: 1.5rem 1.1rem; }
+      .page-contact .cta-band .btn-primary { width: 100%; justify-content: center; text-align: center; white-space: normal; }
+    }
+    /* Devices set to reduce motion: everything shows at once, nothing moves. */
+    @media (prefers-reduced-motion: reduce) {
+      .page-contact .fade-up { opacity: 1; transform: none; transition: none; }
+    }
