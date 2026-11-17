@@ -417,6 +417,15 @@
     return answer;
   }
 
+  // "Use my roll sizes": the roll sizes a store carries (entries of
+  // ROLL_SIZES). With one size this is exactly useMyRoll: a single answer.
+  // With two or more it returns a list of options, worked out exactly like
+  // "Recommend rolls for me" but buying only those sizes.
+  function useMyRolls(areas, rolls) {
+    if (rolls.length === 1) return { single: useMyRoll(areas, rolls[0]) };
+    return { options: recommendFrom(areas, rolls.map(r => ROLL_SIZES.indexOf(r))) };
+  }
+
   // ═══════════════════════════════════════════════════════════════════════
   // "Recommend rolls for me": a list of roll options.
   //
@@ -618,6 +627,13 @@
 
   function recommend(areas, rollType) {
     const allowed = ROLL_SIZES.map((r, i) => i).filter(i => rollType === 'mix' || ROLL_SIZES[i].type === rollType);
+    return recommendFrom(areas, allowed);
+  }
+
+  // The Recommend search, buying only the roll sizes in `allowed` (indexes
+  // into ROLL_SIZES). Used by "Recommend rolls for me" with every size of the
+  // chosen type, and by "Use my roll sizes" with the sizes the visitor picked.
+  function recommendFrom(areas, allowed) {
     const rollsByWidth = {};
     allowed.forEach(ri => { (rollsByWidth[ROLL_SIZES[ri].width] = rollsByWidth[ROLL_SIZES[ri].width] || []).push(ri); });
     Object.keys(rollsByWidth).forEach(w => rollsByWidth[w].sort((a, b) => ROLL_SIZES[b].length - ROLL_SIZES[a].length));
@@ -740,7 +756,7 @@
     };
   }
 
-  const api = { RULES: RULES, ROLL_SIZES: ROLL_SIZES, SEARCH: SEARCH, RECOMMEND: RECOMMEND, useMyRoll: useMyRoll, recommend: recommend };
+  const api = { RULES: RULES, ROLL_SIZES: ROLL_SIZES, SEARCH: SEARCH, RECOMMEND: RECOMMEND, useMyRoll: useMyRoll, useMyRolls: useMyRolls, recommend: recommend };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.RollCalculator = api;
 })(this);

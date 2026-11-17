@@ -1,7 +1,7 @@
 // ─── ROLL CALCULATOR: THE PAGE ────────────────────────────────────────────
 //
 // Runs the Roll Calculator page: adding and removing areas, switching
-// between "Recommend rolls for me" and "Use my roll size", checking what was
+// between "Recommend rolls for me" and "Use my roll sizes", checking what was
 // typed, and showing the results. It does no math itself; all the math is in
 // roll-calculator-math.js.
 
@@ -79,7 +79,18 @@
     sizeStep.hidden = !mine;
   }
   form.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener('change', showMode));
-  form.querySelectorAll('input[name="rollSize"]').forEach(r => r.addEventListener('change', () => { sizeError.textContent = ''; }));
+  // "Use my roll sizes": any number of sizes can be selected. Unselecting the
+  // last one asks for at least one straight away.
+  const PICK_A_SIZE = 'Please pick at least one roll size.';
+  function pickedRolls() {
+    return Array.from(form.querySelectorAll('input[name="rollSize"]:checked')).map(box => {
+      const [w, l] = box.value.split('x').map(Number);
+      return Calc.ROLL_SIZES.find(r => r.width === w && r.length === l);
+    });
+  }
+  form.querySelectorAll('input[name="rollSize"]').forEach(r => r.addEventListener('change', () => {
+    sizeError.textContent = pickedRolls().length ? '' : PICK_A_SIZE;
+  }));
   showMode();
   renumber();
 
@@ -267,7 +278,10 @@
   // On a computer, enough for 6 rows to keep their full labels; smaller on phones.
   function maxDrawingHeight() { return window.innerWidth <= 480 ? 170 : 280; }
 
-  function diagram(a, i, total, colors) {
+  // rowSizes (only for "Use my roll sizes" options that use more than one
+  // roll size): per row, the roll size of each piece in it, in order along the
+  // row, e.g. ["6'×250'", "6'×100'"]. Null otherwise, and the drawing is as before.
+  function diagram(a, i, total, colors, rowSizes) {
     const sd = sides(a);
     const long = longWay(a);
     const rows = a.rows;
@@ -384,14 +398,21 @@
       const lineY = hasJoin(r) ? mid - 8 : mid;
       dots += '<circle cx="' + (x0 + 16) + '" cy="' + lineY.toFixed(1) + '" r="10" fill="' + c.line + '" />';
       marks += svgText(x0 + 16, lineY + 4, String(r + 1), 'calc-svg-num', ' text-anchor="middle" fill="' + c.text + '"');
-      const label = 'Row ' + (r + 1) + ' · ' + num(w) + "' roll · cut " + num(details[r].cut) + "'";
+      const sizesHere = rowSizes ? rowSizes[r] : null;
+      const rollText = sizesHere
+        ? sizesHere.filter((x, k) => sizesHere.indexOf(x) === k).join(' + ') + (sizesHere.length > 1 ? ' rolls' : ' roll')
+        : num(w) + "' roll";
+      const label = 'Row ' + (r + 1) + ' · ' + rollText + ' · cut ' + num(details[r].cut) + "'";
       if (textWidth(label) < W - 40) marks += svgText(x0 + 32, lineY + 4.5, label, 'calc-svg-label', ' fill="' + c.line + '"');
       jx.forEach((x, k) => {
         const gapNext = k < jx.length - 1 ? jx[k + 1] - x : Infinity;
         const gapPrev = k > 0 ? x - jx[k - 1] : Infinity;
         const room = Math.min(gapNext, gapPrev);
         const longText = 'new roll at ' + num(details[r].joinsAt[k]) + "'";
-        const text = room > 112 ? longText : (room > 42 ? num(details[r].joinsAt[k]) + "'" : '');
+        // With mixed sizes, name the new roll when there is room for it.
+        const sizedText = sizesHere && sizesHere[k + 1] ? 'new ' + sizesHere[k + 1] + ' roll at ' + num(details[r].joinsAt[k]) + "'" : '';
+        const text = sizedText && room > textWidth(sizedText) + 12 ? sizedText
+          : room > 112 ? longText : (room > 42 ? num(details[r].joinsAt[k]) + "'" : '');
         if (!text) return;
         const rightSide = x > x0 + W * 0.6;
         marks += svgText(rightSide ? x - 5 : x + 5, mid + 13, text, 'calc-svg-jointext', rightSide ? ' text-anchor="end"' : '');
@@ -443,18 +464,32 @@
   // Each drawing starts hidden behind a "Show drawing" button. The details
   // needed to draw it again (at its real on-screen width) are kept here.
   const drawings = [];
-  function howToLay(answer) {
+  // The roll size of each piece in each row of area i, in order along the row.
+  function rowRollSizes(answer, i) {
+    return answer.areas[i].rows.map((w, r) => {
+      const sizes = [];
+      answer.cutList.forEach(roll => roll.pieces.forEach(p => {
+        if (p.area === i && p.row === r) sizes.push(num(roll.width) + "'×" + num(roll.length) + "'");
+      }));
+      return sizes;
+    });
+  }
+  // showSizes: name each piece's roll size in the drawings ("Use my roll
+  // sizes" options that use more than one roll size).
+  function howToLay(answer, showSizes) {
     const colors = fabricColors(answer.areas);
     const total = answer.areas.length;
+    const sized = showSizes && answer.rolls.length > 1;
     return '<h4>How to lay it</h4>' +
       '<ul class="calc-layout">' +
       answer.areas.map((a, i) => {
-        const id = drawings.push({ a: a, i: i, total: total, colors: colors }) - 1;
+        const rowSizes = sized ? rowRollSizes(answer, i) : null;
+        const id = drawings.push({ a: a, i: i, total: total, colors: colors, rowSizes: rowSizes }) - 1;
         return '<li>' + areaLine(a, i, total, areaRollSizes(answer, i)) +
           '<details class="calc-drawing" data-drawing="' + id + '">' +
           '<summary><span class="calc-drawing-more">Show drawing</span><span class="calc-drawing-less">Hide drawing</span>' +
           '<span class="calc-drawing-icon" aria-hidden="true"></span></summary>' +
-          diagram(a, i, total, colors) +
+          diagram(a, i, total, colors, rowSizes) +
           '</details></li>';
       }).join('') +
       '</ul>';
@@ -473,11 +508,11 @@
       SVG_W = Math.max(180, Math.round(shown - 40));
     }
     if (Math.abs(shown - Number(svg.getAttribute('viewBox').split(' ')[2])) > 3) {
-      box.querySelector('.calc-diagram').outerHTML = diagram(d.a, d.i, d.total, d.colors);
+      box.querySelector('.calc-diagram').outerHTML = diagram(d.a, d.i, d.total, d.colors, d.rowSizes);
     }
   }, true);
 
-  function optionCard(o, index) {
+  function optionCard(o, index, showSizes) {
     const rows = [
       ['Rolls', o.rolls.map(rollLine).map(escape).join('<br />')],
       ['Rows', escape(num(o.rowCount))],
@@ -492,7 +527,7 @@
       '<dl class="calc-stats">' +
       rows.map(r => '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>').join('') +
       '</dl>' +
-      howToLay(o) +
+      howToLay(o, showSizes) +
       '</article>';
   }
 
@@ -501,18 +536,12 @@
     e.preventDefault();
     formError.textContent = '';
     const read = readAreas();
-    let roll = null;
+    let rolls = [];
     if (mode() === 'mine') {
-      const picked = form.querySelector('input[name="rollSize"]:checked');
-      if (picked) {
-        const [w, l] = picked.value.split('x').map(Number);
-        roll = Calc.ROLL_SIZES.find(r => r.width === w && r.length === l);
-        sizeError.textContent = '';
-      } else {
-        sizeError.textContent = 'Pick a roll size.';
-      }
+      rolls = pickedRolls();
+      sizeError.textContent = rolls.length ? '' : PICK_A_SIZE;
     }
-    if (read.firstBad || (mode() === 'mine' && !roll)) {
+    if (read.firstBad || (mode() === 'mine' && !rolls.length)) {
       formError.textContent = 'Please fix the highlighted boxes above.';
       if (read.firstBad) read.firstBad.focus();
       else form.querySelector('input[name="rollSize"]').focus();
@@ -526,14 +555,21 @@
       try {
         let render;
         if (mode() === 'mine') {
-          const answer = Calc.useMyRoll(read.areas, roll);
-          cards.className = 'calc-cards calc-cards-single';
-          render = () => { cards.innerHTML = card('', answer); };
+          // One size: a single answer, as before. Two or more: a list of
+          // options, shown like "Recommend rolls for me".
+          const mine = Calc.useMyRolls(read.areas, rolls);
+          if (mine.single) {
+            cards.className = 'calc-cards calc-cards-single';
+            render = () => { cards.innerHTML = card('', mine.single); };
+          } else {
+            cards.className = 'calc-cards calc-option-list';
+            render = () => { cards.innerHTML = mine.options.map((o, k) => optionCard(o, k, true)).join(''); };
+          }
         } else {
           const type = form.querySelector('input[name="rollType"]:checked').value;
           const options = Calc.recommend(read.areas, type);
           cards.className = 'calc-cards calc-option-list';
-          render = () => { cards.innerHTML = options.map(optionCard).join(''); };
+          render = () => { cards.innerHTML = options.map((o, k) => optionCard(o, k, false)).join(''); };
         }
         drawings.length = 0;
         sizeDiagrams();
