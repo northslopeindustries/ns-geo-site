@@ -150,7 +150,7 @@ to or removed from the desktop menu has to change in the phone menu too.
 
 ## Contact details currently on the page
 
-Phone (385) 437-6527 · sales@northslopeindustries.com ·
+Phone (385) 437-6527 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 **The phone number appears in three files.** It is in `index.html`, in the
