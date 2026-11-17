@@ -458,6 +458,11 @@
       '<span class="calc-diagram-sub">' + escape(desc) + '</span></figcaption>' +
       svg + key +
       (toScale ? '' : '<p class="calc-diagram-note">Not to scale.</p>') +
+      '<p class="calc-fold-tip"><svg class="calc-fold-tip-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+      '<circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />' +
+      '<circle cx="8" cy="4.8" r="1" fill="currentColor" />' +
+      '<line x1="8" y1="7.3" x2="8" y2="11.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>' +
+      '<span><strong>Why the extra 6"?</strong> Each row is 3" longer at each end so you can fold the ends under for a stronger, more durable edge.</span></p>' +
       '</figure>';
   }
 
