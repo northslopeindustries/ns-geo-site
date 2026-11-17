@@ -1064,6 +1064,45 @@
     .dist-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
     .dist-photos .regional-img-card img { height: 280px; }
     .dist-photos .regional-img-caption { background: rgba(10,30,46,0.85); padding: 0.75rem 1rem; }
+    /* What You Can Carry: text on the left, three slim product cards on the
+       right (text above the cards on phones). Each whole card links to that
+       product's box on the Products page. The photos have white backgrounds,
+       so they are blended into a soft teal-tinted box. */
+    .dist-carry-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 3rem; align-items: center; }
+    .dist-carry-intro .section-header { margin-bottom: 1.5rem; }
+    .dist-carry-intro .section-label { margin-bottom: 1rem; }
+    .dist-carry-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .dist-carry-card {
+      display: flex; align-items: center; gap: 1.1rem;
+      background: var(--navy-base); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 0.75rem;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .dist-carry-card:hover {
+      transform: translateY(-3px); border-color: rgba(0,188,212,0.6);
+      box-shadow: 0 8px 24px rgba(0,188,212,0.18), 0 0 0 1px rgba(0,188,212,0.25);
+    }
+    .dist-carry-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .dist-carry-img {
+      flex: 0 0 104px; height: 88px; border-radius: 0.5rem; overflow: hidden;
+      background: #d9f1f4; display: flex; align-items: center; justify-content: center;
+    }
+    .dist-carry-img img { width: 100%; height: 100%; object-fit: contain; padding: 0.4rem; mix-blend-mode: multiply; }
+    .dist-carry-body { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+    .dist-carry-body h3 { font-size: 1rem; font-weight: 700; color: #fff; transition: color 0.2s; }
+    .dist-carry-card:hover h3 { color: var(--primary); }
+    .dist-carry-line { font-size: 0.85rem; color: var(--muted-fg); }
+    .dist-carry-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.2rem; }
+    .dist-carry-tag {
+      font-size: 0.7rem; font-weight: 600; color: var(--primary); white-space: nowrap;
+      border: 1px solid rgba(0,188,212,0.4); border-radius: 999px; padding: 0.1rem 0.55rem;
+    }
+    @media (max-width: 768px) {
+      .dist-carry-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 380px) {
+      .dist-carry-img { flex-basis: 84px; height: 76px; }
+    }
     /* "Coming soon" tag beside Display stand in the form section's list. */
     .checklist-tag {
       background: rgba(0,188,212,0.15); color: var(--primary);
