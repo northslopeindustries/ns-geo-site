@@ -1058,13 +1058,23 @@
        make them appear one after another. Each plays once. */
     .dist-product-wrap > .dist-product { height: 100%; }
 
+    /* "Built for the Intermountain West" (copied from the home page's
+       REGIONAL section): same layout and photos, with this page's section
+       spacing and heading size. */
+    .distributor-region { padding: 4rem 0; }
+    .distributor-region .section-label { margin-bottom: 1rem; }
+    .distributor-region h2 {
+      font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+      font-weight: 900; color: #fff; margin-bottom: 0.75rem;
+    }
+
     @media (max-width: 1024px) {
       .dist-cards-4 { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
       .distributor-page { padding: calc(68px + 1.75rem) 0 3rem; }
       .distributor-why, .distributor-support,
-      .distributor-carry { padding: 3rem 0; }
+      .distributor-carry, .distributor-region { padding: 3rem 0; }
       .dist-banner { grid-template-columns: 1fr; gap: 2.5rem; }
       .dist-banner-photo { max-width: 440px; }
       .dist-banner-mountains { height: 35%; }
