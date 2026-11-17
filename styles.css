@@ -1058,14 +1058,18 @@
        make them appear one after another. Each plays once. */
     .dist-product-wrap > .dist-product { height: 100%; }
 
-    /* "Built for the Intermountain West" (copied from the home page's
-       REGIONAL section): same layout and photos, with this page's section
-       spacing and heading size. */
-    .distributor-region { padding: 4rem 0; }
-    .distributor-region .section-label { margin-bottom: 1rem; }
-    .distributor-region h2 {
-      font-size: clamp(1.45rem, 2.6vw, 2.1rem);
-      font-weight: 900; color: #fff; margin-bottom: 0.75rem;
+    /* Warehouse photos: the home page's two photo cards side by side, each
+       caption on a dark strip so it reads clearly over the photo. */
+    .distributor-photos { background: var(--navy-deep); padding: 4rem 0; }
+    .dist-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+    .dist-photos .regional-img-card img { height: 280px; }
+    .dist-photos .regional-img-caption { background: rgba(10,30,46,0.85); padding: 0.75rem 1rem; }
+    /* "Coming soon" tag beside Display stand in the form section's list. */
+    .checklist-tag {
+      background: rgba(0,188,212,0.15); color: var(--primary);
+      border: 1px solid rgba(0,188,212,0.4); border-radius: 999px;
+      padding: 0.1rem 0.55rem; font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
     }
 
     @media (max-width: 1024px) {
@@ -1074,7 +1078,9 @@
     @media (max-width: 768px) {
       .distributor-page { padding: calc(68px + 1.75rem) 0 3rem; }
       .distributor-why, .distributor-support,
-      .distributor-carry, .distributor-region { padding: 3rem 0; }
+      .distributor-carry, .distributor-photos { padding: 3rem 0; }
+      .dist-photos { grid-template-columns: 1fr; }
+      .dist-photos .regional-img-card img { height: 220px; }
       .dist-banner { grid-template-columns: 1fr; gap: 2.5rem; }
       .dist-banner-photo { max-width: 440px; }
       .dist-banner-mountains { height: 35%; }
