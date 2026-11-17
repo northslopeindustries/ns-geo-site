@@ -1090,7 +1090,11 @@
        Distributor page (distributor-page, fade-up, form-card); the rules
        here only cover what is new on this page. */
     .contact-page-banner .section-header { margin-bottom: 0; max-width: 680px; }
-    .contact-page-main { padding: 4rem 0; }
+    /* The banner and the boxes below it read as one dark section: same navy,
+       and only a small gap between the subheading and the boxes. */
+    .contact-page-banner { padding-bottom: 2.5rem; }
+    .contact-page-main { background: var(--navy-deep); padding: 0 0 4rem; }
+    .contact-side { display: flex; flex-direction: column; gap: 1.25rem; }
     /* Left column: phone, email, address and hours, each with an icon. */
     .contact-details {
       background: var(--navy-mid); border: 1px solid var(--border);
@@ -1110,17 +1114,27 @@
     }
     .contact-detail-value { font-size: 1rem; color: var(--foreground); line-height: 1.5; }
     .contact-detail .direct-phone { min-height: 44px; }
-    /* Wholesale band at the bottom of the page. */
-    .page-contact .cta-band { padding: 4rem 0; }
-    .page-contact .cta-card p { margin-bottom: 1.5rem; }
+    /* Small wholesale card under the contact info, styled like the
+       "Prefer to reach out directly?" box on the Become a Distributor page. */
+    .contact-wholesale {
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1.25rem 1.5rem;
+    }
+    .contact-wholesale-title {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--primary); margin-bottom: 0.4rem;
+    }
+    .contact-wholesale-text { font-size: 0.9rem; color: var(--foreground); margin-bottom: 1rem; }
+    .contact-wholesale-btn { padding: 0.65rem 1.1rem; font-size: 0.85rem; }
     @media (max-width: 768px) {
-      .contact-page-main { padding: 3rem 0; }
-      .page-contact .cta-band { padding: 3rem 0; }
+      .contact-page-banner { padding-bottom: 2rem; }
+      .contact-page-main { padding: 0 0 3rem; }
     }
     @media (max-width: 480px) {
       .contact-details { padding: 1.5rem 1.1rem; }
+      .contact-wholesale { padding: 1.25rem 1.1rem; }
       .contact-page-main .form-card { padding: 1.5rem 1.1rem; }
-      .page-contact .cta-band .btn-primary { width: 100%; justify-content: center; text-align: center; white-space: normal; }
+      .contact-wholesale-btn { width: 100%; justify-content: center; text-align: center; white-space: normal; }
     }
     /* Devices set to reduce motion: everything shows at once, nothing moves. */
     @media (prefers-reduced-motion: reduce) {
