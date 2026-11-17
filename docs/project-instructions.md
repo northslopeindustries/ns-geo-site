@@ -35,8 +35,10 @@ about coverage, installation, and durability.
 
 Worth knowing: the home page (`index.html`) is entirely wholesale-facing, so
 a request to add consumer or brand material there is new content rather than a
-rewrite. The FAQ page (`faq.html`, at ns-geo.com/faq) is the first page written
-for a mixed audience: installation and product questions for contractors and
+rewrite. The Become a Distributor page (`become-a-distributor.html`, at
+ns-geo.com/become-a-distributor) is wholesale-facing too. The FAQ page
+(`faq.html`, at ns-geo.com/faq) is the first page written for a mixed
+audience: installation and product questions for contractors and
 homeowners, then ordering questions for distributors and contractors.
 
 ### Homeowners and DIY users never buy from North Slope
@@ -46,14 +48,14 @@ Always point a homeowner or DIY user to the Find a Distributor page, never
 toward buying from North Slope. Competing with a distributor for their own
 customer is the one thing this site must not do.
 
-**Contractors are different.** Landscape contractors can apply for a direct
-account through the form on the For Contractors page, so pointing a
-contractor there is correct. **Never put contractor prices anywhere on the
-site**, on the For Contractors page or anywhere else.
+**Contractors are different.** There is no contractor page or application
+form. Landscape contractors who want a direct account are told to email
+support@ns-geo.com, so pointing a contractor there is correct. **Never put
+contractor prices anywhere on the site.**
 
 Until a page exists, mention it by name as plain text, never as a link.
-(The FAQ answers still use the older names "Where to Buy" for Find a
-Distributor and "Contractor Pricing" for For Contractors.)
+(The FAQ answers still use the older name "Where to Buy" for Find a
+Distributor.)
 
 Rewriting an existing wholesale section in consumer language is a strategy
 decision. Do it when asked, and say plainly in the reply which wholesale
@@ -113,21 +115,41 @@ Therefore:
 |---|---|
 | `index.html` | All home page text and content |
 | `faq.html` | The FAQ page: its questions and answers |
+| `products.html` | The Products page: product boxes and the fabric comparison table |
+| `roll-calculator.html` | The Roll Calculator page's wording and layout |
+| `roll-calculator-math.js` | All the Roll Calculator's math and rules (roll sizes, overlaps, staples) |
+| `roll-calculator.js` | Runs the Roll Calculator page (buttons, results, drawings); no math |
+| `become-a-distributor.html` | The Become a Distributor page, including a copy of the wholesale pricing form |
 | `styles.css` | All colors, fonts, spacing, sizes, layout |
 | `script.js` | Scroll animations, counters, the form submit handler |
 | `menu.js` | Opens and closes the phone menu |
+| `video.js` | Loads the Products page install video |
+| `distributor.js` | Counts "40%+" and "$2,000" up on the Become a Distributor page |
 | `images/` | Photos and the logo |
 
 `index.html` has comment markers named after what sections visibly are —
 `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER` and so on. Use them to find the
-right spot when someone says "the products section." `faq.html` uses the
-same markers: `NAVIGATION`, `FAQ`, `FOOTER`.
+right spot when someone says "the products section." The other pages use
+the same kind of markers: `faq.html` has `NAVIGATION`, `FAQ`, `CONTACT`,
+`FOOTER`; `products.html` has `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
+`CTA BAND`, `FOOTER`; `roll-calculator.html` has `NAVIGATION`,
+`ROLL CALCULATOR`, `FOOTER`; `become-a-distributor.html` has `NAVIGATION`,
+`BANNER`, `WHY CARRY NORTH SLOPE`, `SUPPORT FOR YOUR STORE`,
+`WHAT YOU CAN CARRY`, `APPLICATION FORM`, `FOOTER`.
 
 The navigation bar (including the phone menu inside it) and footer are
 copied into every page. A change to any of them has to be made in every page
 file, so ask them to paste each one. The phone menu lists every page and the
 home page's main sections, the same ones as the desktop menu, so a link added
 to or removed from the desktop menu has to change in the phone menu too.
+The desktop menu is Benefits, Products, Roll Calculator, FAQ, Become a
+Distributor, Contact. "Why We're Different" and "Compare" were removed from
+both menus and the footer at the owner's request; those home page sections
+are only reached by scrolling.
+
+Only `become-a-distributor.html` and `index.html` load `script.js`. The
+other pages must not use the `fade-up` class, which stays invisible without
+it.
 
 ## Rules
 
@@ -153,12 +175,18 @@ to or removed from the desktop menu has to change in the phone menu too.
 Phone (385) 437-6527 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
-**The phone number appears in three files.** It is in `index.html`, in the
-footer of `faq.html`, and in `script.js`, inside the contact form's error
-message. If it ever changes, all three files have to change — otherwise the
-old number keeps being shown, including to exactly the people whose form
-submission just failed. The email and address are in the footers of both
-`index.html` and `faq.html`.
+**These appear in many files.** The phone number, email, and address are
+in the footer of every page (`index.html`, `faq.html`, `products.html`,
+`roll-calculator.html`, `become-a-distributor.html`), and in the "Prefer to
+reach out directly?" box beside the form on the home page and on the Become
+a Distributor page. The phone number and email are also in the "Still have
+questions?" box at the bottom of `faq.html`, the email in the FAQ's
+contractor answer, and the phone number in `script.js`, inside the form's
+error message. Several of these are links (`mailto:` for the email,
+`tel:` and `sms:` Call and Text buttons for the phone). If any of them ever
+changes, every one of those places has to change, links included —
+otherwise the old details keep being shown, including to exactly the people
+whose form submission just failed.
 
 ## Be extra careful
 
@@ -176,6 +204,12 @@ without anyone noticing.
   appears and its button still says "Request Wholesale Pricing", and to send
   one test submission after the change goes live and confirm it shows up
   under Netlify's Forms tab. Only that proves leads are still arriving.
+
+  The form is on **two** pages: the home page's "Request Wholesale Pricing"
+  section and an exact copy of that section at the bottom of
+  `become-a-distributor.html`. Both must keep the same form name, fields,
+  and Netlify setup, so a change to the form's fields has to be made in
+  both files, in the same pull request.
 - **The form's "did it really send" check.** The form's code in `script.js`
   checks that the submission was actually accepted before telling the
   customer "Request Sent". Without that check, the form says "Request Sent"
@@ -185,7 +219,11 @@ without anyone noticing.
 - **Section ids and navigation.** On the home page, nav links are
   same-page anchors like `#products`. On other pages the same links point
   back to the home page, like `/#products`. Renaming a home page section's
-  `id` breaks the matching link on every page. After a change here, tell
+  `id` breaks the matching link on every page. Pages are linked as
+  `/products`, `/roll-calculator`, `/faq`, and `/become-a-distributor`. The
+  FAQ's minimum order and wholesale pricing answers, and the Products
+  page's "Want to carry our products?" button, link to Become a
+  Distributor. After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
