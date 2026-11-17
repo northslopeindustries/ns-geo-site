@@ -35,7 +35,7 @@ users to the Find a Distributor page, never toward buying from North Slope.
 
 **Contractors are different.** There is no contractor page or application
 form. Landscape contractors who want a direct account are told to email
-sales@northslopeindustries.com, so pointing contractors there is correct.
+support@ns-geo.com, so pointing contractors there is correct.
 **Never put contractor prices anywhere on the site.**
 
 Until a page exists, mention it by name as plain text, never as a link.
@@ -368,7 +368,7 @@ Read the log, fix the cause, and say in plain language what went wrong.
 
 ## Contact details currently on the page
 
-Phone (385) 437-6527 · sales@northslopeindustries.com ·
+Phone (385) 437-6527 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
