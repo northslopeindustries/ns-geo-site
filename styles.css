@@ -1084,3 +1084,61 @@
       html:has(body.page-distributor) { scroll-behavior: auto; }
       .page-distributor .fade-up { opacity: 1; transform: none; transition: none; }
     }
+
+    /* ─── CONTACT US PAGE ───────────────────────────────────── */
+    /* Banner, scroll animations and form look are borrowed from the Become a
+       Distributor page (distributor-page, fade-up, form-card); the rules
+       here only cover what is new on this page. */
+    .contact-page-banner .section-header { margin-bottom: 0; }
+    /* The subheading runs on one line wherever the screen is wide enough. */
+    .contact-page-banner .section-header p { max-width: none; }
+    /* The banner and the boxes below it read as one dark section: same navy,
+       and only a small gap between the subheading and the boxes. */
+    .contact-page-banner { padding-bottom: 2.5rem; }
+    .contact-page-main { background: var(--navy-deep); padding: 0 0 4rem; }
+    .contact-side { display: flex; flex-direction: column; gap: 1.25rem; }
+    /* Left column: phone, email, address and hours, each with an icon. */
+    .contact-details {
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .contact-detail { display: flex; align-items: flex-start; gap: 0.9rem; }
+    .contact-detail-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(0,188,212,0.12); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center; color: var(--primary);
+    }
+    .contact-detail-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+    .contact-detail-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--primary);
+    }
+    .contact-detail-value { font-size: 1rem; color: var(--foreground); line-height: 1.5; }
+    .contact-detail .direct-phone { min-height: 44px; }
+    /* Small wholesale card under the contact info, styled like the
+       "Prefer to reach out directly?" box on the Become a Distributor page. */
+    .contact-wholesale {
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1.25rem 1.5rem;
+    }
+    .contact-wholesale-title {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--primary); margin-bottom: 0.4rem;
+    }
+    .contact-wholesale-text { font-size: 0.9rem; color: var(--foreground); margin-bottom: 1rem; }
+    .contact-wholesale-btn { padding: 0.65rem 1.1rem; font-size: 0.85rem; }
+    @media (max-width: 768px) {
+      .contact-page-banner { padding-bottom: 2rem; }
+      .contact-page-main { padding: 0 0 3rem; }
+    }
+    @media (max-width: 480px) {
+      .contact-details { padding: 1.5rem 1.1rem; }
+      .contact-wholesale { padding: 1.25rem 1.1rem; }
+      .contact-page-main .form-card { padding: 1.5rem 1.1rem; }
+      .contact-wholesale-btn { width: 100%; justify-content: center; text-align: center; white-space: normal; }
+    }
+    /* Devices set to reduce motion: everything shows at once, nothing moves. */
+    @media (prefers-reduced-motion: reduce) {
+      .page-contact .fade-up { opacity: 1; transform: none; transition: none; }
+    }

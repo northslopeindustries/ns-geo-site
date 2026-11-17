@@ -35,6 +35,7 @@ def warn(msg):
 # ---------------------------------------------------------------- files
 
 for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "become-a-distributor.html",
+          "contact.html",
           "styles.css", "script.js",
           "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js"]:
     if not os.path.isfile(f):
@@ -53,6 +54,7 @@ faq = open("faq.html", encoding="utf-8", errors="replace").read()
 products = open("products.html", encoding="utf-8", errors="replace").read()
 calculator = open("roll-calculator.html", encoding="utf-8", errors="replace").read()
 distributor = open("become-a-distributor.html", encoding="utf-8", errors="replace").read()
+contact = open("contact.html", encoding="utf-8", errors="replace").read()
 
 
 # ------------------------------------------------- truncated / partial paste
@@ -96,12 +98,13 @@ if opens != closes:
 
 # ---------------------------------------------------------------- other pages
 
-# faq.html, products.html, roll-calculator.html and become-a-distributor.html
-# are separate, hand-edited pages, so they get the same structural checks as
-# index.html. The first three have no form and load no script.js by design;
-# become-a-distributor.html carries a copy of the wholesale form, checked below.
+# faq.html, products.html, roll-calculator.html, become-a-distributor.html
+# and contact.html are separate, hand-edited pages, so they get the same
+# structural checks as index.html. The first three have no form and load no
+# script.js by design; become-a-distributor.html carries a copy of the
+# wholesale form and contact.html the general contact form, both checked below.
 for page, where in ((faq, "faq.html"), (products, "products.html"), (calculator, "roll-calculator.html"),
-                    (distributor, "become-a-distributor.html")):
+                    (distributor, "become-a-distributor.html"), (contact, "contact.html")):
     page_low = page.lower()
     for tag in ["html", "head", "body"]:
         if "<" + tag not in page_low:
@@ -165,7 +168,8 @@ if 'src="script.js"' not in html:
 # only way to reach other pages and sections. The button needs both its menu
 # markup and menu.js on every page, or it shows up but does nothing.
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
-                    (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html")):
+                    (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html"),
+                    (contact, "contact.html")):
     if 'id="mobile-menu"' not in text:
         fail(
             "%s is missing the phone menu (id=\"mobile-menu\") -- phone "
@@ -218,7 +222,7 @@ referenced = set()
 
 for text, where in ((html, "index.html"), (faq, "faq.html"), (products, "products.html"),
                     (calculator, "roll-calculator.html"), (distributor, "become-a-distributor.html"),
-                    (css, "styles.css")):
+                    (contact, "contact.html"), (css, "styles.css")):
     for m in re.finditer(r"images/([A-Za-z0-9._-]+)", text):
         name = m.group(1)
         referenced.add(name)
@@ -295,6 +299,41 @@ if 'src="script.js"' not in distributor:
     fail(
         "become-a-distributor.html no longer loads script.js -- the form "
         "submit handler would not exist and the form would not send."
+    )
+
+# The Contact Us page has its own, separate form for general questions
+# ("general-contact"), with the same Netlify setup and spam honeypot, sent
+# through the same handleFormSubmit (and its response.ok check) as the
+# wholesale form. It must never carry the wholesale form's name, or general
+# questions would land among the wholesale leads.
+contact_parts = [
+    ('name="general-contact"', "the name Netlify files submissions under"),
+    ('value="general-contact"', "the hidden form-name value Netlify routes submissions by"),
+    ('data-netlify="true"', "the attribute that makes Netlify handle the form"),
+    ('name="form-name"', "the hidden input Netlify needs to route submissions"),
+    ('name="bot-field"', "the spam honeypot"),
+]
+for needle, why in contact_parts:
+    if needle not in contact:
+        fail(
+            "The general contact form on contact.html is missing %s -- %s. "
+            "Messages would silently stop arriving while the page still "
+            "reported success." % (needle, why)
+        )
+if 'name="wholesale-pricing"' in contact:
+    fail(
+        "contact.html contains a form named wholesale-pricing. Its form must "
+        "be general-contact, kept separate from the wholesale leads."
+    )
+if "handleFormSubmit" not in contact:
+    fail(
+        "contact.html no longer calls handleFormSubmit -- the form would do a "
+        "full page reload instead of submitting cleanly."
+    )
+if 'src="script.js"' not in contact:
+    fail(
+        "contact.html no longer loads script.js -- the form submit handler "
+        "would not exist and the form would not send."
     )
 
 
