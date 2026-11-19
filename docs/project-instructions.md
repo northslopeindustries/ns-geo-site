@@ -172,7 +172,7 @@ it.
 
 ## Contact details currently on the page
 
-Phone (385) 437-6527 · support@ns-geo.com ·
+Phone (385) 437-6536 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 **These appear in many files.** The phone number, email, and address are
