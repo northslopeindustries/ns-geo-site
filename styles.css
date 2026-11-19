@@ -1150,6 +1150,9 @@
     .contact-page-banner .section-header { margin-bottom: 0; }
     /* The subheading runs on one line wherever the screen is wide enough. */
     .contact-page-banner .section-header p { max-width: none; }
+    /* The Products page's "Compare Our Fabrics" subheading also runs on one
+       line wherever the screen is wide enough. */
+    .fabric-compare .section-header p { max-width: none; }
     /* The banner and the boxes below it read as one dark section: same navy,
        and only a small gap between the subheading and the boxes. */
     .contact-page-banner { padding-bottom: 2.5rem; }
