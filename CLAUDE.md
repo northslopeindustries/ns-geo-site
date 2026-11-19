@@ -29,11 +29,14 @@ screen) holding two semi-transparent glass cards side by side (stacked on
 phones): "Shopping for a project?" (tag "For Homeowners & Contractors";
 Find a Store, Roll Calculator, How to Install) and "Own a store or supply
 yard?" (tag "For Stores & Supply Yards"; Become a Distributor). Below
-it: "Which Product Do I Need?" (tag "Project Guide"; three cards, each
-linking to its Products page box: Weed Control / Pro Guard 20, Water &
-Soil Control / Nonwoven Filter Fabric, Hold It in Place / Sod Staples,
-each with a "Good for" line; plus a "See all products" link). Then "Why
-Our Fabric Is Different", with the fabric close-up photo as the whole
+it: "Which Product Do I Need?" (tag "Project Guide"; three collapsible
+cards, all closed on load, each showing only its icon, title and a FAQ-style
+"+" until opened: Weed Control / Pro Guard 20, Water & Soil Control /
+Nonwoven Filter Fabric, Hold It in Place / Sod Staples; opened, each shows
+its photo, product name, "Good for" line and a link to its Products page
+box; plus a "See all products" link). The cards are `<details>` boxes, so
+they work with no script; `home.js` only makes them slide open and closed.
+Then "Why Pro Guard 20 Is Different", with the fabric close-up photo as the whole
 section's background under a dark overlay and four columns (5 oz True
 Weight, Two-Layer Build, Blocks Weed Roots, 20-Year Rated); "What Our
 Customers Say" (three review cards; currently PLACEHOLDERS, "Customer
@@ -149,6 +152,7 @@ record of what changed on the site rather than a list of code edits.
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
 | `video.js` | Loads the Products page install video when its "More details" opens | Rarely — behavior only |
+| `home.js` | Slides the home page's "Which Product Do I Need?" cards open and closed (they work without it) | Rarely — behavior only |
 | `distributor.js` | Counts numbers up on the Become a Distributor page (any element with `data-count-to`; nothing on the page uses it right now) | Rarely — behavior only |
 | `images/` | 10 image files | Swapping or adding photos |
 | `validate.py` | The pre-deploy check | Only when the checks themselves need changing |
@@ -178,7 +182,8 @@ the question in `<summary>`; it opens and closes with no JavaScript.
 `video.js`, and `roll-calculator.html` loads `menu.js`,
 `roll-calculator-math.js`, then `roll-calculator.js`; none of them loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
-`script.js`). `become-a-distributor.html` and `contact.html` are
+`script.js`). `index.html` loads `script.js` (scroll animations),
+`menu.js`, then `home.js`. `become-a-distributor.html` and `contact.html` are
 different: they load `script.js` (for their forms and the `fade-up` scroll
 animations) and `menu.js` (`become-a-distributor.html` then also loads
 `distributor.js`), so `fade-up` works there. Their animations and counters

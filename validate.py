@@ -37,7 +37,7 @@ def warn(msg):
 for f in ["index.html", "faq.html", "products.html", "roll-calculator.html", "become-a-distributor.html",
           "contact.html",
           "styles.css", "script.js",
-          "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js"]:
+          "menu.js", "video.js", "roll-calculator.js", "roll-calculator-math.js", "home.js"]:
     if not os.path.isfile(f):
         fail("Required file is missing: " + f)
 

@@ -1268,21 +1268,36 @@
        to its product's box on the Products page (stacked on phones). */
     .project-guide { background: var(--navy-base); }
     .project-guide .section-header { margin-bottom: 2.25rem; }
-    .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
-    .guide-card-wrap > .guide-card { height: 100%; }
+    /* Each card is a <details> box that opens and closes like the FAQ
+       questions (home.js only makes it slide smoothly). Cards line up at
+       the top, so opening one does not stretch or move the others. */
+    .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: start; }
     .guide-card {
-      display: flex; flex-direction: column; gap: 0.75rem;
-      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .guide-card:hover { transform: translateY(-3px); border-color: rgba(0,188,212,0.6); box-shadow: 0 8px 24px rgba(0,188,212,0.18); }
-    .guide-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-    .guide-card-head { display: flex; align-items: center; gap: 0.75rem; }
+    .guide-card[open] { border-color: rgba(0,188,212,0.5); }
+    .guide-card-head {
+      display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1.5rem;
+      cursor: pointer; list-style: none; border-radius: 0.75rem;
+    }
+    .guide-card-head::-webkit-details-marker { display: none; }
+    .guide-card-head:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .guide-card-head .faq-icon { margin-left: auto; }
+    .guide-card[open] .faq-icon::after { opacity: 0; }
+    /* Hover highlight only with a mouse, so it does not stay stuck on a
+       card after tapping it closed on a phone. */
+    @media (hover: hover) {
+      .guide-card:hover { border-color: rgba(0,188,212,0.5); }
+      .guide-card-head:hover .guide-card-title { color: var(--primary); }
+    }
+    .guide-card-body { overflow: hidden; }
+    .guide-card-inner { display: flex; flex-direction: column; gap: 0.75rem; padding: 0 1.5rem 1.5rem; }
     .guide-card-icon {
       width: 46px; height: 46px; flex-shrink: 0; border-radius: var(--radius);
       background: rgba(0,188,212,0.12); color: var(--primary); display: flex; align-items: center; justify-content: center;
     }
-    .guide-card-title { font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #fff; }
+    .guide-card-title { font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #fff; transition: color 0.2s; }
     /* Photos on the soft teal tint used on Become a Distributor (their white
        backgrounds are blended in). */
     .guide-card-img { display: flex; align-items: center; justify-content: center; height: 170px; border-radius: 0.5rem; overflow: hidden; background: #d9f1f4; }
@@ -1293,7 +1308,9 @@
     .guide-card-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: var(--primary); }
     .guide-card-good { font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; }
     .guide-card-good strong { color: var(--foreground); font-weight: 600; }
-    .guide-card-more { margin-top: auto; padding-top: 0.25rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    .guide-card-more { align-self: flex-start; padding-top: 0.25rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    .guide-card-more:hover { color: #fff; }
+    .guide-card-more:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
     .project-all { margin-top: 1.25rem; text-align: right; }
     .project-all a { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
     .project-all a:hover { color: #fff; }
