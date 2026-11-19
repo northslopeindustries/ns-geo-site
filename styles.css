@@ -1351,6 +1351,9 @@
        same background as the reviews so it is not its own section. */
     .reviews { padding-bottom: 3.5rem; }
     .help-line { background: var(--navy-base); text-align: center; padding: 0 1.5rem 3rem; font-size: 0.95rem; color: var(--muted-fg); }
+    /* While the reviews section is hidden, the help line needs its own
+       space above it. */
+    .reviews[hidden] + .help-line { padding-top: 3rem; }
     .help-line a { color: var(--primary); font-weight: 600; margin-left: 0.35rem; white-space: nowrap; }
     .help-line a:hover { color: #fff; }
     @media (max-width: 1024px) {

@@ -40,8 +40,9 @@ Then "Why Pro Guard 20 Is Different", with the fabric close-up photo as the whol
 section's background under a dark overlay and four columns (5 oz True
 Weight, Two-Layer Build, Blocks Weed Roots, 20-Year Rated); "What Our
 Customers Say" (three review cards; currently PLACEHOLDERS, "Customer
-Name", to be replaced with real Google reviews by editing each card's
-quote and name); and one small centered line above the footer,
+Name", so the whole section is HIDDEN with the `hidden` attribute on its
+`<section>` until the owner supplies real Google reviews: edit each card's
+quote and name, then remove `hidden`); and one small centered line above the footer,
 "Questions? We're here to help. Contact Us →", with no box. Its wholesale
 detail (benefits, Intermountain West, product overview, comparison table,
 "Become a Wholesale Partner" and the wholesale form) moved to Become a
