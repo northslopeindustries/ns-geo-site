@@ -409,7 +409,7 @@ Read the log, fix the cause, and say in plain language what went wrong.
 
 ## Contact details currently on the page
 
-Phone (385) 437-6527 · support@ns-geo.com ·
+Phone (385) 437-6536 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
 The phone number, email, and address also appear in the footers of
@@ -420,6 +420,6 @@ the form on the home page and on `become-a-distributor.html` (on the
 latter with Call and Text buttons and a clickable email). The phone number
 and email also appear in the "Still have questions?" box at the bottom of
 `faq.html` (including its Call and Text buttons, which dial
-`+13854376527`), the email in the FAQ's contractor answer, and the phone
+`+13854376536`), the email in the FAQ's contractor answer, and the phone
 number in `script.js`, in the form's error message. If any of them changes, it has to change in every one of those
 files.
