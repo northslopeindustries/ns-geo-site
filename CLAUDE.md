@@ -40,7 +40,12 @@ support@ns-geo.com, so pointing contractors there is correct.
 
 Until a page exists, mention it by name as plain text, never as a link.
 (The FAQ answers still use the older name "Where to Buy" for Find a
-Distributor.)
+Distributor.) A Where to Buy page (`where-to-buy.html`, store list in
+`where-to-buy.js`) is built but waiting, unmerged, on the draft branch
+`claude/where-to-buy-s6wzj6` (PR #33) until the owner supplies the real
+store list; it holds two made-up sample stores. That branch also links the
+two FAQ answers to it. Until it is merged, "Where to Buy page" stays plain
+text on the live site.
 
 Rewriting an existing wholesale section in consumer language is a strategy
 decision. Do it when asked, and say plainly in the reply which wholesale
@@ -118,13 +123,14 @@ record of what changed on the site rather than a list of code edits.
 | `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
 | `roll-calculator.html` | The Roll Calculator page at ns-geo.com/roll-calculator | Calculator wording and layout |
 | `become-a-distributor.html` | The Become a Distributor page at ns-geo.com/become-a-distributor, with a copy of the wholesale pricing form | Distributor page wording, cards, and layout |
+| `contact.html` | The Contact Us page at ns-geo.com/contact, with the separate general contact form | Contact page wording and layout |
 | `roll-calculator-math.js` | All the Roll Calculator's math: roll sizes, overlaps, staple spacing, search | Changing a calculator rule or roll size |
 | `roll-calculator.js` | Runs the Roll Calculator page (areas, buttons, showing results); no math | Rarely — behavior only |
 | `styles.css` | All styling | Colors, spacing, fonts, sizes, layout |
 | `script.js` | Scroll animations, counters, form submit | Rarely — behavior only |
 | `menu.js` | Opens and closes the phone menu | Rarely — behavior only |
 | `video.js` | Loads the Products page install video when its "More details" opens | Rarely — behavior only |
-| `distributor.js` | Counts "40%+" and "$2,000" up on the Become a Distributor page | Rarely — behavior only |
+| `distributor.js` | Counts numbers up on the Become a Distributor page (any element with `data-count-to`; nothing on the page uses it right now) | Rarely — behavior only |
 | `images/` | 10 image files | Swapping or adding photos |
 | `validate.py` | The pre-deploy check | Only when the checks themselves need changing |
 | `netlify.toml` | Hosting config and the deploy check | Rarely |
@@ -135,10 +141,11 @@ are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
-`CTA BAND`, `FOOTER`. `roll-calculator.html` uses `NAVIGATION`,
-`ROLL CALCULATOR`, `FOOTER`. `become-a-distributor.html` uses `NAVIGATION`,
-`BANNER`, `WHY CARRY NORTH SLOPE`, `SUPPORT FOR YOUR STORE`,
-`WHAT YOU CAN CARRY`, `APPLICATION FORM`, `FOOTER`.
+`COMPETITOR COMPARISON`, `CTA BAND`, `FOOTER`. `roll-calculator.html` uses
+`NAVIGATION`, `ROLL CALCULATOR`, `FOOTER`. `become-a-distributor.html` uses
+`NAVIGATION`, `BANNER`, `WHY CARRY NORTH SLOPE`, `WAREHOUSE PHOTOS`,
+`WHAT YOU CAN CARRY`, `APPLICATION FORM`, `FOOTER`. `contact.html` uses
+`NAVIGATION`, `BANNER`, `CONTACT DETAILS AND FORM`, `FOOTER`.
 
 The site is moving to multiple pages. There is no shared template, so the
 navigation bar (including the phone menu inside it) and footer are copied
@@ -149,17 +156,48 @@ the question in `<summary>`; it opens and closes with no JavaScript.
 `video.js`, and `roll-calculator.html` loads `menu.js`,
 `roll-calculator-math.js`, then `roll-calculator.js`; none of them loads `script.js`, so
 they must not use the `fade-up` class (it stays invisible without
-`script.js`). `become-a-distributor.html` is different: it loads
-`script.js` (for the form and the `fade-up` scroll animations), `menu.js`,
-then `distributor.js`, so `fade-up` works there. Its animations and
-counters are skipped for visitors whose device is set to reduce motion.
+`script.js`). `become-a-distributor.html` and `contact.html` are
+different: they load `script.js` (for their forms and the `fade-up` scroll
+animations) and `menu.js` (`become-a-distributor.html` then also loads
+`distributor.js`), so `fade-up` works there. Their animations and counters
+are skipped for visitors whose device is set to reduce motion.
+
+The banners at the top of Become a Distributor and Contact Us
+(`distributor-page` sections) have faint teal mountain lines behind them
+(`dist-banner-mountains`). The headings at the top of FAQ, Roll Calculator
+and Products have the same drawing: there the heading block has class
+`banner-mountains-host`, which paints a full-width darker navy band
+(`--navy-deep`, the same as those banners) from the top of the page down to
+where the content starts, with the lines along its bottom edge. Reuse that
+drawing and styling rather than making a new one.
 
 The Pro Guard 20 box appears on both the home page and the Products page
 with the same content. A change to its wording, badges, or sizes has to be
 made in both. The Products page boxes have ids `pro-guard-20`,
 `nonwoven-filter-fabric`, and `sod-staples`, which the footer's Products
 list links to. The nonwoven
-product is always called "Nonwoven Filter Fabric".
+product is always called "Nonwoven Filter Fabric". Below "Compare Our
+Fabrics", the Products page also has the home page's "Pro Guard 20 vs. The
+Competition" table and its note about where competitor specs come from
+(copied from the home page's `COMPARE` section, without `fade-up`); a
+change to that table has to be made in both.
+
+The Become a Distributor page, top to bottom: the banner (photo of a loaded
+trailer, "Request Wholesale Pricing" button jumping to `#apply`); "Why
+Carry North Slope Products?" with exactly six matching cards in two rows of
+three (stacked on phones), each an icon, white title and description, no
+big numbers: 40%+ Margins, $2,000 Minimum Order, Fast Regional Delivery,
+Proven Sell-Through, Contractor-Grade Reputation, Retail-Ready Packaging;
+the two warehouse photos side by side (captions on a dark strip:
+"Springville, Utah Distribution Center / Hundreds of rolls in stock, ready
+to ship" and "Delivery of Any Size / From one pallet to a full truckload.");
+"What You Can Carry", with text and a "See Full Product Details" button on
+the left and three slim clickable product cards on the right (each links
+to its box on the Products page; the Pro Guard 20 photo is zoomed with
+`dist-carry-zoom` because the roll is thin in a square photo); then the
+application form section. The owner removed the "Support for Your Store"
+section, the "Ships from Springville, UT" photo badge, and the "Direct
+importer" card, and asked for no em dashes and no "1–2 days" on this page.
 
 Each Products page box ends with a "More details" button: a `<details>`
 element (class `product-details`) whose `<summary>` shows "More details"
@@ -173,16 +211,19 @@ has no "More details" section; only the Products page does. The Pro Guard
 only when the section opens and empties again when it closes, so the video
 never loads with the page and stops when the section is closed.
 
-The phone menu shows at 768px wide and below, where the top nav links and
-the nav's "Request Wholesale Pricing" button are hidden. It is the
-three-line `.menu-toggle` button plus the `#mobile-menu` list: Home (with
-Benefits and Contact), Products (one link to the Products page, with no
-product names under it), Roll Calculator, FAQ, and Become a Distributor,
-with the wholesale pricing button at the bottom. The desktop menu is
-Benefits, Products, Roll Calculator, FAQ, Become a Distributor, Contact.
-"Why We're Different" and "Compare" were taken out of both menus and the
-footer at the owner's request; those home page sections are only reached
-by scrolling. `menu.js` opens and
+The desktop menu and the phone menu are the same six links in the same
+order on every page: Home, Products, Become a Distributor, Roll
+Calculator, FAQ, Contact Us. Each page marks its own link with
+`aria-current="page"`, which shows it in teal in both menus (Home on the
+home page, whose Home link is `#top`; other pages link Home to `/`). The
+phone menu shows at 768px wide and below, where the top nav links and the
+nav's "Request Wholesale Pricing" button are hidden. It is the three-line
+`.menu-toggle` button plus the `#mobile-menu` list of those six links, with
+the wholesale pricing button at the bottom. "Benefits", "Why We're
+Different" and "Compare" were taken out of both menus and the footer at
+the owner's request; those home page sections are only reached by
+scrolling. The footer's Company list is FAQ, Become a Distributor, Contact
+Us. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
 
@@ -286,7 +327,8 @@ rows, joins in rows 2–5 at 49.5', 98.5', 147.5', 196.5', row 6 3.5' over,
   improvement is a bug here, because nobody will notice it before it ships.
 - **Stay in the smallest set of files that does the job.** A copy change is
   the page file it appears on (`index.html`, `faq.html`, `products.html`,
-  `roll-calculator.html`, or `become-a-distributor.html`) only. A color
+  `roll-calculator.html`, `become-a-distributor.html`, or `contact.html`)
+  only. A color
   change is `styles.css` only. If a request seems
   to need more files than expected, say so before spreading out.
 - **No build step, ever.** No npm, no `package.json`, no framework, no
@@ -336,13 +378,27 @@ anyone noticing.
   there is no separate application link.
 
   The form is on TWO pages: the home page's "Request Wholesale Pricing"
-  section (`id="contact"`) and an exact copy of that whole section at the
-  bottom of `become-a-distributor.html` (`id="apply"`, which the banner's
-  "Request Wholesale Pricing" button jumps to). Both forms must keep the
+  section (`id="contact"`) and a copy at the bottom of
+  `become-a-distributor.html` (`id="apply"`). Both forms must keep the
   same name, fields, and Netlify setup, so a change to the form's fields
-  has to be made in both. `validate.py` checks both. The copy differs from
-  the home page only in its "Prefer to reach out directly?" box, which has
-  Call and Text buttons by the phone number and a clickable email.
+  has to be made in both. `validate.py` checks both. The section around
+  the Become a Distributor copy differs: its intro says "a team member will
+  reply within 1 business day with pricing and terms", its list is
+  Wholesale pricing sheet, Minimum order and volume tier details, Product
+  samples, Product flyers, Display stand (with a "Coming soon" tag), and
+  Dedicated account representative, the note under its button says
+  "within 1 business day", and its "Prefer to reach out directly?" box has
+  Call and Text buttons and a clickable email. The home page section still
+  says "within 24 hours", and so does the shared success message in
+  `script.js`.
+
+  **Every "Request Wholesale Pricing" link on the site goes to the
+  Become a Distributor form** (`/become-a-distributor#apply`, or `#apply`
+  on that page): the header button, the phone-menu button and the footer
+  button on every page, and the home page's hero and "Request Wholesale
+  Pricing Now" buttons. Nothing links to the home page form any more,
+  though it is still there and still works. The Products page's "Want to
+  carry our products?" button goes to the top of Become a Distributor.
 
   **Check the form in the repo source, never on the live site.** Netlify's
   build-time form detection deliberately strips `data-netlify="true"` and
@@ -369,21 +425,33 @@ anyone noticing.
   500, so the form tells the customer "Request Sent" while the lead is lost.
   Never remove it as a side effect of another change. If a request would
   remove it, say in the same reply what it protects against.
-- **Section ids and navigation.** On the home page, nav links are
-  same-page anchors (`#products`, `#contact`, and so on). On other pages
-  the same links point back to the home page (`/#products`, `/#contact`),
-  and the logo points to `/`. The FAQ page is linked as `/faq` and the
-  Products page as `/products`; the desktop "Products" link and the home
-  page's "View Products" button go there, not to the home page's own
-  `#products` section. Renaming a home page section `id`, or a Products
-  page box id, breaks the matching links on every page. Every page and
-  section in the desktop nav is also in the phone menu, and every page is
-  reachable from the footer (the FAQ and Become a Distributor
-  (`/become-a-distributor`) from the Company list, the Products page and
-  the Roll Calculator (`/roll-calculator`) from the Products list). The
-  FAQ's minimum order and wholesale pricing answers, and the Products
-  page's "Want to carry our products?" button, also link to Become a
-  Distributor. After a change here, tell
+- **The general contact form** on `contact.html`. It is a separate
+  Netlify form, `name="general-contact"` (Name, Email, Phone, "I am a…",
+  Message), with the same Netlify setup and `bot-field` honeypot as the
+  wholesale form, sent through the same `handleFormSubmit` and its
+  `response.ok` check, so general questions never land among wholesale
+  leads. `validate.py` checks it and fails if it is ever named
+  `wholesale-pricing`. Its success message comes from the form's
+  `data-success-text` attribute ("✓ Message Sent! We’ll be in touch
+  soon."); forms without that attribute show the original wholesale
+  message. **Never put a straight apostrophe (') in that attribute**: when
+  Netlify publishes the site it rewrites the form tag with single quotes,
+  so a straight apostrophe ends the message early (it once showed only
+  "✓ Message Sent — We"). Use the curly ’ instead. This only shows on the
+  published site, not in a local copy.
+- **Section ids and navigation.** The menus link to pages (`/`,
+  `/products`, `/become-a-distributor`, `/roll-calculator`, `/faq`,
+  `/contact`); the home page's Home link and logo are `#top`, every other
+  logo points to `/`. The desktop "Products" link and the home page's
+  "View Products" button go to `/products`, not to the home page's own
+  `#products` section. Renaming a home page section `id`, a Products page
+  box id, or `#apply` on Become a Distributor breaks the matching links on
+  every page. Every page in the desktop nav is also in the phone menu, and
+  every page is reachable from the footer (FAQ, Become a Distributor and
+  Contact Us from the Company list; the Products page and the Roll
+  Calculator from the Products list). The FAQ's minimum order and
+  wholesale pricing answers, and the Products page's "Want to carry our
+  products?" button, also link to Become a Distributor. After a change here, tell
   them to tap every link in the desktop menu, the phone menu, and the
   footer, on every page, in the preview.
 - **New pages, page titles and descriptions, and anything affecting
@@ -412,14 +480,19 @@ Read the log, fix the cause, and say in plain language what went wrong.
 Phone (385) 437-6536 · support@ns-geo.com ·
 2052 W 700 S, Unit J, Springville, UT 84663
 
-The phone number, email, and address also appear in the footers of
-`faq.html`, `products.html`, `roll-calculator.html`, and
-`become-a-distributor.html` (the footer email is a clickable `mailto:`
-link on every page), and in the "Prefer to reach out directly?" box beside
-the form on the home page and on `become-a-distributor.html` (on the
-latter with Call and Text buttons and a clickable email). The phone number
-and email also appear in the "Still have questions?" box at the bottom of
-`faq.html` (including its Call and Text buttons, which dial
-`+13854376536`), the email in the FAQ's contractor answer, and the phone
-number in `script.js`, in the form's error message. If any of them changes, it has to change in every one of those
-files.
+Business hours (Contact Us page only): Monday to Friday, 8am to 5pm
+(Mountain Time).
+
+The phone number, email, and address also appear in the footers of every
+page (the footer email is a clickable `mailto:` link on every page), and
+in the "Prefer to reach out directly?" box beside the form on the home
+page and on `become-a-distributor.html` (on the latter with Call and Text
+buttons and a clickable email; on the home page the email is plain text).
+`contact.html` shows all three, plus the hours, in its left column, with
+Call and Text buttons and a clickable email. The phone number and email
+also appear in the "Still have questions?" box at the bottom of `faq.html`
+(including its Call and Text buttons). Every Call and Text button dials
+`+13854376536`. The email also appears in the FAQ's contractor answer, and
+the phone number in `script.js`, in the form's error message. If any of
+them changes, it has to change in every one of those files, and in
+`docs/project-instructions.md`.
