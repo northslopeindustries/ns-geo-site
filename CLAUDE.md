@@ -27,7 +27,9 @@ The home page (`index.html`) is a brand page for both audiences: a banner
 ("North Slope Geotextiles", only as tall as its content, not the full
 screen) holding two semi-transparent glass cards side by side (stacked on
 phones): "Shopping for a project?" (tag "For Homeowners & Contractors";
-Find a Store, Roll Calculator, How to Install) and "Own a store or supply
+Find a Store, Roll Calculator, How to Install; How to Install goes to
+`/products#install-video`, which `video.js` opens to Pro Guard 20's "More
+details" section and its install video) and "Own a store or supply
 yard?" (tag "For Stores & Supply Yards"; Become a Distributor). Below
 it: "Which Product Do I Need?" (tag "Project Guide"; three collapsible
 cards, all closed on load, each showing only its icon, title and a FAQ-style
@@ -461,8 +463,11 @@ anyone noticing.
   `/contact`); the home page's Home link and logo are `#top`, every other
   logo points to `/`. The home page's product cards link to the
   Products page boxes (`/products#pro-guard-20` and so on), and its "How to
-  Install" button to the FAQ's install question (`/faq#how-to-install`).
-  Renaming a Products page box id, that FAQ id, or `#apply` on Become a Distributor breaks the matching links on
+  Install" button to the Pro Guard 20 install video (`/products#install-video`,
+  an id on the "Watch how to install it" heading; `video.js` opens the
+  closed "More details" section around it). The FAQ's install question also
+  has an id (`/faq#how-to-install`). Renaming a Products page box id,
+  `install-video`, that FAQ id, or `#apply` on Become a Distributor breaks the matching links on
   every page. Every page in the desktop nav is also in the phone menu, and
   every page is reachable from the footer (FAQ, Become a Distributor and
   Contact Us from the Company list; the Products page and the Roll

@@ -1385,3 +1385,6 @@
     /* "How to Install" on the home page jumps to this FAQ question; stop it
        just below the fixed menu bar. */
     .faq-item { scroll-margin-top: calc(68px + 1rem); }
+    /* The home page's "How to Install" button jumps to the Products page's
+       install video heading; stop it just below the fixed menu bar. */
+    .product-video-heading { scroll-margin-top: calc(68px + 1rem); }
