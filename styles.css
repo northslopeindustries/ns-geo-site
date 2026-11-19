@@ -1264,86 +1264,62 @@
     /* Same thin border as the outlined buttons (invisible on the solid ones),
        so every button in both cards is exactly the same height. */
     .hero-path .home-path-btns .btn-primary { border: 1.5px solid transparent; }
-    /* PROJECT GUIDE: six project tiles; the chosen one turns teal and its
-       panel of recommended products shows underneath. Each tile is the
-       label of a hidden radio button, and the rules below show the chosen
-       tile and panel, so it needs no script and works with a keyboard
-       (Tab to the tiles, arrow keys to change). */
+    /* PROJECT GUIDE ("Which Product Do I Need?"): three cards, each linking
+       to its product's box on the Products page (stacked on phones). */
     .project-guide { background: var(--navy-base); }
     .project-guide .section-header { margin-bottom: 2.25rem; }
-    .project-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-    .project-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.85rem; }
-    .project-tile {
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem;
-      min-height: 120px; padding: 1rem 0.6rem; text-align: center; cursor: pointer;
-      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
-      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
-    }
-    .project-tile:hover { border-color: rgba(0,188,212,0.6); transform: translateY(-2px); }
-    .project-tile-icon { color: var(--primary); display: flex; }
-    .project-tile-name { font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #fff; line-height: 1.25; }
-    #project-garden:checked ~ .project-tiles label[for="project-garden"],
-    #project-rock:checked ~ .project-tiles label[for="project-rock"],
-    #project-drain:checked ~ .project-tiles label[for="project-drain"],
-    #project-wall:checked ~ .project-tiles label[for="project-wall"],
-    #project-erosion:checked ~ .project-tiles label[for="project-erosion"],
-    #project-road:checked ~ .project-tiles label[for="project-road"] {
-      background: var(--primary); border-color: var(--primary);
-    }
-    #project-garden:checked ~ .project-tiles label[for="project-garden"] .project-tile-icon, #project-garden:checked ~ .project-tiles label[for="project-garden"] .project-tile-name,
-    #project-rock:checked ~ .project-tiles label[for="project-rock"] .project-tile-icon, #project-rock:checked ~ .project-tiles label[for="project-rock"] .project-tile-name,
-    #project-drain:checked ~ .project-tiles label[for="project-drain"] .project-tile-icon, #project-drain:checked ~ .project-tiles label[for="project-drain"] .project-tile-name,
-    #project-wall:checked ~ .project-tiles label[for="project-wall"] .project-tile-icon, #project-wall:checked ~ .project-tiles label[for="project-wall"] .project-tile-name,
-    #project-erosion:checked ~ .project-tiles label[for="project-erosion"] .project-tile-icon, #project-erosion:checked ~ .project-tiles label[for="project-erosion"] .project-tile-name,
-    #project-road:checked ~ .project-tiles label[for="project-road"] .project-tile-icon, #project-road:checked ~ .project-tiles label[for="project-road"] .project-tile-name {
-      color: var(--navy-deep);
-    }
-    #project-garden:focus-visible ~ .project-tiles label[for="project-garden"],
-    #project-rock:focus-visible ~ .project-tiles label[for="project-rock"],
-    #project-drain:focus-visible ~ .project-tiles label[for="project-drain"],
-    #project-wall:focus-visible ~ .project-tiles label[for="project-wall"],
-    #project-erosion:focus-visible ~ .project-tiles label[for="project-erosion"],
-    #project-road:focus-visible ~ .project-tiles label[for="project-road"] {
-      outline: 2px solid #fff; outline-offset: 3px;
-    }
-    .project-panels { margin-top: 1.25rem; }
-    .project-panel { display: none; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; }
-    #project-garden:checked ~ .project-panels .project-panel-garden,
-    #project-rock:checked ~ .project-panels .project-panel-rock,
-    #project-drain:checked ~ .project-panels .project-panel-drain,
-    #project-wall:checked ~ .project-panels .project-panel-wall,
-    #project-erosion:checked ~ .project-panels .project-panel-erosion,
-    #project-road:checked ~ .project-panels .project-panel-road { display: block; }
-    .project-panel-title { font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 1rem; }
-    .project-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .project-product {
-      display: flex; align-items: center; gap: 1rem;
-      background: var(--navy-base); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.75rem;
+    .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .guide-card-wrap > .guide-card { height: 100%; }
+    .guide-card {
+      display: flex; flex-direction: column; gap: 0.75rem;
+      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem;
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
-    .project-product:hover { transform: translateY(-3px); border-color: rgba(0,188,212,0.6); box-shadow: 0 8px 24px rgba(0,188,212,0.18); }
-    .project-product:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .guide-card:hover { transform: translateY(-3px); border-color: rgba(0,188,212,0.6); box-shadow: 0 8px 24px rgba(0,188,212,0.18); }
+    .guide-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .guide-card-head { display: flex; align-items: center; gap: 0.75rem; }
+    .guide-card-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: var(--radius);
+      background: rgba(0,188,212,0.12); color: var(--primary); display: flex; align-items: center; justify-content: center;
+    }
+    .guide-card-title { font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #fff; }
     /* Photos on the soft teal tint used on Become a Distributor (their white
        backgrounds are blended in). */
-    .project-product-img { flex: 0 0 110px; height: 90px; border-radius: 0.5rem; overflow: hidden; background: #d9f1f4; display: flex; align-items: center; justify-content: center; }
-    .project-product-img img { width: 100%; height: 100%; object-fit: contain; padding: 0.4rem; mix-blend-mode: multiply; }
+    .guide-card-img { display: flex; align-items: center; justify-content: center; height: 170px; border-radius: 0.5rem; overflow: hidden; background: #d9f1f4; }
+    .guide-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; mix-blend-mode: multiply; }
     /* The Pro Guard 20 photo is a thin roll in a large square frame, so it
        is zoomed in to fill its box about as much as the others. */
-    .project-product-img img.home-product-zoom { transform: scale(1.35); }
-    .project-product-body { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-    .project-product-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; transition: color 0.2s; }
-    .project-product:hover .project-product-name { color: var(--primary); }
-    .project-product-more { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    .guide-card-img img.home-product-zoom { transform: scale(1.6); }
+    .guide-card-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .guide-card-good { font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; }
+    .guide-card-good strong { color: var(--foreground); font-weight: 600; }
+    .guide-card-more { margin-top: auto; padding-top: 0.25rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
     .project-all { margin-top: 1.25rem; text-align: right; }
     .project-all a { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
     .project-all a:hover { color: #fff; }
-    /* Why Our Fabric Is Different: four bold tiles (big teal headline, one
-       line) beside the fabric close-up photo. */
-    .why-grid-tiles { align-items: center; }
-    .why-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .why-tile { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem 1.25rem; }
-    .why-tile-big { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 900; line-height: 1.1; color: var(--primary); margin-bottom: 0.6rem; }
-    .why-tile p { font-size: 0.88rem; color: var(--muted-fg); line-height: 1.6; }
+    /* WHY DIFFERENT: the fabric close-up photo fills the whole section,
+       under a dark overlay like the banner's, with four columns of white
+       text on top (two by two on tablets, stacked on phones). */
+    .why-photo { position: relative; overflow: hidden; background: var(--navy-deep); }
+    .why-photo::before {
+      content: ""; position: absolute; inset: 0;
+      background: url('images/pro-guard-20-fabric-texture.jpg') center / cover no-repeat;
+    }
+    .why-photo::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,30,46,0.86) 0%, rgba(10,30,46,0.80) 50%, rgba(10,30,46,0.90) 100%);
+    }
+    .why-photo > .container { position: relative; z-index: 1; }
+    .why-photo .section-header p { color: rgba(232,244,248,0.85); }
+    .why-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+    .why-col { text-align: center; padding: 0.5rem 0.75rem; }
+    .why-col-icon {
+      width: 54px; height: 54px; margin: 0 auto 1rem; border-radius: 50%;
+      background: rgba(0,188,212,0.16); border: 1px solid rgba(0,188,212,0.45); color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why-col h3 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    .why-col p { font-size: 0.92rem; color: rgba(232,244,248,0.88); line-height: 1.6; }
     /* What Our Customers Say: three review cards (stacked on phones). */
     .reviews { background: var(--navy-base); }
     .reviews .section-header { margin-bottom: 2.25rem; }
@@ -1354,21 +1330,17 @@
     .review-who { margin-top: auto; display: flex; flex-direction: column; gap: 0.1rem; }
     .review-name { font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; font-size: 0.95rem; }
     .review-source { font-size: 0.8rem; color: var(--muted-fg); }
-    /* Help strip at the bottom: text on the left, Call / Text / Email
-       buttons (the Contact Us page's) on the right. */
-    .help-strip { background: var(--navy-deep); padding: 4rem 0; }
-    .help-card {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem;
-      background: var(--card); border: 1px solid var(--border); border-radius: 1rem; padding: 2rem 2.25rem;
-    }
-    .help-text h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 900; color: #fff; margin-bottom: 0.4rem; }
-    .help-text p { color: var(--muted-fg); }
-    .help-email { color: var(--primary); }
-    .help-email:hover { color: #fff; }
-    .help-actions { flex-wrap: wrap; }
+    /* Help line: one small centered line just above the footer, on the
+       same background as the reviews so it is not its own section. */
+    .reviews { padding-bottom: 3.5rem; }
+    .help-line { background: var(--navy-base); text-align: center; padding: 0 1.5rem 3rem; font-size: 0.95rem; color: var(--muted-fg); }
+    .help-line a { color: var(--primary); font-weight: 600; margin-left: 0.35rem; white-space: nowrap; }
+    .help-line a:hover { color: #fff; }
     @media (max-width: 1024px) {
-      .project-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .why-grid-tiles .why-right { max-width: 560px; }
+      .why-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+      /* Three narrower cards side by side on tablets: zoom the roll less so
+         its ends stay inside the box. */
+      .guide-card-img img.home-product-zoom { transform: scale(1.2); }
     }
     @media (max-width: 900px) {
       .hero-paths { grid-template-columns: 1fr; }
@@ -1378,15 +1350,12 @@
       .home-path { padding: 1.6rem 1.3rem; }
     }
     @media (max-width: 768px) {
-      .project-products, .review-grid { grid-template-columns: 1fr; }
-      .help-strip { padding: 3rem 0; }
-      .help-card { padding: 1.6rem 1.3rem; }
+      .guide-grid, .review-grid { grid-template-columns: 1fr; }
+      .guide-grid { max-width: 480px; margin: 0 auto; }
+      .guide-card-img img.home-product-zoom { transform: scale(1.6); }
     }
     @media (max-width: 560px) {
-      .project-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
-      .project-tile { min-height: 104px; }
-      .project-panel { padding: 1.1rem; }
-      .why-tiles { grid-template-columns: 1fr; }
+      .why-cols { grid-template-columns: 1fr; }
       .project-all { text-align: left; }
     }
     @media (max-width: 480px) {
