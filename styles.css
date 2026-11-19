@@ -1256,6 +1256,15 @@
     .home-path h2 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
     .hero .home-path p { font-size: 0.98rem; color: rgba(232,244,248,0.85); line-height: 1.65; max-width: none; margin-bottom: 1.5rem; }
     .home-path-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; }
+    /* Buttons in the two banner cards: a little smaller, so the first
+       card's three fit on one line on laptops, and right under each card's
+       text (the second card's button is not pushed to the bottom). */
+    .hero-path .home-path-btns { margin-top: 0; gap: 0.6rem; }
+    .hero-path .home-path-btns .btn-primary,
+    .hero-path .home-path-btns .btn-outline { padding: 0.65rem 1.1rem; font-size: 0.85rem; }
+    /* Same thin border as the outlined buttons (invisible on the solid ones),
+       so every button in both cards is exactly the same height. */
+    .hero-path .home-path-btns .btn-primary { border: 1.5px solid transparent; }
     /* Our Products: three simple cards, each linking to its box on the
        Products page. Photos sit on the same soft teal tint as on Become a
        Distributor (their white backgrounds are blended in). */
