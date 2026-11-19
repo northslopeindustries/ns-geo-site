@@ -24,11 +24,11 @@ addresses everyone at once and so addresses nobody. Wholesale sections keep
 talking about margins, minimum orders, fulfillment speed, and reselling.
 
 The home page (`index.html`) is a brand page for both audiences: a banner
-("North Slope Geotextiles") with "Find a Store" and "Become a
-Distributor" buttons, a numbers band (20-Year Rated Lifespan, 5 oz True
-Weight per sq yd, 7 States Served), two side-by-side cards ("Shopping for
-a project?" for homeowners and contractors, "Own a store or supply yard?"
-for wholesale), "Our Products" (three cards linking to the Products page
+("North Slope Geotextiles", only as tall as its content, not the full
+screen) holding two semi-transparent glass cards side by side (stacked on
+phones): "Shopping for a project?" (tag "For Homeowners & Contractors";
+Find a Store, Roll Calculator, How to Install) and "Own a store or supply
+yard?" (tag "For Stores & Supply Yards"; Become a Distributor). Then "Our Products" (three cards linking to the Products page
 boxes), "Why Our Fabric Is Different" (four points and the fabric
 close-up), and a "Ready to get started?" closing band. Its wholesale
 detail (benefits, Intermountain West, product overview, comparison table,
@@ -147,8 +147,9 @@ record of what changed on the site rather than a list of code edits.
 | `docs/` | Internal notes, not published | Documentation changes |
 
 `index.html` is divided by comment markers named after what they visibly
-are on the page — `HERO`, `STATS BAND`, `WHO IT'S FOR`, `OUR PRODUCTS`,
-`WHY DIFFERENT`, `CLOSING BAND`, `FOOTER`.
+are on the page — `HERO` (which holds the two cards), `OUR PRODUCTS`,
+`WHY DIFFERENT`, `CLOSING BAND`, `FOOTER`. The banner's facts row, its
+"Scroll" arrow and the numbers band were removed at the owner's request.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,

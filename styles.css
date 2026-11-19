@@ -1236,17 +1236,25 @@
     /* Banner (hero), numbers band (stats-band), "Why Our Fabric Is
        Different" (why-different) and the closing band (cta-band) reuse
        the styles above; these rules cover what is new. */
-    .stats-grid.home-stats { grid-template-columns: repeat(3, 1fr); }
-    /* Two cards: shoppers on the left, store owners on the right. */
-    .home-paths { background: var(--navy-mid); padding: 4.5rem 0; }
-    .home-paths-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+    /* The banner is only as tall as its content (not the full screen), so
+       it looks right on large monitors and when zoomed out. */
+    .hero { min-height: 0; padding: calc(68px + 4.5rem) 0 4.5rem; }
+    .hero .hero-content { max-width: 1100px; }
+    /* Two glass cards in the banner, under the subheading: shoppers on the
+       left, store owners on the right (stacked on phones). The photo shows
+       through slightly behind a dark tint and a light blur. */
+    .hero-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 0.5rem; }
     .home-path {
       display: flex; flex-direction: column;
-      background: var(--navy-base); border: 1px solid var(--border);
-      border-radius: 1rem; padding: 2.25rem 2rem;
+      border-radius: 1rem; padding: 2rem 1.75rem;
     }
-    .home-path h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
-    .home-path p { color: var(--muted-fg); line-height: 1.65; margin-bottom: 1.75rem; }
+    .hero-path {
+      background: rgba(10,30,46,0.62); border: 1px solid rgba(0,188,212,0.28);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .hero-path .hero-path-tag { align-self: flex-start; margin-bottom: 1rem; }
+    .home-path h2 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
+    .hero .home-path p { font-size: 0.98rem; color: rgba(232,244,248,0.85); line-height: 1.65; max-width: none; margin-bottom: 1.5rem; }
     .home-path-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; }
     /* Our Products: three simple cards, each linking to its box on the
        Products page. Photos sit on the same soft teal tint as on Become a
@@ -1282,21 +1290,16 @@
     @media (max-width: 1024px) {
       .home-products-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
     }
-    @media (max-width: 768px) {
-      /* Room under the facts row so the "Scroll" arrow does not crowd it. */
-      .hero { padding-bottom: 7rem; }
-      .home-paths { padding: 3rem 0; }
-      .home-paths-grid { grid-template-columns: 1fr; }
-      .home-path { padding: 1.75rem 1.4rem; }
+    @media (max-width: 900px) {
+      .hero-paths { grid-template-columns: 1fr; }
     }
-    @media (max-width: 560px) {
-      .stats-grid.home-stats { grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (max-width: 768px) {
+      .hero { padding: calc(68px + 2.5rem) 0 3rem; }
+      .home-path { padding: 1.6rem 1.3rem; }
     }
     @media (max-width: 480px) {
       .home-path-btns { flex-direction: column; }
       .home-path-btns .btn-primary, .home-path-btns .btn-outline { justify-content: center; text-align: center; white-space: normal; }
-      .hero-btns { flex-direction: column; }
-      .hero-btns .btn-outline { justify-content: center; text-align: center; }
     }
     /* "How to Install" on the home page jumps to this FAQ question; stop it
        just below the fixed menu bar. */
