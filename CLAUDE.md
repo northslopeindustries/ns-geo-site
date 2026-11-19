@@ -28,9 +28,19 @@ The home page (`index.html`) is a brand page for both audiences: a banner
 screen) holding two semi-transparent glass cards side by side (stacked on
 phones): "Shopping for a project?" (tag "For Homeowners & Contractors";
 Find a Store, Roll Calculator, How to Install) and "Own a store or supply
-yard?" (tag "For Stores & Supply Yards"; Become a Distributor). Then "Our Products" (three cards linking to the Products page
-boxes), "Why Our Fabric Is Different" (four points and the fabric
-close-up), and a "Ready to get started?" closing band. Its wholesale
+yard?" (tag "For Stores & Supply Yards"; Become a Distributor). Below
+it: the "What's Your Project?" project guide (six tiles: Garden Beds, Rock
+Landscaping, French Drains, Retaining Walls, Erosion Control, Road &
+Driveway Base; the chosen tile turns teal and shows its recommended
+products, each linking to its Products page box; Garden Beds is chosen on
+load). The tiles are hidden radio buttons and the panels are shown by CSS
+in the "PROJECT GUIDE" styles, with no script; to change a project's
+products, edit its panel in `index.html`. Then "Why Our Fabric Is
+Different" (four bold tiles with big teal headlines, beside the fabric
+close-up); "What Our Customers Say" (three review cards; currently
+PLACEHOLDERS, "Customer Name", to be replaced with real Google reviews by
+editing each card's quote and name); and a "Questions? We're here to help."
+strip with Call, Text and Email buttons. Its wholesale
 detail (benefits, Intermountain West, product overview, comparison table,
 "Become a Wholesale Partner" and the wholesale form) moved to Become a
 Distributor and Products and was removed from the home page. Until a Find a
@@ -147,9 +157,10 @@ record of what changed on the site rather than a list of code edits.
 | `docs/` | Internal notes, not published | Documentation changes |
 
 `index.html` is divided by comment markers named after what they visibly
-are on the page — `HERO` (which holds the two cards), `OUR PRODUCTS`,
-`WHY DIFFERENT`, `CLOSING BAND`, `FOOTER`. The banner's facts row, its
-"Scroll" arrow and the numbers band were removed at the owner's request.
+are on the page — `HERO` (which holds the two cards), `PROJECT GUIDE`,
+`WHY DIFFERENT`, `REVIEWS`, `HELP STRIP`, `FOOTER`. The banner's facts
+row, its "Scroll" arrow and the numbers band were removed at the owner's
+request.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
@@ -184,8 +195,7 @@ where the content starts, with the lines along its bottom edge. Reuse that
 drawing and styling rather than making a new one.
 
 The Pro Guard 20 box (badges, roll sizes) is on the Products page only;
-the home page has just a simple Pro Guard 20 card with a one-line
-description. The Products page boxes have ids `pro-guard-20`,
+the home page's project guide shows only its photo and name. The Products page boxes have ids `pro-guard-20`,
 `nonwoven-filter-fabric`, and `sod-staples`, which the footer's Products
 list links to. The nonwoven
 product is always called "Nonwoven Filter Fabric". Below "Compare Our
@@ -493,7 +503,8 @@ email).
 `contact.html` shows all three, plus the hours, in its left column, with
 Call and Text buttons and a clickable email. The phone number and email
 also appear in the "Still have questions?" box at the bottom of `faq.html`
-(including its Call and Text buttons). Every Call and Text button dials
+(including its Call and Text buttons) and in the home page's "Questions?
+We're here to help." strip (with Call, Text and Email buttons). Every Call and Text button dials
 `+13854376536`. The email also appears in the FAQ's contractor answer, and
 the phone number in `script.js`, in the form's error message. If any of
 them changes, it has to change in every one of those files, and in

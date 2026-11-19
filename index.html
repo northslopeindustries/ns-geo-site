@@ -88,44 +88,149 @@
     </div>
   </section>
 
-  <!-- ── OUR PRODUCTS ────────────────────────────────────────── -->
-  <section class="home-products">
+  <!-- ── PROJECT GUIDE ───────────────────────────────────────── -->
+  <!-- Pick a project to see which products it needs. Each tile is a real
+       radio button (hidden, so the tile itself is what shows), and the
+       matching panel is shown by styles.css ("PROJECT GUIDE"), so it works
+       with no script. To change which products a project recommends, edit
+       that project's panel below. -->
+  <section class="project-guide">
     <div class="container">
       <div class="section-header centered fade-up">
-        <h2>Our Products</h2>
+        <div class="section-label">Project Guide</div>
+        <h2>What&#8217;s Your Project?</h2>
+        <p>Pick your project to see which product you need.</p>
       </div>
-      <div class="home-products-grid">
-        <div class="home-product-wrap fade-up fade-up-delay-1">
-          <a href="/products#pro-guard-20" class="home-product">
-            <span class="home-product-img"><img class="home-product-zoom" src="images/pro-guard-20-packaged-roll.jpg" alt="Pro Guard 20 Packaged Roll" /></span>
-            <span class="home-product-body">
-              <h3>Pro Guard 20</h3>
-              <span class="home-product-line">Commercial-grade weed barrier fabric</span>
-              <span class="home-product-more">See product details &nbsp;→</span>
-            </span>
-          </a>
+      <div class="project-picker fade-up" role="radiogroup" aria-label="Choose your project">
+        <input type="radio" name="project" id="project-garden" class="project-input" checked />
+        <input type="radio" name="project" id="project-rock" class="project-input" />
+        <input type="radio" name="project" id="project-drain" class="project-input" />
+        <input type="radio" name="project" id="project-wall" class="project-input" />
+        <input type="radio" name="project" id="project-erosion" class="project-input" />
+        <input type="radio" name="project" id="project-road" class="project-input" />
+        <div class="project-tiles">
+          <label for="project-garden" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 14c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M3 21h18"/></svg></span>
+            <span class="project-tile-name">Garden Beds</span>
+          </label>
+          <label for="project-rock" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19l3-6 4 2 3-5 4 3 4 6z"/><path d="M3 19h18"/></svg></span>
+            <span class="project-tile-name">Rock Landscaping</span>
+          </label>
+          <label for="project-drain" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="3"/><circle cx="8" cy="12" r="0.6" fill="currentColor"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/><circle cx="16" cy="12" r="0.6" fill="currentColor"/><path d="M6 19c1 1 2 1 3 0s2-1 3 0 2 1 3 0 2-1 3 0"/></svg></span>
+            <span class="project-tile-name">French Drains</span>
+          </label>
+          <label for="project-wall" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 9.7h18M3 14.3h18M9 5v4.7M15 5v4.7M6 9.7v4.6M12 9.7v4.6M18 9.7v4.6M9 14.3V19M15 14.3V19"/></svg></span>
+            <span class="project-tile-name">Retaining Walls</span>
+          </label>
+          <label for="project-erosion" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18c4-1 6-5 9-9s5-5 9-5"/><path d="M3 21h18"/><path d="M14 15l1.5 1.5M17 12l1.5 1.5M11 18l1.5 1.5"/></svg></span>
+            <span class="project-tile-name">Erosion Control</span>
+          </label>
+          <label for="project-road" class="project-tile">
+            <span class="project-tile-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3L4 21"/><path d="M16 3l4 18"/><path d="M12 4v3M12 10.5v3M12 17v3"/></svg></span>
+            <span class="project-tile-name">Road &amp; Driveway Base</span>
+          </label>
         </div>
-        <div class="home-product-wrap fade-up fade-up-delay-2">
-          <a href="/products#nonwoven-filter-fabric" class="home-product">
-            <span class="home-product-img"><img src="images/filter-fabric.jpg" alt="Nonwoven Filter Fabric roll" /></span>
-            <span class="home-product-body">
-              <h3>Nonwoven Filter Fabric</h3>
-              <span class="home-product-line">For drainage and erosion control</span>
-              <span class="home-product-more">See product details &nbsp;→</span>
-            </span>
-          </a>
-        </div>
-        <div class="home-product-wrap fade-up fade-up-delay-3">
-          <a href="/products#sod-staples" class="home-product">
-            <span class="home-product-img"><img src="images/sod-staples.jpg" alt="Case of galvanized sod staples" /></span>
-            <span class="home-product-body">
-              <h3>Sod Staples</h3>
-              <span class="home-product-line">Galvanized staples that hold fabric in place</span>
-              <span class="home-product-more">See product details &nbsp;→</span>
-            </span>
-          </a>
+        <div class="project-panels" aria-live="polite">
+          <div class="project-panel project-panel-garden">
+            <p class="project-panel-title">Recommended for Garden Beds</p>
+            <div class="project-products">
+              <a href="/products#pro-guard-20" class="project-product">
+                <span class="project-product-img"><img class="home-product-zoom" src="images/pro-guard-20-packaged-roll.jpg" alt="Pro Guard 20 Packaged Roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Pro Guard 20</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+              <a href="/products#sod-staples" class="project-product">
+                <span class="project-product-img"><img src="images/sod-staples.jpg" alt="Case of galvanized sod staples" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Sod Staples</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-panel project-panel-rock">
+            <p class="project-panel-title">Recommended for Rock Landscaping</p>
+            <div class="project-products">
+              <a href="/products#pro-guard-20" class="project-product">
+                <span class="project-product-img"><img class="home-product-zoom" src="images/pro-guard-20-packaged-roll.jpg" alt="Pro Guard 20 Packaged Roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Pro Guard 20</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+              <a href="/products#sod-staples" class="project-product">
+                <span class="project-product-img"><img src="images/sod-staples.jpg" alt="Case of galvanized sod staples" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Sod Staples</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-panel project-panel-drain">
+            <p class="project-panel-title">Recommended for French Drains</p>
+            <div class="project-products">
+              <a href="/products#nonwoven-filter-fabric" class="project-product">
+                <span class="project-product-img"><img src="images/filter-fabric.jpg" alt="Nonwoven Filter Fabric roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Nonwoven Filter Fabric</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-panel project-panel-wall">
+            <p class="project-panel-title">Recommended for Retaining Walls</p>
+            <div class="project-products">
+              <a href="/products#nonwoven-filter-fabric" class="project-product">
+                <span class="project-product-img"><img src="images/filter-fabric.jpg" alt="Nonwoven Filter Fabric roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Nonwoven Filter Fabric</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-panel project-panel-erosion">
+            <p class="project-panel-title">Recommended for Erosion Control</p>
+            <div class="project-products">
+              <a href="/products#nonwoven-filter-fabric" class="project-product">
+                <span class="project-product-img"><img src="images/filter-fabric.jpg" alt="Nonwoven Filter Fabric roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Nonwoven Filter Fabric</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+              <a href="/products#sod-staples" class="project-product">
+                <span class="project-product-img"><img src="images/sod-staples.jpg" alt="Case of galvanized sod staples" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Sod Staples</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-panel project-panel-road">
+            <p class="project-panel-title">Recommended for Road &amp; Driveway Base</p>
+            <div class="project-products">
+              <a href="/products#nonwoven-filter-fabric" class="project-product">
+                <span class="project-product-img"><img src="images/filter-fabric.jpg" alt="Nonwoven Filter Fabric roll" /></span>
+                <span class="project-product-body">
+                  <span class="project-product-name">Nonwoven Filter Fabric</span>
+                  <span class="project-product-more">See product details &nbsp;→</span>
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+      <p class="project-all"><a href="/products">See all products &nbsp;→</a></p>
     </div>
   </section>
 
@@ -137,43 +242,23 @@
         <h2>Why Our Fabric Is Different</h2>
         <p>True 5 oz construction with superior woven + needlepunched design</p>
       </div>
-      <div class="why-grid">
-        <div class="why-points">
-          <div class="why-point fade-up">
-            <div class="why-check">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <h4>True 5 oz Per Square Yard</h4>
-              <p>Many retail weed barriers are closer to 4 oz. Pro Guard 20 is a true 5 oz commercial-grade fabric, even in our shorter retail rolls.</p>
-            </div>
+      <div class="why-grid why-grid-tiles">
+        <div class="why-tiles">
+          <div class="why-tile fade-up">
+            <div class="why-tile-big">5 oz</div>
+            <p>True weight per square yard. Many retail barriers are closer to 4 oz.</p>
           </div>
-          <div class="why-point fade-up fade-up-delay-1">
-            <div class="why-check">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <h4>Needlepunched + Woven Construction</h4>
-              <p>A woven top with a needlepunched base for extra durability and puncture resistance against rocks, roots, and foot traffic.</p>
-            </div>
+          <div class="why-tile fade-up fade-up-delay-1">
+            <div class="why-tile-big">Woven + Needlepunched</div>
+            <p>A woven top and needlepunched base for durability and puncture resistance.</p>
           </div>
-          <div class="why-point fade-up fade-up-delay-2">
-            <div class="why-check">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <h4>Prevents Weed Rooting</h4>
-              <p>Stops weeds from rooting into the soil while still letting air and water through.</p>
-            </div>
+          <div class="why-tile fade-up fade-up-delay-2">
+            <div class="why-tile-big">Blocks Weed Roots</div>
+            <p>Stops weeds from rooting while letting air and water through.</p>
           </div>
-          <div class="why-point fade-up fade-up-delay-3">
-            <div class="why-check">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <h4>UV Treated for a Longer Life</h4>
-              <p>Rated for 20 years when covered with mulch or rock.</p>
-            </div>
+          <div class="why-tile fade-up fade-up-delay-3">
+            <div class="why-tile-big">20-Year</div>
+            <p>UV treated and rated for 20 years when covered with mulch or rock.</p>
           </div>
         </div>
         <div class="why-right fade-up fade-up-delay-1">
@@ -188,14 +273,56 @@
     </div>
   </section>
 
-  <!-- ── CLOSING BAND ────────────────────────────────────────── -->
-  <div class="cta-band home-closing">
+  <!-- ── REVIEWS ──────────────────────────────────────────────── -->
+  <!-- Customer reviews. The three below are PLACEHOLDERS. To add a real
+       review, replace the quote text inside <blockquote> and the name
+       inside "review-name"; keep everything else as it is. -->
+  <section class="reviews">
     <div class="container">
-      <div class="cta-card fade-up">
-        <h2>Ready to get started?</h2>
-        <div class="home-path-btns">
-          <a href="/contact" class="btn-primary">Find a Store</a>
-          <a href="/become-a-distributor" class="btn-outline">Become a Distributor</a>
+      <div class="section-header centered fade-up">
+        <h2>What Our Customers Say</h2>
+      </div>
+      <div class="review-grid">
+        <figure class="review-card fade-up fade-up-delay-1">
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+          <blockquote class="review-quote">Placeholder review. Real customer review coming soon.</blockquote>
+          <figcaption class="review-who">
+            <span class="review-name">Customer Name</span>
+            <span class="review-source">Google Review</span>
+          </figcaption>
+        </figure>
+        <figure class="review-card fade-up fade-up-delay-2">
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+          <blockquote class="review-quote">Placeholder review. Real customer review coming soon.</blockquote>
+          <figcaption class="review-who">
+            <span class="review-name">Customer Name</span>
+            <span class="review-source">Google Review</span>
+          </figcaption>
+        </figure>
+        <figure class="review-card fade-up fade-up-delay-3">
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+          <blockquote class="review-quote">Placeholder review. Real customer review coming soon.</blockquote>
+          <figcaption class="review-who">
+            <span class="review-name">Customer Name</span>
+            <span class="review-source">Google Review</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HELP STRIP ───────────────────────────────────────────── -->
+  <div class="help-strip">
+    <div class="container">
+      <div class="help-card fade-up">
+        <div class="help-text">
+          <h2>Questions? We&#8217;re here to help.</h2>
+          <p>Call or text (385) 437-6536, or email <a href="mailto:support@ns-geo.com" class="help-email">support@ns-geo.com</a>.</p>
+        </div>
+        <div class="faq-contact-actions help-actions">
+          <a href="tel:+13854376536" class="faq-contact-btn" aria-label="Call (385) 437-6536">Call</a>
+          <a href="sms:+13854376536" class="faq-contact-btn" aria-label="Text (385) 437-6536">Text</a>
+          <a href="mailto:support@ns-geo.com" class="faq-contact-btn" aria-label="Email support@ns-geo.com">Email</a>
         </div>
       </div>
     </div>

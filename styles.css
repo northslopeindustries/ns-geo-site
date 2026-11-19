@@ -1233,9 +1233,8 @@
     }
 
     /* ─── HOME PAGE ─────────────────────────────────────────── */
-    /* Banner (hero), numbers band (stats-band), "Why Our Fabric Is
-       Different" (why-different) and the closing band (cta-band) reuse
-       the styles above; these rules cover what is new. */
+    /* The banner (hero) and "Why Our Fabric Is Different" (why-different)
+       reuse the styles above; these rules cover what is new. */
     /* The banner is only as tall as its content (not the full screen), so
        it looks right on large monitors and when zoomed out. */
     .hero { min-height: 0; padding: calc(68px + 4.5rem) 0 4.5rem; }
@@ -1265,39 +1264,111 @@
     /* Same thin border as the outlined buttons (invisible on the solid ones),
        so every button in both cards is exactly the same height. */
     .hero-path .home-path-btns .btn-primary { border: 1.5px solid transparent; }
-    /* Our Products: three simple cards, each linking to its box on the
-       Products page. Photos sit on the same soft teal tint as on Become a
-       Distributor (their white backgrounds are blended in). */
-    .home-products { background: var(--navy-base); }
-    .home-products .section-header { margin-bottom: 2.5rem; }
-    .home-products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
-    .home-product-wrap > .home-product { height: 100%; }
-    .home-product {
-      display: flex; flex-direction: column;
-      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden;
+    /* PROJECT GUIDE: six project tiles; the chosen one turns teal and its
+       panel of recommended products shows underneath. Each tile is the
+       label of a hidden radio button, and the rules below show the chosen
+       tile and panel, so it needs no script and works with a keyboard
+       (Tab to the tiles, arrow keys to change). */
+    .project-guide { background: var(--navy-base); }
+    .project-guide .section-header { margin-bottom: 2.25rem; }
+    .project-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .project-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.85rem; }
+    .project-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem;
+      min-height: 120px; padding: 1rem 0.6rem; text-align: center; cursor: pointer;
+      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .project-tile:hover { border-color: rgba(0,188,212,0.6); transform: translateY(-2px); }
+    .project-tile-icon { color: var(--primary); display: flex; }
+    .project-tile-name { font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #fff; line-height: 1.25; }
+    #project-garden:checked ~ .project-tiles label[for="project-garden"],
+    #project-rock:checked ~ .project-tiles label[for="project-rock"],
+    #project-drain:checked ~ .project-tiles label[for="project-drain"],
+    #project-wall:checked ~ .project-tiles label[for="project-wall"],
+    #project-erosion:checked ~ .project-tiles label[for="project-erosion"],
+    #project-road:checked ~ .project-tiles label[for="project-road"] {
+      background: var(--primary); border-color: var(--primary);
+    }
+    #project-garden:checked ~ .project-tiles label[for="project-garden"] .project-tile-icon, #project-garden:checked ~ .project-tiles label[for="project-garden"] .project-tile-name,
+    #project-rock:checked ~ .project-tiles label[for="project-rock"] .project-tile-icon, #project-rock:checked ~ .project-tiles label[for="project-rock"] .project-tile-name,
+    #project-drain:checked ~ .project-tiles label[for="project-drain"] .project-tile-icon, #project-drain:checked ~ .project-tiles label[for="project-drain"] .project-tile-name,
+    #project-wall:checked ~ .project-tiles label[for="project-wall"] .project-tile-icon, #project-wall:checked ~ .project-tiles label[for="project-wall"] .project-tile-name,
+    #project-erosion:checked ~ .project-tiles label[for="project-erosion"] .project-tile-icon, #project-erosion:checked ~ .project-tiles label[for="project-erosion"] .project-tile-name,
+    #project-road:checked ~ .project-tiles label[for="project-road"] .project-tile-icon, #project-road:checked ~ .project-tiles label[for="project-road"] .project-tile-name {
+      color: var(--navy-deep);
+    }
+    #project-garden:focus-visible ~ .project-tiles label[for="project-garden"],
+    #project-rock:focus-visible ~ .project-tiles label[for="project-rock"],
+    #project-drain:focus-visible ~ .project-tiles label[for="project-drain"],
+    #project-wall:focus-visible ~ .project-tiles label[for="project-wall"],
+    #project-erosion:focus-visible ~ .project-tiles label[for="project-erosion"],
+    #project-road:focus-visible ~ .project-tiles label[for="project-road"] {
+      outline: 2px solid #fff; outline-offset: 3px;
+    }
+    .project-panels { margin-top: 1.25rem; }
+    .project-panel { display: none; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; }
+    #project-garden:checked ~ .project-panels .project-panel-garden,
+    #project-rock:checked ~ .project-panels .project-panel-rock,
+    #project-drain:checked ~ .project-panels .project-panel-drain,
+    #project-wall:checked ~ .project-panels .project-panel-wall,
+    #project-erosion:checked ~ .project-panels .project-panel-erosion,
+    #project-road:checked ~ .project-panels .project-panel-road { display: block; }
+    .project-panel-title { font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 1rem; }
+    .project-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .project-product {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--navy-base); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.75rem;
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
-    .home-product:hover {
-      transform: translateY(-3px); border-color: rgba(0,188,212,0.6);
-      box-shadow: 0 8px 24px rgba(0,188,212,0.18);
-    }
-    .home-product:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-    .home-product-img { display: flex; align-items: center; justify-content: center; height: 220px; background: #d9f1f4; }
-    .home-product-img img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; mix-blend-mode: multiply; }
+    .project-product:hover { transform: translateY(-3px); border-color: rgba(0,188,212,0.6); box-shadow: 0 8px 24px rgba(0,188,212,0.18); }
+    .project-product:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    /* Photos on the soft teal tint used on Become a Distributor (their white
+       backgrounds are blended in). */
+    .project-product-img { flex: 0 0 110px; height: 90px; border-radius: 0.5rem; overflow: hidden; background: #d9f1f4; display: flex; align-items: center; justify-content: center; }
+    .project-product-img img { width: 100%; height: 100%; object-fit: contain; padding: 0.4rem; mix-blend-mode: multiply; }
     /* The Pro Guard 20 photo is a thin roll in a large square frame, so it
-       is zoomed in to fill its card about as much as the other two. */
-    .home-product-img img.home-product-zoom { transform: scale(1.6); }
-    .home-product-body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem 1.5rem; flex: 1; }
-    .home-product-body h3 { font-size: 1.1rem; font-weight: 700; color: #fff; transition: color 0.2s; }
-    .home-product:hover h3 { color: var(--primary); }
-    .home-product-line { font-size: 0.9rem; color: var(--muted-fg); }
-    .home-product-more { margin-top: auto; padding-top: 0.75rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
-    /* Closing band: centered heading and two buttons. */
-    .home-closing .cta-card { text-align: center; }
-    .home-closing .cta-card h2 { margin-bottom: 1.5rem; }
-    .home-closing .home-path-btns { justify-content: center; }
+       is zoomed in to fill its box about as much as the others. */
+    .project-product-img img.home-product-zoom { transform: scale(1.35); }
+    .project-product-body { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+    .project-product-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; transition: color 0.2s; }
+    .project-product:hover .project-product-name { color: var(--primary); }
+    .project-product-more { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    .project-all { margin-top: 1.25rem; text-align: right; }
+    .project-all a { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+    .project-all a:hover { color: #fff; }
+    /* Why Our Fabric Is Different: four bold tiles (big teal headline, one
+       line) beside the fabric close-up photo. */
+    .why-grid-tiles { align-items: center; }
+    .why-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .why-tile { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem 1.25rem; }
+    .why-tile-big { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 900; line-height: 1.1; color: var(--primary); margin-bottom: 0.6rem; }
+    .why-tile p { font-size: 0.88rem; color: var(--muted-fg); line-height: 1.6; }
+    /* What Our Customers Say: three review cards (stacked on phones). */
+    .reviews { background: var(--navy-base); }
+    .reviews .section-header { margin-bottom: 2.25rem; }
+    .review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .review-card { display: flex; flex-direction: column; gap: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem 1.5rem; }
+    .review-stars { display: flex; gap: 0.2rem; color: var(--primary); }
+    .review-quote { font-size: 0.98rem; color: var(--foreground); line-height: 1.65; }
+    .review-who { margin-top: auto; display: flex; flex-direction: column; gap: 0.1rem; }
+    .review-name { font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; font-size: 0.95rem; }
+    .review-source { font-size: 0.8rem; color: var(--muted-fg); }
+    /* Help strip at the bottom: text on the left, Call / Text / Email
+       buttons (the Contact Us page's) on the right. */
+    .help-strip { background: var(--navy-deep); padding: 4rem 0; }
+    .help-card {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem;
+      background: var(--card); border: 1px solid var(--border); border-radius: 1rem; padding: 2rem 2.25rem;
+    }
+    .help-text h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 900; color: #fff; margin-bottom: 0.4rem; }
+    .help-text p { color: var(--muted-fg); }
+    .help-email { color: var(--primary); }
+    .help-email:hover { color: #fff; }
+    .help-actions { flex-wrap: wrap; }
     @media (max-width: 1024px) {
-      .home-products-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+      .project-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .why-grid-tiles .why-right { max-width: 560px; }
     }
     @media (max-width: 900px) {
       .hero-paths { grid-template-columns: 1fr; }
@@ -1305,6 +1376,18 @@
     @media (max-width: 768px) {
       .hero { padding: calc(68px + 2.5rem) 0 3rem; }
       .home-path { padding: 1.6rem 1.3rem; }
+    }
+    @media (max-width: 768px) {
+      .project-products, .review-grid { grid-template-columns: 1fr; }
+      .help-strip { padding: 3rem 0; }
+      .help-card { padding: 1.6rem 1.3rem; }
+    }
+    @media (max-width: 560px) {
+      .project-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+      .project-tile { min-height: 104px; }
+      .project-panel { padding: 1.1rem; }
+      .why-tiles { grid-template-columns: 1fr; }
+      .project-all { text-align: left; }
     }
     @media (max-width: 480px) {
       .home-path-btns { flex-direction: column; }
