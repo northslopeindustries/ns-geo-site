@@ -1231,3 +1231,160 @@
       .banner-mountains-host { --banner-top: calc(68px + 2.5rem); }
       .dist-banner-mountains.banner-mountains-inline { height: calc(35% + 49px); }
     }
+
+    /* ─── HOME PAGE ─────────────────────────────────────────── */
+    /* The banner (hero) and "Why Our Fabric Is Different" (why-different)
+       reuse the styles above; these rules cover what is new. */
+    /* The banner is only as tall as its content (not the full screen), so
+       it looks right on large monitors and when zoomed out. */
+    .hero { min-height: 0; padding: calc(68px + 4.5rem) 0 4.5rem; }
+    .hero .hero-content { max-width: 1100px; }
+    /* Two glass cards in the banner, under the subheading: shoppers on the
+       left, store owners on the right (stacked on phones). The photo shows
+       through slightly behind a dark tint and a light blur. */
+    .hero-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 0.5rem; }
+    .home-path {
+      display: flex; flex-direction: column;
+      border-radius: 1rem; padding: 2rem 1.75rem;
+    }
+    .hero-path {
+      background: rgba(10,30,46,0.62); border: 1px solid rgba(0,188,212,0.28);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .hero-path .hero-path-tag { align-self: flex-start; margin-bottom: 1rem; }
+    .home-path h2 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
+    .hero .home-path p { font-size: 0.98rem; color: rgba(232,244,248,0.85); line-height: 1.65; max-width: none; margin-bottom: 1.5rem; }
+    .home-path-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; }
+    /* Buttons in the two banner cards: a little smaller, so the first
+       card's three fit on one line on laptops, and right under each card's
+       text (the second card's button is not pushed to the bottom). */
+    .hero-path .home-path-btns { margin-top: 0; gap: 0.6rem; }
+    .hero-path .home-path-btns .btn-primary,
+    .hero-path .home-path-btns .btn-outline { padding: 0.65rem 1.1rem; font-size: 0.85rem; }
+    /* Same thin border as the outlined buttons (invisible on the solid ones),
+       so every button in both cards is exactly the same height. */
+    .hero-path .home-path-btns .btn-primary { border: 1.5px solid transparent; }
+    /* PROJECT GUIDE ("Which Product Do I Need?"): three cards, each linking
+       to its product's box on the Products page (stacked on phones). */
+    .project-guide { background: var(--navy-base); }
+    .project-guide .section-header { margin-bottom: 2.25rem; }
+    /* Each card is a <details> box that opens and closes like the FAQ
+       questions (home.js only makes it slide smoothly). Cards line up at
+       the top, so opening one does not stretch or move the others. */
+    .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: start; }
+    .guide-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .guide-card[open] { border-color: rgba(0,188,212,0.5); }
+    .guide-card-head {
+      display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1.5rem;
+      cursor: pointer; list-style: none; border-radius: 0.75rem;
+    }
+    .guide-card-head::-webkit-details-marker { display: none; }
+    .guide-card-head:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .guide-card-head .faq-icon { margin-left: auto; }
+    .guide-card[open] .faq-icon::after { opacity: 0; }
+    /* Hover highlight only with a mouse, so it does not stay stuck on a
+       card after tapping it closed on a phone. */
+    @media (hover: hover) {
+      .guide-card:hover { border-color: rgba(0,188,212,0.5); }
+      .guide-card-head:hover .guide-card-title { color: var(--primary); }
+    }
+    .guide-card-body { overflow: hidden; }
+    .guide-card-inner { display: flex; flex-direction: column; gap: 0.75rem; padding: 0 1.5rem 1.5rem; }
+    .guide-card-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: var(--radius);
+      background: rgba(0,188,212,0.12); color: var(--primary); display: flex; align-items: center; justify-content: center;
+    }
+    .guide-card-title { font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #fff; transition: color 0.2s; }
+    /* Photos on the soft teal tint used on Become a Distributor (their white
+       backgrounds are blended in). */
+    .guide-card-img { display: flex; align-items: center; justify-content: center; height: 170px; border-radius: 0.5rem; overflow: hidden; background: #d9f1f4; }
+    .guide-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; mix-blend-mode: multiply; }
+    /* The Pro Guard 20 photo is a thin roll in a large square frame, so it
+       is zoomed in to fill its box about as much as the others. */
+    .guide-card-img img.home-product-zoom { transform: scale(1.6); }
+    .guide-card-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .guide-card-good { font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; }
+    .guide-card-good strong { color: var(--foreground); font-weight: 600; }
+    .guide-card-more { align-self: flex-start; padding-top: 0.25rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    .guide-card-more:hover { color: #fff; }
+    .guide-card-more:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius); }
+    .project-all { margin-top: 1.25rem; text-align: right; }
+    .project-all a { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+    .project-all a:hover { color: #fff; }
+    /* WHY DIFFERENT: the fabric close-up photo fills the whole section,
+       under a dark overlay like the banner's, with four columns of white
+       text on top (two by two on tablets, stacked on phones). */
+    .why-photo { position: relative; overflow: hidden; background: var(--navy-deep); }
+    .why-photo::before {
+      content: ""; position: absolute; inset: 0;
+      background: url('images/pro-guard-20-fabric-texture.jpg') center / cover no-repeat;
+    }
+    .why-photo::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,30,46,0.86) 0%, rgba(10,30,46,0.80) 50%, rgba(10,30,46,0.90) 100%);
+    }
+    .why-photo > .container { position: relative; z-index: 1; }
+    .why-photo .section-header p { color: rgba(232,244,248,0.85); }
+    .why-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+    .why-col { text-align: center; padding: 0.5rem 0.75rem; }
+    .why-col-icon {
+      width: 54px; height: 54px; margin: 0 auto 1rem; border-radius: 50%;
+      background: rgba(0,188,212,0.16); border: 1px solid rgba(0,188,212,0.45); color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why-col h3 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    .why-col p { font-size: 0.92rem; color: rgba(232,244,248,0.88); line-height: 1.6; }
+    /* What Our Customers Say: three review cards (stacked on phones). */
+    .reviews { background: var(--navy-base); }
+    .reviews .section-header { margin-bottom: 2.25rem; }
+    .review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .review-card { display: flex; flex-direction: column; gap: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem 1.5rem; }
+    .review-stars { display: flex; gap: 0.2rem; color: var(--primary); }
+    .review-quote { font-size: 0.98rem; color: var(--foreground); line-height: 1.65; }
+    .review-who { margin-top: auto; display: flex; flex-direction: column; gap: 0.1rem; }
+    .review-name { font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; font-size: 0.95rem; }
+    .review-source { font-size: 0.8rem; color: var(--muted-fg); }
+    /* Help line: one small centered line just above the footer, on the
+       same background as the reviews so it is not its own section. */
+    .reviews { padding-bottom: 3.5rem; }
+    .help-line { background: var(--navy-base); text-align: center; padding: 0 1.5rem 3rem; font-size: 0.95rem; color: var(--muted-fg); }
+    /* While the reviews section is hidden, the help line needs its own
+       space above it. */
+    .reviews[hidden] + .help-line { padding-top: 3rem; }
+    .help-line a { color: var(--primary); font-weight: 600; margin-left: 0.35rem; white-space: nowrap; }
+    .help-line a:hover { color: #fff; }
+    @media (max-width: 1024px) {
+      .why-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+      /* Three narrower cards side by side on tablets: zoom the roll less so
+         its ends stay inside the box. */
+      .guide-card-img img.home-product-zoom { transform: scale(1.2); }
+    }
+    @media (max-width: 900px) {
+      .hero-paths { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .hero { padding: calc(68px + 2.5rem) 0 3rem; }
+      .home-path { padding: 1.6rem 1.3rem; }
+    }
+    @media (max-width: 768px) {
+      .guide-grid, .review-grid { grid-template-columns: 1fr; }
+      .guide-grid { max-width: 480px; margin: 0 auto; }
+      .guide-card-img img.home-product-zoom { transform: scale(1.6); }
+    }
+    @media (max-width: 560px) {
+      .why-cols { grid-template-columns: 1fr; }
+      .project-all { text-align: left; }
+    }
+    @media (max-width: 480px) {
+      .home-path-btns { flex-direction: column; }
+      .home-path-btns .btn-primary, .home-path-btns .btn-outline { justify-content: center; text-align: center; white-space: normal; }
+    }
+    /* "How to Install" on the home page jumps to this FAQ question; stop it
+       just below the fixed menu bar. */
+    .faq-item { scroll-margin-top: calc(68px + 1rem); }
+    /* The home page's "How to Install" button jumps to the Products page's
+       install video heading; stop it just below the fixed menu bar. */
+    .product-video-heading { scroll-margin-top: calc(68px + 1rem); }

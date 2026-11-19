@@ -21,4 +21,18 @@
           }
         });
       });
+
+      // A link to something inside a closed "More details" section (the home
+      // page's "How to Install" button goes to /products#install-video) opens
+      // that section, which loads its video, and scrolls to it.
+      function openLinkedSection() {
+        const id = decodeURIComponent(location.hash.slice(1));
+        const target = id && document.getElementById(id);
+        const details = target && target.closest('details.product-details');
+        if (!details) return;
+        if (!details.open) details.open = true;
+        requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+      }
+      openLinkedSection();
+      window.addEventListener('hashchange', openLinkedSection);
     })();
