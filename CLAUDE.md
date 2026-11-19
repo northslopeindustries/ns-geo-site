@@ -23,8 +23,18 @@ distinct. The failure mode is not "consumer content exists" — it is copy that
 addresses everyone at once and so addresses nobody. Wholesale sections keep
 talking about margins, minimum orders, fulfillment speed, and reselling.
 
-The home page (`index.html`) is entirely wholesale-facing, so consumer and
-brand material is new content rather than a rewrite. The FAQ page
+The home page (`index.html`) is a brand page for both audiences: a banner
+("North Slope Geotextiles") with "Find a Store" and "Become a
+Distributor" buttons, a numbers band (20-Year Rated Lifespan, 5 oz True
+Weight per sq yd, 7 States Served), two side-by-side cards ("Shopping for
+a project?" for homeowners and contractors, "Own a store or supply yard?"
+for wholesale), "Our Products" (three cards linking to the Products page
+boxes), "Why Our Fabric Is Different" (four points and the fabric
+close-up), and a "Ready to get started?" closing band. Its wholesale
+detail (benefits, Intermountain West, product overview, comparison table,
+"Become a Wholesale Partner" and the wholesale form) moved to Become a
+Distributor and Products and was removed from the home page. Until a Find a
+Distributor page exists, every "Find a Store" button links to `/contact`. The FAQ page
 (`faq.html`) is the first page written for a mixed audience: installation
 and product questions for contractors and homeowners, then ordering
 questions for distributors and contractors.
@@ -118,7 +128,7 @@ record of what changed on the site rather than a list of code edits.
 
 | File | Contains | Touch it for |
 |---|---|---|
-| `index.html` | Home page content and text (~32 KB) | Wording, headings, contact details, adding or removing content |
+| `index.html` | Home page content and text (~16 KB) | Wording, headings, contact details, adding or removing content |
 | `faq.html` | The FAQ page at ns-geo.com/faq | FAQ questions and answers |
 | `products.html` | The Products page at ns-geo.com/products | Product boxes, the fabric comparison table |
 | `roll-calculator.html` | The Roll Calculator page at ns-geo.com/roll-calculator | Calculator wording and layout |
@@ -137,7 +147,8 @@ record of what changed on the site rather than a list of code edits.
 | `docs/` | Internal notes, not published | Documentation changes |
 
 `index.html` is divided by comment markers named after what they visibly
-are on the page — `HERO`, `PRODUCTS`, `CONTACT FORM`, `FOOTER`, and so on.
+are on the page — `HERO`, `STATS BAND`, `WHO IT'S FOR`, `OUR PRODUCTS`,
+`WHY DIFFERENT`, `CLOSING BAND`, `FOOTER`.
 Use them to locate a section when someone says "the products section."
 `faq.html` uses the same markers: `NAVIGATION`, `FAQ`, `CONTACT`, `FOOTER`.
 `products.html` uses `NAVIGATION`, `PRODUCTS`, `FABRIC COMPARISON`,
@@ -171,16 +182,15 @@ and Products have the same drawing: there the heading block has class
 where the content starts, with the lines along its bottom edge. Reuse that
 drawing and styling rather than making a new one.
 
-The Pro Guard 20 box appears on both the home page and the Products page
-with the same content. A change to its wording, badges, or sizes has to be
-made in both. The Products page boxes have ids `pro-guard-20`,
+The Pro Guard 20 box (badges, roll sizes) is on the Products page only;
+the home page has just a simple Pro Guard 20 card with a one-line
+description. The Products page boxes have ids `pro-guard-20`,
 `nonwoven-filter-fabric`, and `sod-staples`, which the footer's Products
 list links to. The nonwoven
 product is always called "Nonwoven Filter Fabric". Below "Compare Our
-Fabrics", the Products page also has the home page's "Pro Guard 20 vs. The
-Competition" table and its note about where competitor specs come from
-(copied from the home page's `COMPARE` section, without `fade-up`); a
-change to that table has to be made in both.
+Fabrics", the Products page also has the "Pro Guard 20 vs. The Competition"
+table and its note about where competitor specs come from (originally the
+home page's, which no longer has it).
 
 The Become a Distributor page, top to bottom: the banner (photo of a loaded
 trailer, "Request Wholesale Pricing" button jumping to `#apply`); "Why
@@ -204,8 +214,7 @@ element (class `product-details`) whose `<summary>` shows "More details"
 when closed and "Hide details" when open, with no JavaScript. Inside are
 install notes, the Nonwoven Filter Fabric "Choosing the right weight"
 table (it turns into one card per weight on phones, using each cell's
-`data-label`), and a link to the FAQ. The Pro Guard 20 box on the home page
-has no "More details" section; only the Products page does. The Pro Guard
+`data-label`), and a link to the FAQ. The Pro Guard
 20 section also holds the install video: a `.product-video` box with
 `data-video-id`, which `video.js` fills with a YouTube (no-cookie) player
 only when the section opens and empties again when it closes, so the video
@@ -219,10 +228,8 @@ home page, whose Home link is `#top`; other pages link Home to `/`). The
 phone menu shows at 768px wide and below, where the top nav links and the
 nav's "Request Wholesale Pricing" button are hidden. It is the three-line
 `.menu-toggle` button plus the `#mobile-menu` list of those six links, with
-the wholesale pricing button at the bottom. "Benefits", "Why We're
-Different" and "Compare" were taken out of both menus and the footer at
-the owner's request; those home page sections are only reached by
-scrolling. The footer's Company list is FAQ, Become a Distributor, Contact
+the wholesale pricing button at the bottom. The menus and footer link
+only to pages, not to home page sections. The footer's Company list is FAQ, Become a Distributor, Contact
 Us. `menu.js` opens and
 closes it and keeps `aria-expanded` and the button's label in step; keep
 those working for screen reader and keyboard users.
@@ -264,8 +271,8 @@ options found, so they are always true. "Our pick" is the first option;
 per area. On very wide areas mixes are limited to two widths, and with
 several areas only each area's best layouts are combined, to stay fast on
 phones (the owner accepted this). The page allows up to 10 areas and 500
-feet per side. The Products page's Pro Guard 20 box links to the
-calculator; the home page's copy of that box does not. After any change to
+feet per side. The Products page's Pro Guard 20 box and the home page's "Roll
+Calculator" button link to the calculator. After any change to
 the math, re-check these:
 
 | Job | Mode | Rolls | Seams | Left over | Staples |
@@ -377,27 +384,21 @@ anyone noticing.
   visible error on the page. This form *is* the distributor application —
   there is no separate application link.
 
-  The form is on TWO pages: the home page's "Request Wholesale Pricing"
-  section (`id="contact"`) and a copy at the bottom of
-  `become-a-distributor.html` (`id="apply"`). Both forms must keep the
-  same name, fields, and Netlify setup, so a change to the form's fields
-  has to be made in both. `validate.py` checks both. The section around
-  the Become a Distributor copy differs: its intro says "a team member will
+  The form is on ONE page: the bottom of `become-a-distributor.html`
+  (`id="apply"`). The home page's copy was removed when the home page was
+  rebuilt. `validate.py` checks it. Its section's intro says "a team member will
   reply within 1 business day with pricing and terms", its list is
   Wholesale pricing sheet, Minimum order and volume tier details, Product
   samples, Product flyers, Display stand (with a "Coming soon" tag), and
   Dedicated account representative, the note under its button says
   "within 1 business day", and its "Prefer to reach out directly?" box has
-  Call and Text buttons and a clickable email. The home page section still
-  says "within 24 hours", and so does the shared success message in
-  `script.js`.
+  Call and Text buttons and a clickable email. The shared success message
+  in `script.js` still says "within 24 hours".
 
   **Every "Request Wholesale Pricing" link on the site goes to the
   Become a Distributor form** (`/become-a-distributor#apply`, or `#apply`
   on that page): the header button, the phone-menu button and the footer
-  button on every page, and the home page's hero and "Request Wholesale
-  Pricing Now" buttons. Nothing links to the home page form any more,
-  though it is still there and still works. The Products page's "Want to
+  button on every page. The Products page's "Want to
   carry our products?" button goes to the top of Become a Distributor.
 
   **Check the form in the repo source, never on the live site.** Netlify's
@@ -442,10 +443,10 @@ anyone noticing.
 - **Section ids and navigation.** The menus link to pages (`/`,
   `/products`, `/become-a-distributor`, `/roll-calculator`, `/faq`,
   `/contact`); the home page's Home link and logo are `#top`, every other
-  logo points to `/`. The desktop "Products" link and the home page's
-  "View Products" button go to `/products`, not to the home page's own
-  `#products` section. Renaming a home page section `id`, a Products page
-  box id, or `#apply` on Become a Distributor breaks the matching links on
+  logo points to `/`. The home page's product cards link to the
+  Products page boxes (`/products#pro-guard-20` and so on), and its "How to
+  Install" button to the FAQ's install question (`/faq#how-to-install`).
+  Renaming a Products page box id, that FAQ id, or `#apply` on Become a Distributor breaks the matching links on
   every page. Every page in the desktop nav is also in the phone menu, and
   every page is reachable from the footer (FAQ, Become a Distributor and
   Contact Us from the Company list; the Products page and the Roll
@@ -485,9 +486,9 @@ Business hours (Contact Us page only): Monday to Friday, 8am to 5pm
 
 The phone number, email, and address also appear in the footers of every
 page (the footer email is a clickable `mailto:` link on every page), and
-in the "Prefer to reach out directly?" box beside the form on the home
-page and on `become-a-distributor.html` (on the latter with Call and Text
-buttons and a clickable email; on the home page the email is plain text).
+in the "Prefer to reach out directly?" box beside the form on
+`become-a-distributor.html` (with Call and Text buttons and a clickable
+email).
 `contact.html` shows all three, plus the hours, in its left column, with
 Call and Text buttons and a clickable email. The phone number and email
 also appear in the "Still have questions?" box at the bottom of `faq.html`

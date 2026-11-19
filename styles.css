@@ -1231,3 +1231,73 @@
       .banner-mountains-host { --banner-top: calc(68px + 2.5rem); }
       .dist-banner-mountains.banner-mountains-inline { height: calc(35% + 49px); }
     }
+
+    /* ─── HOME PAGE ─────────────────────────────────────────── */
+    /* Banner (hero), numbers band (stats-band), "Why Our Fabric Is
+       Different" (why-different) and the closing band (cta-band) reuse
+       the styles above; these rules cover what is new. */
+    .stats-grid.home-stats { grid-template-columns: repeat(3, 1fr); }
+    /* Two cards: shoppers on the left, store owners on the right. */
+    .home-paths { background: var(--navy-mid); padding: 4.5rem 0; }
+    .home-paths-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+    .home-path {
+      display: flex; flex-direction: column;
+      background: var(--navy-base); border: 1px solid var(--border);
+      border-radius: 1rem; padding: 2.25rem 2rem;
+    }
+    .home-path h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
+    .home-path p { color: var(--muted-fg); line-height: 1.65; margin-bottom: 1.75rem; }
+    .home-path-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; }
+    /* Our Products: three simple cards, each linking to its box on the
+       Products page. Photos sit on the same soft teal tint as on Become a
+       Distributor (their white backgrounds are blended in). */
+    .home-products { background: var(--navy-base); }
+    .home-products .section-header { margin-bottom: 2.5rem; }
+    .home-products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+    .home-product-wrap > .home-product { height: 100%; }
+    .home-product {
+      display: flex; flex-direction: column;
+      background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .home-product:hover {
+      transform: translateY(-3px); border-color: rgba(0,188,212,0.6);
+      box-shadow: 0 8px 24px rgba(0,188,212,0.18);
+    }
+    .home-product:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .home-product-img { display: flex; align-items: center; justify-content: center; height: 220px; background: #d9f1f4; }
+    .home-product-img img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; mix-blend-mode: multiply; }
+    /* The Pro Guard 20 photo is a thin roll in a large square frame, so it
+       is zoomed in to fill its card about as much as the other two. */
+    .home-product-img img.home-product-zoom { transform: scale(1.6); }
+    .home-product-body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem 1.5rem; flex: 1; }
+    .home-product-body h3 { font-size: 1.1rem; font-weight: 700; color: #fff; transition: color 0.2s; }
+    .home-product:hover h3 { color: var(--primary); }
+    .home-product-line { font-size: 0.9rem; color: var(--muted-fg); }
+    .home-product-more { margin-top: auto; padding-top: 0.75rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+    /* Closing band: centered heading and two buttons. */
+    .home-closing .cta-card { text-align: center; }
+    .home-closing .cta-card h2 { margin-bottom: 1.5rem; }
+    .home-closing .home-path-btns { justify-content: center; }
+    @media (max-width: 1024px) {
+      .home-products-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+    }
+    @media (max-width: 768px) {
+      /* Room under the facts row so the "Scroll" arrow does not crowd it. */
+      .hero { padding-bottom: 7rem; }
+      .home-paths { padding: 3rem 0; }
+      .home-paths-grid { grid-template-columns: 1fr; }
+      .home-path { padding: 1.75rem 1.4rem; }
+    }
+    @media (max-width: 560px) {
+      .stats-grid.home-stats { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .home-path-btns { flex-direction: column; }
+      .home-path-btns .btn-primary, .home-path-btns .btn-outline { justify-content: center; text-align: center; white-space: normal; }
+      .hero-btns { flex-direction: column; }
+      .hero-btns .btn-outline { justify-content: center; text-align: center; }
+    }
+    /* "How to Install" on the home page jumps to this FAQ question; stop it
+       just below the fixed menu bar. */
+    .faq-item { scroll-margin-top: calc(68px + 1rem); }

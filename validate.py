@@ -157,8 +157,9 @@ if 'href="styles.css"' not in html:
     fail("index.html no longer links styles.css -- the page would be unstyled.")
 if 'src="script.js"' not in html:
     fail(
-        "index.html no longer loads script.js -- the animations and the form "
-        "submit handler would not run."
+        "index.html no longer loads script.js -- the scroll animations and "
+        "number counters would not run, and those sections would stay "
+        "invisible."
     )
 
 
@@ -261,9 +262,10 @@ form_parts = [
     ('name="form-name"', "the hidden input Netlify needs to route submissions"),
     ('name="bot-field"', "the spam honeypot"),
 ]
-# The Become a Distributor page carries a copy of the same form, under the
-# same name, so it gets exactly the same checks.
-for text, where in ((html, "index.html"), (distributor, "become-a-distributor.html")):
+# The form lives on the Become a Distributor page only (the home page's copy
+# was removed when the home page was rebuilt; every "Request Wholesale
+# Pricing" link goes to /become-a-distributor#apply).
+for text, where in ((distributor, "become-a-distributor.html"),):
     for needle, why in form_parts:
         if needle not in text:
             fail(
@@ -285,11 +287,6 @@ if "response.ok" not in js:
         "silently lost."
     )
 
-if "handleFormSubmit" not in html:
-    fail(
-        "index.html no longer calls handleFormSubmit -- the form would do a "
-        "full page reload instead of submitting cleanly."
-    )
 if "handleFormSubmit" not in distributor:
     fail(
         "become-a-distributor.html no longer calls handleFormSubmit -- the "
